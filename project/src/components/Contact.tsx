@@ -1,8 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Check, AlertCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Check, AlertCircle, MessageSquare, Globe } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { useTranslation } from 'react-i18next';
+
+// Initialize EmailJS with your public key
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
+console.log('EmailJS Configuration:', {
+  publicKey,
+  serviceId,
+  templateId
+});
+
+emailjs.init(publicKey);
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -18,15 +31,25 @@ const Contact = () => {
     setSubmitStatus('idle');
 
     try {
-      await emailjs.sendForm(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
+      console.log('Attempting to send email with form data');
+
+      const result = await emailjs.sendForm(
+        serviceId,
+        templateId,
         formRef.current,
-        'YOUR_PUBLIC_KEY'
+        publicKey
       );
-      setSubmitStatus('success');
-      formRef.current.reset();
+
+      console.log('EmailJS response:', result);
+
+      if (result.text === 'OK') {
+        setSubmitStatus('success');
+        formRef.current.reset();
+      } else {
+        throw new Error(`Failed to send email: ${result.text}`);
+      }
     } catch (error) {
+      console.error('Detailed error sending email:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -111,26 +134,26 @@ const Contact = () => {
           >
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="from_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {t('contact.form.name')}
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="from_name"
+                  name="from_name"
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="from_email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {t('contact.form.email')}
                 </label>
                 <input
                   type="email"
-                  id="email"
-                  name="email"
+                  id="from_email"
+                  name="from_email"
                   required
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 />
