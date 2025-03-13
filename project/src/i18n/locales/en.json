@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "title": "Software Engineer & Computer Science Graduate",
+    "description": "A passionate software engineer with experience at Genetec and Matrox, specializing in software development, mobile applications, and innovative solutions.",
+    "contact": "Contact Me",
+    "viewWork": "View My Work",
+    "resume": "Resume"
+  },
+  "experience": {
+    "title": "Work Experience",
+    "education": "Education",
+    "present": "Present",
+    "roles": {
+      "outlier": {
+        "title": "AI Trainer",
+        "company": "Outlier.ai",
+        "location": "Remote",
+        "description": [
+          "Train AI in coding, including Python, Java, and Go."
+        ]
+      },
+      "dataAnnotation": {
+        "title": "AI Trainer & Fact Checker",
+        "company": "DataAnnotation",
+        "location": "Remote",
+        "description": [
+          "Train AI in Mathematics, Geography, and Sociology.",
+          "Serve as a French Technical Writer and Fact Checker across all dialects.",
+          "Act as an Arabic Technical Writer and Fact Checker covering various dialects."
+        ]
+      },
+      "communilink": {
+        "title": "Managing Director & Lead Software Engineer",
+        "company": "CommuniLink Solutions",
+        "location": "Laval, QC",
+        "description": [
+          "Led the development of a cross-platform mobile app using Flutter and Firebase for emergency notifications.",
+          "Directed a team of 4 to enhance software functionality, security, and user experience."
+        ]
+      },
+      "genetec": {
+        "title": "Software Engineer Intern",
+        "company": "Genetec",
+        "location": "Montreal, QC",
+        "description": [
+          "Developed secure C# and SQL code in a cybersecurity-focused environment.",
+          "Collaborated with the Ktulu team, strengthening teamwork and problem-solving skills."
+        ]
+      },
+      "matrox": {
+        "title": "Applications Engineer Intern",
+        "company": "Matrox",
+        "location": "Dorval, QC",
+        "description": [
+          "Developed high-performance applications in C#, ReactJS, Java, and C++, integrating APIs for device control.",
+          "Troubleshot hardware and software issues, showcasing effective solutions to customers."
+        ]
+      }
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "maville": {
+      "title": "MaVille",
+      "type": "Mobile Application",
+      "description": "Cross-platform app enhancing communication between municipalities and residents",
+      "details": [
+        "Spearheaded development of a cross-platform app to enhance communication between municipalities and residents.",
+        "Implemented real-time request tracking, interactive city maps, and customizable notifications using Firebase Cloud Messaging.",
+        "Developed an intuitive UI and led training/support initiatives for municipal staff.",
+        "Integrated an AI chatbot to assist citizens with municipal inquiries."
+      ],
+      "technologies": ["Flutter", "Firebase", "AI", "Cloud Messaging"],
+      "status": "Deployed on App/Play Store"
+    }
+  },
+  "about": {
+    "title": "About",
+    "summary": "Professional Summary",
+    "summaryText": "Highly motivated technology professional with a strong academic foundation in Computer Science from Concordia University and practical experience from internships at Genetec and Matrox.",
+    "skills": {
+      "title": "Technical Skills",
+      "programming": {
+        "name": "Programming",
+        "details": "C#, Java, C++, Python, Dart"
+      },
+      "mobile": {
+        "name": "Mobile Development",
+        "details": "Flutter"
+      },
+      "ai": {
+        "name": "AI & Machine Learning",
+        "details": "Model Training, Implementation"
+      },
+      "cloud": {
+        "name": "Cloud Computing",
+        "details": "Firebase"
+      },
+      "database": {
+        "name": "Database",
+        "details": "Design & Architecture"
+      },
+      "fullstack": {
+        "name": "Full-Stack",
+        "details": "End-to-end Development"
+      }
+    },
+    "languages": {
+      "title": "Languages",
+      "french": {
+        "name": "French",
+        "level": "Native"
+      },
+      "english": {
+        "name": "English",
+        "level": "Native"
+      },
+      "arabic": {
+        "name": "Arabic",
+        "level": "Native"
+      },
+      "spanish": {
+        "name": "Spanish",
+        "level": "Intermediate"
+      }
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "I'm always open to new opportunities and collaborations. Feel free to reach out!",
+    "info": {
+      "phone": "Phone",
+      "email": "Email",
+      "location": "Location"
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "success": "Message sent successfully!",
+      "error": "Failed to send message. Please try again."
+    }
+  },
+  "drawingGame": {
+    "title": "Handwriting Recognition",
+    "instruction": "Write naturally and release to recognize",
+    "recognizedText": "Recognized Text",
+    "processing": "Processing...",
+    "error": "No text detected. Please write more clearly.",
+    "placeholder": "Write something...",
+    "clear": "Clear Canvas"
+  }
+}

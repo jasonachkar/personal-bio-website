@@ -1,0 +1,5 @@
+# Local Netlify folder
+.netlify
+
+# Google Cloud credentials
+project/google-cloud-credentials.json

@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "about": "À propos",
+    "projects": "Projets",
+    "experience": "Expérience",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Bonjour, je suis",
+    "title": "Ingénieur Logiciel & Diplômé en Informatique",
+    "description": "Un ingénieur logiciel passionné avec de l'expérience chez Genetec et Matrox, spécialisé dans le développement logiciel, les applications mobiles et les solutions innovantes.",
+    "contact": "Me Contacter",
+    "viewWork": "Voir Mes Projets",
+    "resume": "CV"
+  },
+  "experience": {
+    "title": "Expérience Professionnelle",
+    "education": "Formation",
+    "present": "Présent",
+    "roles": {
+      "outlier": {
+        "title": "Formateur en IA",
+        "company": "Outlier.ai",
+        "location": "Télétravail",
+        "description": [
+          "Formé l'IA dans les domaines suivants : programmation (Python, Java, Go)."
+        ]
+      },
+      "dataAnnotation": {
+        "title": "Formateur en IA et Vérificateur de Faits",
+        "company": "DataAnnotation",
+        "location": "Télétravail",
+        "description": [
+          "Formé l'IA dans divers domaines, notamment les mathématiques, la géographie et la sociologie.",
+          "Occupé le rôle de rédacteur technique en français pour la formation de l'IA et vérificateur de faits en français, couvrant tous les dialectes.",
+          "Travaillé en tant que rédacteur technique en arabe pour la formation de l'IA et vérificateur de faits en arabe, couvrant tous les dialectes."
+        ]
+      },
+      "communilink": {
+        "title": "Directeur général et Ingénieur logiciel principal",
+        "company": "CommuniLink Solutions",
+        "location": "Laval, QC",
+        "description": [
+          "Dirigé le développement d'une application mobile multiplateforme utilisant Flutter et Firebase pour les notifications d'urgence.",
+          "Supervisé une équipe de 4 personnes, améliorant la fonctionnalité, la sécurité et l'expérience utilisateur."
+        ]
+      },
+      "genetec": {
+        "title": "Stagiaire ingénieur logiciel",
+        "company": "Genetec",
+        "location": "Montréal, QC",
+        "description": [
+          "Développé du code sécurisé en C# et SQL dans un environnement axé sur la cybersécurité.",
+          "Collaboré avec l'équipe Ktulu, renforçant les compétences en travail d'équipe et en résolution de problèmes."
+        ]
+      },
+      "matrox": {
+        "title": "Stagiaire ingénieur d'applications",
+        "company": "Matrox",
+        "location": "Dorval, QC",
+        "description": [
+          "Développé des applications en C#, ReactJS, Java et C++, intégrant des API pour le contrôle des dispositifs.",
+          "Résolution de problèmes sur les dispositifs matériels/logiciels et présentation des solutions aux clients."
+        ]
+      }
+    }
+  },
+  "projects": {
+    "title": "Projets",
+    "maville": {
+      "title": "MaVille",
+      "type": "Application Mobile",
+      "description": "Application multiplateforme améliorant la communication entre les municipalités et les résidents",
+      "details": [
+        "Dirigé le développement d'une application mobile multiplateforme améliorant la communication entre les municipalités et les résidents.",
+        "Mise en œuvre du suivi des demandes en temps réel, carte interactive de la ville, et notifications personnalisables via Firebase Cloud Messaging.",
+        "Développé une interface utilisateur intuitive et formé/soutenu le personnel municipal.",
+        "Intégré un chatbot IA pour assister les citoyens dans leurs demandes municipales."
+      ],
+      "technologies": ["Flutter", "Firebase", "IA", "Cloud Messaging"],
+      "status": "Déployé sur App/Play Store"
+    }
+  },
+  "about": {
+    "title": "À propos",
+    "summary": "Résumé Professionnel",
+    "summaryText": "Professionnel de la technologie hautement motivé avec une solide formation académique en informatique de l'Université Concordia et une expérience pratique acquise lors de stages chez Genetec et Matrox.",
+    "skills": {
+      "title": "Compétences Techniques",
+      "programming": {
+        "name": "Programmation",
+        "details": "C#, Java, C++, Python, Dart"
+      },
+      "mobile": {
+        "name": "Développement Mobile",
+        "details": "Flutter"
+      },
+      "ai": {
+        "name": "IA & Machine Learning",
+        "details": "Formation de Modèles, Implémentation"
+      },
+      "cloud": {
+        "name": "Cloud Computing",
+        "details": "Firebase"
+      },
+      "database": {
+        "name": "Base de données",
+        "details": "Conception & Architecture"
+      },
+      "fullstack": {
+        "name": "Full-Stack",
+        "details": "Développement End-to-end"
+      }
+    },
+    "languages": {
+      "title": "Langues",
+      "french": {
+        "name": "Français",
+        "level": "Langue maternelle"
+      },
+      "english": {
+        "name": "Anglais",
+        "level": "Courant"
+      },
+      "arabic": {
+        "name": "Arabe",
+        "level": "Langue maternelle"
+      },
+      "spanish": {
+        "name": "Espagnol",
+        "level": "Intermédiaire"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contactez-moi",
+    "subtitle": "Je suis toujours ouvert aux nouvelles opportunités et collaborations. N'hésitez pas à me contacter !",
+    "info": {
+      "phone": "Téléphone",
+      "email": "Courriel",
+      "location": "Emplacement"
+    },
+    "form": {
+      "name": "Nom",
+      "email": "Courriel",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le Message",
+      "success": "Message envoyé avec succès !",
+      "error": "Échec de l'envoi du message. Veuillez réessayer."
+    }
+  },
+  "drawingGame": {
+    "title": "Reconnaissance d'Écriture",
+    "instruction": "Écrivez naturellement et relâchez pour reconnaître",
+    "recognizedText": "Texte Reconnu",
+    "processing": "Traitement en cours...",
+    "error": "Aucun texte détecté. Veuillez écrire plus clairement.",
+    "placeholder": "Écrivez quelque chose...",
+    "clear": "Effacer"
+  }
+}
