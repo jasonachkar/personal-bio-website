@@ -104,59 +104,61 @@ const Projects = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen pt-20 pb-16 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">{i18n.t('projects.title')}</h2>
+          <h2 className="text-3xl font-bold mb-12 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">{i18n.t('projects.title')}</h2>
           <div className="grid grid-cols-1 gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+                transition={{ duration: 0.6, delay: index * 0.1, ease: [0.6, -0.05, 0.01, 0.99] }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300"
               >
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <div className="text-blue-600 dark:text-blue-400 mr-3">
+                <div className="p-8">
+                  <div className="flex items-center mb-6">
+                    <div className="text-blue-600 dark:text-blue-400 mr-4 transform group-hover:scale-110 transition-transform duration-300">
                       {getIcon(getTranslatedContent(project.id, 'type', project.type))}
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                         {getTranslatedContent(project.id, 'title', project.title)}
                       </h3>
-                      <p className="text-blue-600 dark:text-blue-400">
+                      <p className="text-blue-600 dark:text-blue-400 font-medium">
                         {getTranslatedContent(project.id, 'type', project.type)}
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                     {getTranslatedContent(project.id, 'description', project.description)}
                   </p>
-                  <ul className="space-y-2 mb-4">
+                  <ul className="space-y-3 mb-6">
                     {(getTranslatedContent(project.id, 'details', project.details) as string[]).map((detail, i) => (
                       <li key={i} className="text-gray-600 dark:text-gray-300 flex items-start">
-                        <span className="mr-2 mt-1.5">•</span>
+                        <span className="mr-3 mt-1.5 text-blue-500">•</span>
                         <span>{detail}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-3 mb-6">
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full text-sm"
+                        className="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-shadow duration-300"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                     {i18n.t('projects.status')}: {getTranslatedContent(project.id, 'status', project.status)}
                   </div>
                 </div>

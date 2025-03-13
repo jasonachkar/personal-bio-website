@@ -78,46 +78,47 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen pt-20 pb-16 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-12"
         >
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">{t('contact.title')}</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-8">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-6">{t('contact.title')}</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
                 {t('contact.subtitle')}
               </p>
             </div>
 
             <div className="space-y-6">
-              {contactInfo.map((info) => (
+              {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex items-center space-x-4"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  className="group flex items-center space-x-4 p-4 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-400 transform group-hover:scale-110 transition-transform duration-300">
                     {info.icon}
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{info.label}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{info.label}</p>
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-lg font-medium"
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-gray-900 dark:text-white">{info.value}</p>
+                      <p className="text-gray-900 dark:text-white text-lg font-medium">{info.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -129,8 +130,8 @@ const Contact = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8"
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.6, -0.05, 0.01, 0.99] }}
+            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
           >
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -142,7 +143,7 @@ const Contact = () => {
                   id="from_name"
                   name="from_name"
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
 
@@ -155,7 +156,7 @@ const Contact = () => {
                   id="from_email"
                   name="from_email"
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
 
@@ -168,7 +169,7 @@ const Contact = () => {
                   id="subject"
                   name="subject"
                   required
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
                 />
               </div>
 
@@ -181,14 +182,16 @@ const Contact = () => {
                   name="message"
                   required
                   rows={4}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300"
                 ></textarea>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 px-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               >
                 {isSubmitting ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
@@ -198,13 +201,13 @@ const Contact = () => {
                     <span>{t('contact.form.send')}</span>
                   </>
                 )}
-              </button>
+              </motion.button>
 
               {submitStatus !== 'idle' && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex items-center space-x-2 p-4 rounded-lg ${
+                  className={`flex items-center space-x-3 p-4 rounded-xl ${
                     submitStatus === 'success'
                       ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
                       : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'
@@ -215,7 +218,7 @@ const Contact = () => {
                   ) : (
                     <AlertCircle className="w-5 h-5" />
                   )}
-                  <p>
+                  <p className="font-medium">
                     {submitStatus === 'success'
                       ? t('contact.form.success')
                       : t('contact.form.error')}

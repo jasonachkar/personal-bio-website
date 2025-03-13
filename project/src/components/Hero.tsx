@@ -360,7 +360,8 @@ const Hero: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
@@ -371,8 +372,20 @@ const Hero: React.FC = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: "easeOut"
+        duration: 0.6,
+        ease: [0.6, -0.05, 0.01, 0.99]
+      }
+    }
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99]
       }
     }
   };
@@ -380,15 +393,19 @@ const Hero: React.FC = () => {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-red-500 text-center">
-          <p>Error loading profile: {error}</p>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center space-y-4"
+        >
+          <p className="text-red-500 text-lg font-medium">Error loading profile: {error}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
           >
             Retry
           </button>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -396,7 +413,29 @@ const Hero: React.FC = () => {
   if (!profile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+        <div className="relative w-16 h-16">
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 1, 0.5]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0 rounded-full bg-blue-500/30"
+          />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full"
+          />
+        </div>
       </div>
     );
   }
@@ -418,152 +457,150 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden pt-20 pb-10">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden pt-20 pb-10">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10" 
-      />
+        transition={{ duration: 1 }}
+        className="absolute inset-0"
+      >
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] dark:opacity-[0.02]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-30 dark:opacity-20" />
+      </motion.div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 flex flex-col md:flex-row items-center justify-between">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="md:w-1/2 text-center md:text-left mb-12 md:mb-0"
+          className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16"
         >
-          <motion.h1 
-            variants={itemVariants}
-            className="text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
-          >
-            {t('hero.greeting')} <span className="text-blue-600 dark:text-blue-400">{getTranslatedContent('full_name')}</span>
-          </motion.h1>
-          <motion.h2 
-            variants={itemVariants}
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
-          >
-            {getTranslatedContent('title')}
-          </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className="text-gray-600 dark:text-gray-300 mb-10 max-w-2xl leading-relaxed"
-          >
-            {getTranslatedContent('description')}
-          </motion.p>
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-col space-y-4 mb-10 text-gray-600 dark:text-gray-300"
-          >
-            <motion.div 
+          <motion.div variants={itemVariants} className="md:w-1/2 text-center md:text-left">
+            <motion.h1 
               variants={itemVariants}
-              className="flex items-center justify-center md:justify-start"
+              className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
             >
-              <Phone size={18} className="mr-3" />
-              <span>{profile.phone}</span>
-            </motion.div>
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center justify-center md:justify-start"
-            >
-              <Mail size={18} className="mr-3" />
-              <span>{profile.email}</span>
-            </motion.div>
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center justify-center md:justify-start"
-            >
-              <MapPin size={18} className="mr-3" />
-              <span>{profile.location}</span>
-            </motion.div>
-          </motion.div>
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-wrap gap-6 justify-center md:justify-start"
-          >
-            <motion.div variants={itemVariants}>
-            <Link
-              to="/contact"
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
-            >
-              {t('hero.contact')}
-            </Link>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-            <Link
-              to="/projects"
-              className="inline-flex items-center px-6 py-3 rounded-lg border border-blue-600 text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
-            >
-              {t('hero.viewWork')}
-            </Link>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-            <Link
-              to="/resume"
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              <FileText className="w-5 h-5 mr-2" />
-              {t('hero.resume')}
-            </Link>
-            </motion.div>
-          </motion.div>
-          <motion.div 
-            variants={itemVariants}
-            className="flex space-x-6 mt-10 justify-center md:justify-start"
-          >
-            <motion.a
-              variants={itemVariants}
-              href="https://github.com/jasonachkar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              <Github size={24} />
-            </motion.a>
-            <motion.a
-              variants={itemVariants}
-              href="https://linkedin.com/in/jason-achkar-diab"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              <Linkedin size={24} />
-            </motion.a>
-            <motion.a
-              variants={itemVariants}
-              href={`mailto:${profile.email}`}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              <Mail size={24} />
-            </motion.a>
-          </motion.div>
-        </motion.div>
-        
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9, x: 50 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="md:w-1/2 flex flex-col items-center"
-        >
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="relative w-64 h-64 md:w-80 md:h-80 mb-8"
-          >
-            <motion.div 
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="absolute inset-0 bg-blue-600/10 dark:bg-blue-400/10 rounded-full"
-            />
-            <img
-              src={profile.image_url}
-              alt={getTranslatedContent('image_alt')}
-              className="rounded-full w-full h-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
-            />
-          </motion.div>
+              {t('hero.greeting')} <br />
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {getTranslatedContent('full_name')}
+              </span>
+            </motion.h1>
 
-          {/* Drawing Game */}
-          <DrawingGame />
+            <motion.h2 
+              variants={itemVariants}
+              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
+            >
+              {getTranslatedContent('title')}
+            </motion.h2>
+
+            <motion.p 
+              variants={itemVariants}
+              className="text-gray-600 dark:text-gray-300 mb-10 max-w-2xl leading-relaxed"
+            >
+              {getTranslatedContent('description')}
+            </motion.p>
+
+            <motion.div 
+              variants={itemVariants}
+              className="flex flex-col space-y-4 mb-10 text-gray-600 dark:text-gray-300"
+            >
+              {[
+                { icon: <Phone size={18} />, content: profile.phone },
+                { icon: <Mail size={18} />, content: profile.email },
+                { icon: <MapPin size={18} />, content: profile.location }
+              ].map((item, index) => (
+                <motion.div 
+                  key={index}
+                  variants={itemVariants}
+                  className="flex items-center justify-center md:justify-start space-x-3"
+                >
+                  <span className="text-blue-600 dark:text-blue-400">{item.icon}</span>
+                  <span>{item.content}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <motion.div 
+              variants={itemVariants}
+              className="flex flex-wrap gap-4 justify-center md:justify-start"
+            >
+              <Link
+                to="/contact"
+                className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                {t('hero.contact')}
+              </Link>
+              <Link
+                to="/projects"
+                className="px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-200 hover:-translate-y-0.5"
+              >
+                {t('hero.viewWork')}
+              </Link>
+              <Link
+                to="/resume"
+                className="px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 flex items-center space-x-2 hover:-translate-y-0.5"
+              >
+                <FileText className="w-5 h-5" />
+                <span>{t('hero.resume')}</span>
+              </Link>
+            </motion.div>
+
+            <motion.div 
+              variants={itemVariants}
+              className="flex space-x-6 mt-10 justify-center md:justify-start"
+            >
+              {[
+                { href: "https://github.com/jasonachkar", icon: <Github size={24} /> },
+                { href: "https://linkedin.com/in/jason-achkar-diab", icon: <Linkedin size={24} /> },
+                { href: `mailto:${profile.email}`, icon: <Mail size={24} /> }
+              ].map((item, index) => (
+                <motion.a
+                  key={index}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shadow-md hover:shadow-lg"
+                >
+                  {item.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+          </motion.div>
+          
+          <motion.div 
+            variants={imageVariants}
+            className="md:w-1/2 flex flex-col items-center space-y-8"
+          >
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="relative w-64 h-64 md:w-80 md:h-80"
+            >
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 360],
+                  borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "50%"]
+                }}
+                transition={{ 
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+                className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 dark:from-blue-400/20 dark:to-purple-400/20"
+              />
+              <img
+                src={profile.image_url}
+                alt={getTranslatedContent('image_alt')}
+                className="rounded-full w-full h-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl relative z-10"
+              />
+            </motion.div>
+
+            <DrawingGame />
+          </motion.div>
         </motion.div>
       </div>
     </div>
