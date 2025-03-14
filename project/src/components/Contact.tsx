@@ -78,7 +78,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen pt-20 pb-16 px-4 bg-[#0a0a0a] bg-opacity-95 relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -89,41 +89,39 @@ const Contact = () => {
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-6">{t('contact.title')}</h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+              <h2 className="text-3xl font-bold font-mono bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-6">{t('contact.title')}</h2>
+              <p className="text-green-400/80 text-lg leading-relaxed font-mono">
                 {t('contact.subtitle')}
               </p>
             </div>
 
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={info.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  className="group flex items-center space-x-4 p-4 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-400 transform group-hover:scale-110 transition-transform duration-300">
-                    {info.icon}
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{info.label}</p>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-lg font-medium"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-gray-900 dark:text-white text-lg font-medium">{info.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            {contactInfo.map((info, index) => (
+              <motion.div
+                key={info.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, x: 5 }}
+                className="group flex items-center space-x-4 p-4 rounded-xl bg-black/40 backdrop-blur-sm border border-green-500/20 hover:border-green-500/40 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,0,0.1)] hover:shadow-[0_0_30px_rgba(0,255,0,0.2)]"
+              >
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 transform group-hover:scale-110 transition-transform duration-300">
+                  {info.icon}
+                </div>
+                <div>
+                  <p className="text-sm text-green-400/70 mb-1 font-mono">{info.label}</p>
+                  {info.href ? (
+                    <a
+                      href={info.href}
+                      className="text-green-400 hover:text-cyan-400 transition-colors text-lg font-medium font-mono"
+                    >
+                      {info.value}
+                    </a>
+                  ) : (
+                    <p className="text-green-400 text-lg font-medium font-mono">{info.value}</p>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Contact Form */}
@@ -131,11 +129,11 @@ const Contact = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.6, -0.05, 0.01, 0.99] }}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            className="bg-black/40 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-8 transition-all duration-300"
           >
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="from_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="from_name" className="block text-sm font-medium text-green-400/70 mb-2 font-mono">
                   {t('contact.form.name')}
                 </label>
                 <input
@@ -143,12 +141,12 @@ const Contact = () => {
                   id="from_name"
                   name="from_name"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl border border-green-500/20 bg-black/40 text-green-400 focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 font-mono placeholder-green-400/30"
                 />
               </div>
 
               <div>
-                <label htmlFor="from_email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="from_email" className="block text-sm font-medium text-green-400/70 mb-2 font-mono">
                   {t('contact.form.email')}
                 </label>
                 <input
@@ -156,12 +154,12 @@ const Contact = () => {
                   id="from_email"
                   name="from_email"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl border border-green-500/20 bg-black/40 text-green-400 focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 font-mono placeholder-green-400/30"
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="subject" className="block text-sm font-medium text-green-400/70 mb-2 font-mono">
                   {t('contact.form.subject')}
                 </label>
                 <input
@@ -169,12 +167,12 @@ const Contact = () => {
                   id="subject"
                   name="subject"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl border border-green-500/20 bg-black/40 text-green-400 focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 font-mono placeholder-green-400/30"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-green-400/70 mb-2 font-mono">
                   {t('contact.form.message')}
                 </label>
                 <textarea
@@ -182,7 +180,7 @@ const Contact = () => {
                   name="message"
                   required
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl border border-green-500/20 bg-black/40 text-green-400 focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 resize-none transition-all duration-300 font-mono placeholder-green-400/30"
                 ></textarea>
               </div>
 
@@ -191,10 +189,10 @@ const Contact = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                className="w-full py-4 px-6 rounded-xl bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/40 shadow-[0_0_15px_rgba(0,255,0,0.1)] hover:shadow-[0_0_30px_rgba(0,255,0,0.2)] font-medium transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed font-mono"
               >
                 {isSubmitting ? (
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-green-400 border-t-transparent" />
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
@@ -207,10 +205,10 @@ const Contact = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex items-center space-x-3 p-4 rounded-xl ${
+                  className={`flex items-center space-x-3 p-4 rounded-xl font-mono ${
                     submitStatus === 'success'
-                      ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
-                      : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'
+                      ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                      : 'bg-red-500/10 text-red-400 border border-red-500/20'
                   }`}
                 >
                   {submitStatus === 'success' ? (
@@ -228,6 +226,13 @@ const Contact = () => {
             </form>
           </motion.div>
         </motion.div>
+      </div>
+
+      {/* Matrix-like Background Elements */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-green-500/5 rounded-full filter blur-3xl animate-pulse" />
+        <div className="absolute top-40 right-10 w-96 h-96 bg-blue-500/5 rounded-full filter blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-cyan-500/5 rounded-full filter blur-3xl animate-pulse" />
       </div>
     </div>
   );

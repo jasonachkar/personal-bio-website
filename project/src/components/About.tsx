@@ -80,16 +80,16 @@ const About = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-16 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen pt-20 pb-16 px-4 bg-[#0a0a0a] bg-opacity-95 relative overflow-hidden">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 mb-12 border border-gray-100 dark:border-gray-700"
+          className="bg-black/40 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-8 mb-12"
         >
-          <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Professional Summary</h2>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          <h2 className="text-3xl font-bold font-mono bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">Professional Summary</h2>
+          <p className="text-green-400/80 leading-relaxed font-mono">
             Highly motivated technology professional with a strong academic foundation in Computer Science from Concordia University and practical experience from internships at Genetec and Matrox. I have honed my skills in software development, systems design, and emerging technologies like AI and machine learning, applying them in projects using C#, Java, C++, Flutter, and ReactJS. This blend of academic rigor and hands-on work enables me to drive digital innovation in collaborative environments.
           </p>
         </motion.div>
@@ -98,28 +98,37 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.6, -0.05, 0.01, 0.99] }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+          className="bg-black/40 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-8"
         >
-          <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Technical Skills</h2>
+          <h2 className="text-3xl font-bold font-mono bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-8">Technical Skills</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {skills.map((skill, index) => (
-              <motion.div
-                key={skill.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="group p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                <div className="text-blue-600 dark:text-blue-400 mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  {getIcon(skill.name)}
+              <div key={skill.id} className="relative">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-xl border border-green-500/20 hover:border-green-500/40 shadow-[0_0_15px_rgba(0,255,0,0.1)] hover:shadow-[0_0_30px_rgba(0,255,0,0.2)] transition-all duration-300"
+                />
+                <div className="relative z-10 p-6">
+                  <div className="text-green-500 mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    {getIcon(skill.name)}
+                  </div>
+                  <h3 className="font-semibold text-green-400 mb-2 text-lg font-mono">{skill.name}</h3>
+                  <p className="text-sm text-green-400/70 leading-relaxed font-mono">{skill.details}</p>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 text-lg">{skill.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{skill.details}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>
+      </div>
+
+      {/* Matrix-like Background Elements */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-green-500/5 rounded-full filter blur-3xl animate-pulse" />
+        <div className="absolute top-40 right-10 w-96 h-96 bg-blue-500/5 rounded-full filter blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-cyan-500/5 rounded-full filter blur-3xl animate-pulse" />
       </div>
     </div>
   );
