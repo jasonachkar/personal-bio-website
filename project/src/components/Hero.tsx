@@ -827,29 +827,29 @@ const Hero: React.FC = () => {
                   </motion.div>
                 </div>
                 
-                {/* Navigation buttons with proper grid layout - reduced width */}
-                <div className="pt-6 pb-2 grid grid-cols-2 gap-3">
+                {/* Navigation buttons - horizontal layout */}
+                <div className="pt-6 pb-2 flex flex-wrap gap-2">
                   <Link 
                     to="/about" 
-                    className="px-3 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)] w-auto max-w-[160px]"
+                    className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access about
                   </Link>
                   <Link 
                     to="/projects" 
-                    className="px-3 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)] w-auto max-w-[160px]"
+                    className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access projects
                   </Link>
                   <Link 
                     to="/experience" 
-                    className="px-3 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)] w-auto max-w-[160px]"
+                    className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access experience
                   </Link>
                   <Link 
                     to="/contact" 
-                    className="px-3 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)] w-auto max-w-[160px]"
+                    className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access contact
                   </Link>
@@ -866,7 +866,6 @@ const Hero: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden crt-effect">
       <MatrixRain />
-      <BinaryBackground />
       <div className="scanline"></div>
       
       {/* Main Terminal Window */}
