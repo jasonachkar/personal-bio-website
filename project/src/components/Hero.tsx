@@ -159,24 +159,24 @@ const terminalStyles = `
 const MatrixRain: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState<JSX.Element[]>([]);
-  
+
   useEffect(() => {
     if (!containerRef.current) return;
-    
+
     const createMatrixColumn = (index: number) => {
       const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン01234567890";
       const columnLength = Math.floor(Math.random() * 20) + 10;
-      const columnContent = Array.from({ length: columnLength }, () => 
+      const columnContent = Array.from({ length: columnLength }, () =>
         chars.charAt(Math.floor(Math.random() * chars.length))
       ).join('');
-      
+
       const left = `${Math.random() * 100}%`;
       const animationDuration = `${Math.random() * 15 + 10}s`;
       const fontSize = `${Math.random() * 0.7 + 0.5}rem`;
       const delay = `${Math.random() * 5}s`;
-      
+
       return (
-        <div 
+        <div
           key={index}
           className="matrix-rain"
           style={{
@@ -189,13 +189,13 @@ const MatrixRain: React.FC = () => {
         </div>
       );
     };
-    
+
     const numColumns = 15; // Number of matrix columns
     const matrixColumns = Array.from({ length: numColumns }, (_, i) => createMatrixColumn(i));
     setColumns(matrixColumns);
-    
+
   }, []);
-  
+
   return <div ref={containerRef} className="absolute inset-0 overflow-hidden z-0">{columns}</div>;
 };
 
@@ -236,16 +236,16 @@ const TypingCursor: React.FC = () => {
 const TypedText: React.FC<{ text: string; delay?: number }> = ({ text, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState<string>('');
   const [isComplete, setIsComplete] = useState<boolean>(false);
-  
+
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     let charIndex = 0;
-    
+
     const startTyping = () => {
       if (charIndex <= text.length) {
         setDisplayedText(text.substring(0, charIndex));
         charIndex++;
-        
+
         // Random typing speed between 30ms and 70ms for natural effect
         const typingSpeed = Math.floor(Math.random() * 40) + 30;
         timeout = setTimeout(startTyping, typingSpeed);
@@ -253,18 +253,18 @@ const TypedText: React.FC<{ text: string; delay?: number }> = ({ text, delay = 0
         setIsComplete(true);
       }
     };
-    
+
     // Delay start of typing
     const initialDelay = setTimeout(() => {
       startTyping();
     }, delay);
-    
+
     return () => {
       clearTimeout(timeout);
       clearTimeout(initialDelay);
     };
   }, [text, delay]);
-  
+
   return (
     <span>
       {displayedText}
@@ -351,7 +351,7 @@ const DrawingGame: React.FC = () => {
     setLastX(coords.x);
     setLastY(coords.y);
     setIsDrawing(true);
-    
+
     // Clear any pending recognition when starting to draw
     if (recognitionTimeoutRef.current) {
       clearTimeout(recognitionTimeoutRef.current);
@@ -381,12 +381,12 @@ const DrawingGame: React.FC = () => {
   const stopDrawing = () => {
     if (isDrawing) {
       setIsDrawing(false);
-      
+
       // Clear any existing timeout
       if (recognitionTimeoutRef.current) {
         clearTimeout(recognitionTimeoutRef.current);
       }
-      
+
       // Set a new timeout for recognition
       recognitionTimeoutRef.current = setTimeout(() => {
         recognizeDrawing();
@@ -400,20 +400,20 @@ const DrawingGame: React.FC = () => {
     tempCanvas.width = canvas.width;
     tempCanvas.height = canvas.height;
     const tempCtx = tempCanvas.getContext('2d');
-    
+
     if (!tempCtx) return null;
 
     // Fill with white background
     tempCtx.fillStyle = 'white';
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    
+
     // Draw the original content in black
     tempCtx.drawImage(canvas, 0, 0);
-    
+
     // Get image data
     const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
     const data = imageData.data;
-    
+
     // Enhance contrast and convert to pure black and white
     for (let i = 0; i < data.length; i += 4) {
       const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
@@ -422,7 +422,7 @@ const DrawingGame: React.FC = () => {
       data[i + 1] = newValue; // G
       data[i + 2] = newValue; // B
     }
-    
+
     // Put the processed image back
     tempCtx.putImageData(imageData, 0, 0);
     return tempCanvas;
@@ -460,7 +460,7 @@ const DrawingGame: React.FC = () => {
       }
 
       const result = await response.json();
-      
+
       if (result.text) {
         // Replace the text instead of appending
         setRecognizedText(result.text.trim());
@@ -478,15 +478,15 @@ const DrawingGame: React.FC = () => {
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
+
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setRecognizedText("");
     setError(null);
-    
+
     // Clear any pending recognition
     if (recognitionTimeoutRef.current) {
       clearTimeout(recognitionTimeoutRef.current);
@@ -518,7 +518,7 @@ const DrawingGame: React.FC = () => {
   }, [isDrawing, lastX, lastY]);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6, duration: 0.6 }}
@@ -562,7 +562,7 @@ const DrawingGame: React.FC = () => {
         onMouseLeave={stopDrawing}
         className="border-2 border-green-500/20 mx-auto bg-white cursor-crosshair touch-none rounded-lg"
       />
-      
+
       <div className="flex justify-center mt-3">
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -589,18 +589,18 @@ const HackingConsole: React.FC = () => {
   ]);
   const [currentLine, setCurrentLine] = useState(0);
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
-  
+
   useEffect(() => {
     if (currentLine < consoleLines.length) {
       const timer = setTimeout(() => {
         setDisplayedLines(prev => [...prev, consoleLines[currentLine]]);
         setCurrentLine(prev => prev + 1);
       }, 800);
-      
+
       return () => clearTimeout(timer);
     }
   }, [currentLine, consoleLines]);
-  
+
   return (
     <div className="font-mono text-sm text-green-400/90 mt-3 mb-4 bg-black/40 p-2 rounded-md border border-green-500/20">
       {displayedLines.map((line, index) => (
@@ -696,7 +696,7 @@ const Hero: React.FC = () => {
     const timer = setTimeout(() => {
       setIsTypingComplete(true);
     }, 4000);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -733,14 +733,14 @@ const Hero: React.FC = () => {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-black">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-red-500 font-mono max-w-md"
         >
           <p className="text-lg">$ ERROR: {error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <button
+            onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 border border-red-500 hover:bg-red-500/10 text-red-500 font-mono"
           >
             $ retry
@@ -759,7 +759,7 @@ const Hero: React.FC = () => {
     if (i18n.language === 'fr' && translations[fieldName]) {
       return translations[fieldName];
     }
-    
+
     // Fallback to original content
     return profile ? profile[fieldName] : '';
   };
@@ -767,12 +767,12 @@ const Hero: React.FC = () => {
   const renderTerminalSection = () => {
     switch (activeSection) {
       case 'about':
-  return (
+        return (
           <div className="text-white/90 font-mono mt-4 space-y-3 z-10 relative">
             <HackingConsole />
-            <TypedText 
-              text={`Hello, I'm ${getTranslatedContent('full_name')}`} 
-              delay={4000} 
+            <TypedText
+              text={`Hello, I'm ${getTranslatedContent('full_name')}`}
+              delay={4000}
             />
             {isTypingComplete && (
               <>
@@ -781,12 +781,12 @@ const Hero: React.FC = () => {
                   # {getTranslatedContent('title')}
                 </p>
                 <div className="mt-4">
-                  <TypedText 
-                    text={getTranslatedContent('description')} 
-                    delay={4500} 
+                  <TypedText
+                    text={getTranslatedContent('description')}
+                    delay={4500}
                   />
                 </div>
-                
+
                 <div className="flex gap-4 mt-8">
                   <motion.a
                     whileHover={{ scale: 1.05, y: -5 }}
@@ -826,29 +826,29 @@ const Hero: React.FC = () => {
                     </Link>
                   </motion.div>
                 </div>
-                
+
                 {/* Navigation buttons - horizontal layout */}
                 <div className="pt-6 pb-2 flex flex-wrap gap-2">
-                  <Link 
-                    to="/about" 
+                  <Link
+                    to="/about"
                     className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access about
                   </Link>
-                  <Link 
-                    to="/projects" 
+                  <Link
+                    to="/projects"
                     className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access projects
                   </Link>
-                  <Link 
-                    to="/experience" 
+                  <Link
+                    to="/experience"
                     className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access experience
                   </Link>
-                  <Link 
-                    to="/contact" 
+                  <Link
+                    to="/contact"
                     className="px-4 py-2 border border-green-500/50 bg-green-500/5 text-green-400 hover:bg-green-500/10 font-mono text-sm whitespace-nowrap flex items-center justify-center shadow-[0_0_15px_rgba(0,255,0,0.1)]"
                   >
                     {'>'}_access contact
@@ -856,7 +856,7 @@ const Hero: React.FC = () => {
                 </div>
               </>
             )}
-              </div>
+          </div>
         );
       default:
         return <div>404: Section not found</div>;
@@ -867,7 +867,7 @@ const Hero: React.FC = () => {
     <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden crt-effect">
       <MatrixRain />
       <div className="scanline"></div>
-      
+
       {/* Main Terminal Window */}
       <main className="flex-grow flex flex-col items-center justify-start p-4 pt-20 relative z-10 overflow-auto">
         <div className="w-full max-w-7xl mx-auto flex flex-col items-center">
@@ -890,7 +890,7 @@ const Hero: React.FC = () => {
                   <span className="text-green-500/50 font-mono text-xs">secure-terminal</span>
                 </div>
               </div>
-              
+
               {/* Terminal content */}
               <div className="bg-black/80 border-green-500/50 border border-t-0 rounded-b p-5 font-mono shadow-[0_0_30px_rgba(0,255,0,0.1)]">
                 <div className="flex items-center">
@@ -898,16 +898,16 @@ const Hero: React.FC = () => {
                   <span className="ml-2 text-white">access</span>
                   <span className="ml-2 text-blue-400">TheHackerDungeon_</span>
                 </div>
-                
+
                 {renderTerminalSection()}
 
                 {/* Call to action button */}
                 <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: 2 }}
                   className="mt-8"
-            >
+                >
                 </motion.div>
               </div>
             </motion.div>
@@ -915,35 +915,35 @@ const Hero: React.FC = () => {
             {/* Right-side Interactive Components */}
             <div className="w-full lg:w-2/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {/* Cyber Command Center */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
                 className="col-span-1"
               >
                 <div className="bg-black/80 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-4 w-full h-full">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-green-400 font-mono">$ ./monitor.sh</h3>
+                    <h3 className="text-lg font-semibold text-green-400 font-mono">$ ./phishing.sh</h3>
                   </div>
-                  <CyberCommandCenter />
+                  <HoneypotDashboard />
                 </div>
               </motion.div>
-              
+
               {/* Drawing Game */}
-                <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
                 className="col-span-1"
               >
                 <DrawingGame />
-                </motion.div>
-              </div>
+              </motion.div>
+            </div>
           </div>
 
-            {/* Projects Section */}
+          {/* Projects Section */}
           {projects.length > 0 && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
@@ -1012,22 +1012,22 @@ const Hero: React.FC = () => {
                               <div className="text-xs text-green-400 font-mono flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity">
                                 <span>Visit Site</span>
                                 <ExternalLink className="w-3 h-3 text-green-400" />
-                            </div>
+                              </div>
                             </div>
                             <div className="flex-grow flex flex-col justify-end">
                               <h4 className="font-semibold text-green-400 text-lg font-mono mb-1">
-                              {project.title}
-                            </h4>
+                                {project.title}
+                              </h4>
                               <p className="text-sm text-green-400/70 font-mono mb-3 line-clamp-2">
-                              {project.description}
-                            </p>
+                                {project.description}
+                              </p>
                               <div className="flex items-center justify-between mt-auto">
                                 <span className="text-xs text-green-400 font-mono">
-                                {project.type}
-                              </span>
+                                  {project.type}
+                                </span>
                                 <span className="text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-400 font-mono border border-green-500">
-                                {project.status}
-                              </span>
+                                  {project.status}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -1054,23 +1054,23 @@ const Hero: React.FC = () => {
                           <div className="relative z-10 p-5 h-full flex flex-col">
                             <div className="flex-grow flex flex-col justify-end">
                               <h4 className="font-semibold text-green-400 text-lg font-mono mb-1">
-                              {project.title}
-                            </h4>
+                                {project.title}
+                              </h4>
                               <p className="text-sm text-green-400/70 font-mono mb-3 line-clamp-2">
-                              {project.description}
-                            </p>
+                                {project.description}
+                              </p>
                               <div className="flex items-center justify-between mt-auto">
                                 <span className="text-xs text-green-400 font-mono">
-                                {project.type}
-                              </span>
+                                  {project.type}
+                                </span>
                                 <span className="text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-400 font-mono border border-green-500">
-                                {project.status}
-                              </span>
+                                  {project.status}
+                                </span>
                               </div>
                             </div>
                           </div>
                         </div>
-              </Link>
+                      </Link>
                     )}
                   </motion.div>
                 ))}
@@ -1090,13 +1090,13 @@ const Hero: React.FC = () => {
               <div className="bg-black/80 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-4 w-full">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg font-semibold text-green-400 font-mono">$ ./arcade.sh</h3>
-          </div>
-              <HeroGame />
+                </div>
+                <HeroGame />
               </div>
             </motion.div>
-            
+
             {/* Honeypot Dashboard */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9 }}
@@ -1104,23 +1104,23 @@ const Hero: React.FC = () => {
             >
               <div className="bg-black/80 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-4 w-full h-full">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-green-400 font-mono">$ ./honeypot.sh</h3>
+                  <h3 className="text-lg font-semibold text-green-400 font-mono">$ ./security-ssl.sh</h3>
                 </div>
-                <HoneypotDashboard />
+                <CyberCommandCenter />
               </div>
             </motion.div>
           </div>
-            
+
           {/* Terminal Console Decoration */}
-            <motion.div
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.5 }}
             className="mt-16 text-center text-green-500/30 font-mono z-10"
           >
             <div className="w-16 h-8 border-b-2 border-green-500/10 mx-auto"></div>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
       </main>
     </div>
   );

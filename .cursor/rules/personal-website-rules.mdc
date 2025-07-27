@@ -1,0 +1,151 @@
+---
+alwaysApply: true
+---
+Here’s a concise set of “Cursor” (editor/assistant) rules and overarching project rules to ensure your Next.js/TSX personal-bio site is always safe, lean, thematically consistent, and bug-free.
+
+⸻
+
+🎯 Cursor Assistant Rules
+	1.	Always TSX/TypeScript
+	•	Generate only .tsx files with fully typed props and state.
+	•	Enforce noImplicitAny, strictNullChecks, etc.
+	2.	Minimal & Intent-Driven
+	•	No dead code, unused imports or needless abstractions.
+	•	Favor clear, focused functions/components over “clever” one-liners.
+	3.	Secure by Default
+	•	Sanitize any dynamic input before rendering.
+	•	Use Next.js built-in protection (e.g. next/image, automatic XSS prevention).
+	•	Never disable security-focused ESLint rules or TypeScript checks.
+	4.	Theme-First
+	•	Always pull colors, spacing, fonts from your central theme (e.g. Tailwind config or Styled-Component ThemeProvider).
+	•	No hard-coded CSS values—use tokens.
+	5.	Error-Resilient
+	•	Wrap async calls in try/catch and show fallback UI.
+	•	Every page/component uses an ErrorBoundary or getStaticProps/getServerSideProps error handler.
+	6.	Lint & Format on Save
+	•	Run ESLint (next/core-web-vitals + plugin:security/recommended) and Prettier.
+	•	Fix auto-fixable issues before showing you code.
+	7.	Folder Structure Awareness
+	•	Know the standard Next.js app/ and pages/ layout.
+	•	Always place components in src/components, hooks in src/hooks, lib code in src/lib.
+	8.	Accessibility Always
+	•	Enforce eslint-plugin-jsx-a11y rules.
+	•	Generate alt, aria-*, focus management automatically when needed.
+	9.	Performance-First
+	•	Prefer next/image, next/font, and built-in code-splitting.
+	•	No large in-lined assets or unoptimized third-party scripts.
+	10.	Test-Driven Generation
+
+	•	For every new component, generate a matching Jest/RTL test stub.
+	•	Ensure 100% type safety and no linter errors before code is “complete.”
+
+	11.	Design-First UI
+	•	Always produce a modern, visually appealing UI design that follows best practices for layout, typography, spacing, and color harmony.
+
+	12.	Explicit Limitation Handling
+	•	Do not implement local fallbacks; if a requested feature cannot be generated, explicitly state that you are unable to do it.
+
+	13.	Developer Mindset
+	•	Adopt a professional developer’s perspective: anticipate edge cases, optimize for performance, maintain clean architecture, and follow best practices.
+
+	14.	Concise Code Generation
+	•	Produce lean, focused code: avoid unnecessary verbosity, redundant comments, or over-engineering. Favor clarity and brevity.
+
+⸻
+
+🏗️ Project Rules & Conventions
+
+1. Folder & File Layout
+
+/src
+  /app                      ← Next.js App Router
+    layout.tsx              ← site-wide shell (theme, fonts, meta)
+    page.tsx                ← home page
+    /about
+      page.tsx
+    /blog
+      /[slug]
+        page.tsx
+  /components               ← reusable UI (buttons, cards, etc.)
+  /hooks                    ← custom React hooks
+  /lib                      ← data-fetching, API clients
+  /styles                   ← global CSS / Tailwind overrides
+  /types                    ← shared TypeScript interfaces
+/next.config.js
+/tsconfig.json
+/.eslintrc.js
+/prettier.config.js
+/.husky
+/lint-staged.config.js
+
+2. TypeScript Configuration (tsconfig.json)
+
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "jsx": "preserve",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "baseUrl": "src"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+
+3. ESLint & Security
+
+// .eslintrc.js
+module.exports = {
+  root: true,
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:security/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  rules: {
+    "@typescript-eslint/no-explicit-any": "error",
+    "security/detect-object-injection": "warn",
+    // your custom wins…
+  },
+};
+
+4. Theming (Tailwind or Styled-Components)
+	•	Tailwind: keep all design tokens (colors, fonts, spacing) in tailwind.config.js.
+	•	Styled-Components: central ThemeProvider in app/layout.tsx with a single theme object.
+
+5. Pre-Commit & CI
+	•	Husky + lint-staged:
+
+// lint-staged.config.js
+{
+  "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+  "*.css": ["prettier --write"]
+}
+
+
+	•	GitHub Actions: run npm run lint && npm run build && npm test on every push.
+
+6. Dependency & Vulnerability Management
+	•	Enable Dependabot for automated PRs on npm-dependencies.
+	•	Run npm audit in CI; fail on high/critical.
+
+7. Testing
+	•	Unit: Jest + React Testing Library for components/hooks.
+	•	Integration: Cypress for critical flows (form submissions, navigation).
+	•	Enforce coverage ≥ 90%.
+
+8. Documentation & Storybook
+	•	Spin up Storybook for visual regression and component sandboxing.
+	•	Document every component’s props in MDX stories.
+
+⸻
+
+With these rules in place, your Cursor assistant will always generate lean, secure, theme-aligned, and error-free Next.js/TSX code—and your project will stay rock-solid and easy to maintain.
