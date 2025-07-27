@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { Download, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -14,7 +14,7 @@ const ResumeViewer = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [scale, setScale] = useState(1);
+  const [scale] = useState(1);
   const { i18n } = useTranslation();
 
   useEffect(() => {
