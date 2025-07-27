@@ -35,7 +35,7 @@ const AppContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
   const [showSplashScreen, setShowSplashScreen] = useState(true);
-  
+
   // Check if this is the first load of the application
   useEffect(() => {
     // Only show splash screen on the homepage and on first load
@@ -67,13 +67,13 @@ const AppContent: React.FC = () => {
   return (
     <div className={`min-h-screen bg-[#0a0a0a] ${darkMode ? 'dark' : ''}`}>
       <style>{globalStyles}</style>
-      
+
       <AnimatePresence mode="wait">
         {showSplashScreen ? (
           <SplashScreen key="splash-screen" onComplete={handleSplashScreenComplete} />
         ) : (
           <>
-            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            <Navbar />
             <AnimatePresence mode="wait">
               {isLoading ? (
                 <LoadingScreen key="loading" />

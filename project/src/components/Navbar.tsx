@@ -1,16 +1,11 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Languages } from 'lucide-react';
+import { Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Menu, Transition } from '@headlessui/react';
 import { motion } from 'framer-motion';
 
-interface NavbarProps {
-  darkMode: boolean;
-  toggleDarkMode: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
+const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,6 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   };
 
   const navItems = [
+    { path: '/', label: 'Home' },
     { path: '/about', label: t('nav.about') },
     { path: '/projects', label: t('nav.projects') },
     { path: '/experience', label: t('nav.experience') },
@@ -45,11 +41,10 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-black/80 backdrop-blur-lg border-b border-green-500/20 shadow-[0_0_15px_rgba(0,255,0,0.1)]'
-          : 'bg-transparent'
-      }`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-black/80 backdrop-blur-lg border-b border-green-500/20 shadow-[0_0_15px_rgba(0,255,0,0.1)]'
+        : 'bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -65,21 +60,19 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative py-2 group font-mono ${
-                  location.pathname === item.path
-                    ? 'text-green-400'
-                    : 'text-green-400/70'
-                }`}
+                className={`relative py-2 group font-mono ${location.pathname === item.path
+                  ? 'text-green-400'
+                  : 'text-green-400/70'
+                  }`}
               >
                 <span className="relative z-10">{item.label}</span>
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ease-out ${
-                  location.pathname === item.path
-                    ? 'scale-x-100 bg-green-500'
-                    : 'scale-x-0 bg-green-500/50 group-hover:scale-x-100'
-                }`}></span>
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ease-out ${location.pathname === item.path
+                  ? 'scale-x-100 bg-green-500'
+                  : 'scale-x-0 bg-green-500/50 group-hover:scale-x-100'
+                  }`}></span>
               </Link>
             ))}
-            
+
             <Menu as="div" className="relative">
               <Menu.Button className="flex items-center space-x-2 px-3 py-2 rounded-full bg-black/40 hover:bg-green-500/10 border border-green-500/20 hover:border-green-500/40 transition-colors font-mono">
                 <Languages size={18} className="text-green-400" />
@@ -101,11 +94,10 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
                         {({ active }) => (
                           <button
                             onClick={() => changeLanguage(lang.code)}
-                            className={`${
-                              active
-                                ? 'bg-green-500/10 text-green-400'
-                                : 'text-green-400/70'
-                            } flex w-full items-center px-4 py-2 text-sm font-medium transition-colors font-mono`}
+                            className={`${active
+                              ? 'bg-green-500/10 text-green-400'
+                              : 'text-green-400/70'
+                              } flex w-full items-center px-4 py-2 text-sm font-medium transition-colors font-mono`}
                           >
                             {lang.label}
                           </button>
@@ -116,20 +108,6 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
                 </Menu.Items>
               </Transition>
             </Menu>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-black/40 hover:bg-green-500/10 border border-green-500/20 hover:border-green-500/40 transition-colors"
-              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {darkMode ? (
-                <Sun size={18} className="text-green-400" />
-              ) : (
-                <Moon size={18} className="text-green-400" />
-              )}
-            </motion.button>
           </div>
         </div>
       </div>
