@@ -14,7 +14,7 @@ const ResumeViewer = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [scale, setScale] = useState(1.2);
+  const [scale, setScale] = useState(1);
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const ResumeViewer = () => {
       try {
         setIsLoading(true);
         const filename = i18n.language === 'fr' ? 'resumefr.pdf' : 'resume.pdf';
-        
+
         // Try to get a public URL first, which is more reliable
         const { data: publicUrlData } = await supabase
           .storage
@@ -65,7 +65,7 @@ const ResumeViewer = () => {
 
   const handleDownload = async () => {
     if (!pdfUrl) return;
-    
+
     try {
       const response = await fetch(pdfUrl);
       const blob = await response.blob();
@@ -136,8 +136,8 @@ const ResumeViewer = () => {
                     error={
                       <div className="flex flex-col items-center justify-center h-[800px] text-red-400">
                         <p className="font-mono">Failed to load PDF</p>
-                        <button 
-                          onClick={() => window.location.reload()} 
+                        <button
+                          onClick={() => window.location.reload()}
                           className="mt-4 px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors border border-red-500/40 font-mono"
                         >
                           Try again
@@ -162,12 +162,12 @@ const ResumeViewer = () => {
                   <div className="flex justify-center items-center h-[800px]">
                     <div className="text-center">
                       <p className="text-green-400/70 font-mono mb-4">
-                        {i18n.language === 'fr' 
+                        {i18n.language === 'fr'
                           ? 'Impossible de charger le CV. Veuillez réessayer plus tard.'
                           : 'Failed to load resume. Please try again later.'}
                       </p>
-                      <button 
-                        onClick={() => window.location.reload()} 
+                      <button
+                        onClick={() => window.location.reload()}
                         className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors border border-green-500/40 font-mono"
                       >
                         {i18n.language === 'fr' ? 'Réessayer' : 'Retry'}
@@ -193,7 +193,7 @@ const ResumeViewer = () => {
                 <ChevronLeft className="w-6 h-6" />
               </motion.button>
               <p className="text-green-400/70 font-mono">
-                {i18n.language === 'fr' 
+                {i18n.language === 'fr'
                   ? `Page ${pageNumber} sur ${numPages}`
                   : `Page ${pageNumber} of ${numPages}`}
               </p>
