@@ -414,17 +414,34 @@ const DrawingGame: React.FC = () => {
     const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
     const data = imageData.data;
 
-    // Enhance contrast and convert to pure black and white
+    // Enhanced preprocessing for better OCR
     for (let i = 0; i < data.length; i += 4) {
       const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-      const newValue = avg < 200 ? 0 : 255; // Adjusted threshold for better contrast
+      // More aggressive threshold for better contrast
+      const newValue = avg < 180 ? 0 : 255;
       data[i] = newValue;     // R
       data[i + 1] = newValue; // G
       data[i + 2] = newValue; // B
+      data[i + 3] = 255;      // A - ensure full opacity
     }
 
     // Put the processed image back
     tempCtx.putImageData(imageData, 0, 0);
+
+    // Scale up the image for better OCR recognition
+    const scaledCanvas = document.createElement('canvas');
+    const scale = 2; // Scale up 2x
+    scaledCanvas.width = tempCanvas.width * scale;
+    scaledCanvas.height = tempCanvas.height * scale;
+    const scaledCtx = scaledCanvas.getContext('2d');
+
+    if (scaledCtx) {
+      scaledCtx.fillStyle = 'white';
+      scaledCtx.fillRect(0, 0, scaledCanvas.width, scaledCanvas.height);
+      scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+      return scaledCanvas;
+    }
+
     return tempCanvas;
   };
 
@@ -447,7 +464,7 @@ const DrawingGame: React.FC = () => {
         .replace('data:image/png;base64,', '');
 
       // Call the Netlify function
-      const response = await fetch('/api/recognize-handwriting', {
+      const response = await fetch('/.netlify/functions/recognize-handwriting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -464,6 +481,8 @@ const DrawingGame: React.FC = () => {
       if (result.text) {
         // Replace the text instead of appending
         setRecognizedText(result.text.trim());
+      } else if (result.error) {
+        setError(result.error);
       } else {
         setError('No text detected. Please write more clearly.');
       }
