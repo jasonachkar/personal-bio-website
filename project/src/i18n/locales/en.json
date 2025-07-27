@@ -67,6 +67,7 @@
   },
   "projects": {
     "title": "Projects",
+    "status": "Status",
     "maville": {
       "title": "MaVille",
       "type": "Mobile Application",
@@ -77,7 +78,12 @@
         "Developed an intuitive UI and led training/support initiatives for municipal staff.",
         "Integrated an AI chatbot to assist citizens with municipal inquiries."
       ],
-      "technologies": ["Flutter", "Firebase", "AI", "Cloud Messaging"],
+      "technologies": [
+        "Flutter",
+        "Firebase",
+        "AI",
+        "Cloud Messaging"
+      ],
       "status": "Deployed on App/Play Store"
     }
   },
@@ -158,5 +164,117 @@
     "error": "No text detected. Please write more clearly.",
     "placeholder": "Write something...",
     "clear": "Clear Canvas"
+  },
+  "games": {
+    "webVRLab": {
+      "title": "Web VR Lab",
+      "loading": "Loading Web VR Lab...",
+      "description": "Please wait while we prepare this immersive virtual reality experience",
+      "controls": {
+        "mouse": "Mouse - Look Around",
+        "wasd": "WASD - Move",
+        "space": "Space - Jump",
+        "vr": "VR - Compatible"
+      }
+    },
+    "roboStorm": {
+      "title": "Robo Storm",
+      "loading": "Loading 3D FPS Game...",
+      "description": "Please wait while we prepare this immersive 3D first-person shooter",
+      "controls": {
+        "wasd": "WASD - Movement",
+        "mouse": "Mouse - Aim",
+        "shoot": "Left Click - Shoot",
+        "jump": "Space - Jump"
+      }
+    },
+    "flappyBird": {
+      "title": "Flappy Bird",
+      "loading": "Loading Flappy Bird...",
+      "description": "Please wait while we prepare this retro Flappy Bird challenge for you.",
+      "controls": {
+        "tap": "Tap - Flap",
+        "space": "Space - Flap"
+      }
+    },
+    "hackingGame": {
+      "title": "Hack the Code",
+      "instructions": "Guess the 4-digit hex code. 🟢=correct position, 🟡=wrong position, ⚫=not in code",
+      "submit": "Submit Guess",
+      "success": "Access Granted! System compromised!",
+      "gameOver": "SYSTEM BREACH FAILED",
+      "gameOverMessage": "Security protocols activated. Access denied.",
+      "retry": "Retry"
+    }
+  },
+  "phishingSimulator": {
+    "title": "Phishing Simulator",
+    "correct": "Correct!",
+    "oops": "Oops!",
+    "next": "Next",
+    "finish": "Finish",
+    "playAgain": "Play Again",
+    "yourScore": "Your Score",
+    "perfect": "Perfect! You are a cyber sleuth!",
+    "tryAgain": "Try again to improve your score!",
+    "shareScore": "Share your score",
+    "copied": "Copied!",
+    "questions": {
+      "email": "Is this email safe or a phishing attempt?",
+      "url": "Is this login page safe or a phishing attempt?",
+      "sms": "Is this SMS safe or a phishing attempt?",
+      "login": "Is this login page safe or a phishing attempt?",
+      "qr": "Is this QR code safe or a phishing attempt?"
+    }
+  },
+  "sslGrade": {
+    "title": "SSL/TLS Security Grade",
+    "excellent": "Excellent",
+    "good": "Good",
+    "needsImprovement": "Needs Improvement",
+    "certExpires": "Cert expires",
+    "supportedProtocols": "Supported Protocols",
+    "cipherSuites": "Cipher Suites",
+    "certificate": "Certificate",
+    "subject": "Subject",
+    "issuer": "Issuer",
+    "analyzing": "Analyzing SSL/TLS configuration...",
+    "retry": "Retry"
+  },
+  "terminal": {
+    "secureTerminal": "secure-terminal",
+    "access": "access",
+    "theHackerDungeon": "TheHackerDungeon_",
+    "initializing": "initializing system...",
+    "accessing": "accessing secure network...",
+    "bypassing": "bypassing firewalls...",
+    "establishing": "establishing encrypted connection...",
+    "connected": "connection established",
+    "accessAbout": ">_access about",
+    "accessProjects": ">_access projects",
+    "accessExperience": ">_access experience",
+    "accessContact": ">_access contact",
+    "lsProjects": "$ ls projects/",
+    "visitSite": "Visit Site"
+  },
+  "loading": {
+    "secureEnvironment": "Loading secure environment...",
+    "loading": "Loading..."
+  },
+  "splash": {
+    "secureTerminal": "Secure Terminal",
+    "initializing": "Initializing secure core...",
+    "booting": "Booting encrypted environment...",
+    "establishing": "Establishing encrypted connection...",
+    "loadingProtocols": "Loading advanced security protocols...",
+    "deploying": "Deploying firewall defenses...",
+    "activating": "Activating intrusion detection systems...",
+    "calibrating": "Calibrating threat sensors...",
+    "running": "Running vulnerability scans...",
+    "encrypting": "Encrypting data streams...",
+    "accessing": "Accessing threat intelligence network...",
+    "locking": "Locking down perimeter...",
+    "integrity": "System integrity check complete...",
+    "welcome": "Welcome to the hacker dungeon..."
   }
 }

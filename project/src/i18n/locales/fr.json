@@ -67,6 +67,7 @@
   },
   "projects": {
     "title": "Projets",
+    "status": "Statut",
     "maville": {
       "title": "MaVille",
       "type": "Application Mobile",
@@ -77,7 +78,12 @@
         "Développé une interface utilisateur intuitive et formé/soutenu le personnel municipal.",
         "Intégré un chatbot IA pour assister les citoyens dans leurs demandes municipales."
       ],
-      "technologies": ["Flutter", "Firebase", "IA", "Cloud Messaging"],
+      "technologies": [
+        "Flutter",
+        "Firebase",
+        "IA",
+        "Cloud Messaging"
+      ],
       "status": "Déployé sur App/Play Store"
     }
   },
@@ -158,5 +164,117 @@
     "error": "Aucun texte détecté. Veuillez écrire plus clairement.",
     "placeholder": "Écrivez quelque chose...",
     "clear": "Effacer"
+  },
+  "games": {
+    "webVRLab": {
+      "title": "Laboratoire VR Web",
+      "loading": "Chargement du Laboratoire VR Web...",
+      "description": "Veuillez patienter pendant que nous préparons cette expérience de réalité virtuelle immersive",
+      "controls": {
+        "mouse": "Souris - Regarder autour",
+        "wasd": "WASD - Se déplacer",
+        "space": "Espace - Sauter",
+        "vr": "VR - Compatible"
+      }
+    },
+    "roboStorm": {
+      "title": "Tempête de Robots",
+      "loading": "Chargement du jeu FPS 3D...",
+      "description": "Veuillez patienter pendant que nous préparons ce jeu de tir à la première personne 3D immersif",
+      "controls": {
+        "wasd": "WASD - Mouvement",
+        "mouse": "Souris - Viser",
+        "shoot": "Clic gauche - Tirer",
+        "jump": "Espace - Sauter"
+      }
+    },
+    "flappyBird": {
+      "title": "Flappy Bird",
+      "loading": "Chargement de Flappy Bird...",
+      "description": "Veuillez patienter pendant que nous préparons ce défi rétro Flappy Bird pour vous.",
+      "controls": {
+        "tap": "Toucher - Battre des ailes",
+        "space": "Espace - Battre des ailes"
+      }
+    },
+    "hackingGame": {
+      "title": "Pirater le Code",
+      "instructions": "Devinez le code hexadécimal à 4 chiffres. 🟢=position correcte, 🟡=mauvaise position, ⚫=pas dans le code",
+      "submit": "Soumettre la Devinette",
+      "success": "Accès Accordé ! Système compromis !",
+      "gameOver": "ÉCHEC DE LA BRÈCHE SYSTÈME",
+      "gameOverMessage": "Protocoles de sécurité activés. Accès refusé.",
+      "retry": "Réessayer"
+    }
+  },
+  "phishingSimulator": {
+    "title": "Simulateur de Hameçonnage",
+    "correct": "Correct !",
+    "oops": "Oups !",
+    "next": "Suivant",
+    "finish": "Terminer",
+    "playAgain": "Rejouer",
+    "yourScore": "Votre Score",
+    "perfect": "Parfait ! Vous êtes un détective cyber !",
+    "tryAgain": "Réessayez pour améliorer votre score !",
+    "shareScore": "Partager votre score",
+    "copied": "Copié !",
+    "questions": {
+      "email": "Cet e-mail est-il sûr ou une tentative de hameçonnage ?",
+      "url": "Cette page de connexion est-elle sûre ou une tentative de hameçonnage ?",
+      "sms": "Ce SMS est-il sûr ou une tentative de hameçonnage ?",
+      "login": "Cette page de connexion est-elle sûre ou une tentative de hameçonnage ?",
+      "qr": "Ce code QR est-il sûr ou une tentative de hameçonnage ?"
+    }
+  },
+  "sslGrade": {
+    "title": "Note de Sécurité SSL/TLS",
+    "excellent": "Excellent",
+    "good": "Bon",
+    "needsImprovement": "Nécessite des améliorations",
+    "certExpires": "Cert expire",
+    "supportedProtocols": "Protocoles Supportés",
+    "cipherSuites": "Suites de Chiffrement",
+    "certificate": "Certificat",
+    "subject": "Sujet",
+    "issuer": "Émetteur",
+    "analyzing": "Analyse de la configuration SSL/TLS...",
+    "retry": "Réessayer"
+  },
+  "terminal": {
+    "secureTerminal": "terminal-sécurisé",
+    "access": "accès",
+    "theHackerDungeon": "DonjonHacker_",
+    "initializing": "initialisation du système...",
+    "accessing": "accès au réseau sécurisé...",
+    "bypassing": "contournement des pare-feu...",
+    "establishing": "établissement de la connexion chiffrée...",
+    "connected": "connexion établie",
+    "accessAbout": ">_accès à propos",
+    "accessProjects": ">_accès projets",
+    "accessExperience": ">_accès expérience",
+    "accessContact": ">_accès contact",
+    "lsProjects": "$ ls projets/",
+    "visitSite": "Visiter le Site"
+  },
+  "loading": {
+    "secureEnvironment": "Chargement de l'environnement sécurisé...",
+    "loading": "Chargement..."
+  },
+  "splash": {
+    "secureTerminal": "Terminal Sécurisé",
+    "initializing": "Initialisation du noyau sécurisé...",
+    "booting": "Démarrage de l'environnement chiffré...",
+    "establishing": "Établissement de la connexion chiffrée...",
+    "loadingProtocols": "Chargement des protocoles de sécurité avancés...",
+    "deploying": "Déploiement des défenses pare-feu...",
+    "activating": "Activation des systèmes de détection d'intrusion...",
+    "calibrating": "Calibrage des capteurs de menace...",
+    "running": "Exécution des analyses de vulnérabilité...",
+    "encrypting": "Chiffrement des flux de données...",
+    "accessing": "Accès au réseau de renseignement sur les menaces...",
+    "locking": "Verrouillage du périmètre...",
+    "integrity": "Vérification d'intégrité du système terminée...",
+    "welcome": "Bienvenue dans le donjon du hacker..."
   }
 }
