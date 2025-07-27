@@ -202,7 +202,7 @@ const FlappyBirdGame: React.FC = () => {
 
 const HeroGame: React.FC<HeroGameProps> = ({ className }) => {
   // Update the state type to include the four game options and set 'vr' as default
-  const [activeGame, setActiveGame] = useState<'vr' | 'fps' | 'flappy' | 'hacking'>('vr');
+  const [activeGame, setActiveGame] = useState<'vr' | 'fps' | 'flappy' | 'hacking'>('fps');
 
   return (
     <div className={`bg-black/40 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,255,0,0.1)] border border-green-500/20 hover:border-green-500/40 p-6 ${className}`}>
