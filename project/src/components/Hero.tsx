@@ -648,7 +648,6 @@ const Hero: React.FC = () => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [projects, setProjects] = useState<Project[]>([]);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Inject the terminal styles
   useEffect(() => {
@@ -718,17 +717,6 @@ const Hero: React.FC = () => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  // New function to scroll project container
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 300;
-      scrollContainerRef.current.scrollTo({
-        left: scrollContainerRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount),
-        behavior: 'smooth'
-      });
-    }
-  };
 
   // Fetch projects
   useEffect(() => {
@@ -970,28 +958,9 @@ const Hero: React.FC = () => {
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-semibold text-green-400 font-mono">$ ls projects/</h3>
-                <div className="flex gap-2">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => scroll('left')}
-                    className="p-2 rounded-full bg-black/40 text-green-400 hover:bg-green-500/10 hover:text-green-500 transition-colors border border-green-500/20"
-                  >
-                    <span className="text-green-500 font-mono">←</span>
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => scroll('right')}
-                    className="p-2 rounded-full bg-black/40 text-green-400 hover:bg-green-500/10 hover:text-green-500 transition-colors border border-green-500/20"
-                  >
-                    <span className="text-green-500 font-mono">→</span>
-                  </motion.button>
-                </div>
               </div>
 
               <div
-                ref={scrollContainerRef}
                 className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 -mx-2 px-2 snap-x"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
