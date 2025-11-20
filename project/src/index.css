@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-background text-text;
+  }
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
