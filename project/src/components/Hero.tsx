@@ -669,7 +669,12 @@ const Hero: React.FC = () => {
           .select('*')
           .single();
 
-        if (profileError) throw profileError;
+        console.log('Supabase profile response:', { profileData, profileError });
+
+        if (profileError) {
+          console.error('Supabase profile error:', profileError);
+          throw profileError;
+        }
 
         // Fetch translations if language is French
         if (i18n.language === 'fr') {
@@ -680,6 +685,8 @@ const Hero: React.FC = () => {
             .eq('table_name', 'profile_content')
             .eq('record_id', profileData.id)
             .eq('language', 'fr');
+
+          console.log('Supabase translations response:', { translationsData, translationsError });
 
           if (translationsError) {
             console.error('Error fetching translations:', translationsError);

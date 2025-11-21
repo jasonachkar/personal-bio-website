@@ -1,78 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import MainLayout from './layouts/MainLayout';
-import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import LoadingScreen from './components/LoadingScreen';
-import SplashScreen from './components/SplashScreen';
-import ResumeViewer from './components/ResumeViewer';
+import { useCallback } from 'react';
+import Hero from './components/sections/Hero';
+import About from './components/sections/About';
+import Skills from './components/sections/Skills';
+import Projects from './components/sections/Projects';
+import SIEM from './components/sections/SIEM';
+import GameHub from './components/sections/GameHub';
+import Contact from './components/sections/Contact';
+import Navbar from './components/layout/Navbar';
+import { navItems } from './data/nav';
+import type { SectionId } from './data/types';
+import { useActiveSection } from './hooks/useActiveSection';
 
-const AppContent: React.FC = () => {
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const [showSplashScreen, setShowSplashScreen] = useState(true);
+const App = () => {
+  const activeId = useActiveSection(navItems.map((item) => item.id));
 
-  // Check if this is the first load of the application
-  useEffect(() => {
-    // Only show splash screen on the homepage and on first load
-    if (location.pathname !== '/') {
-      setShowSplashScreen(false);
+  const scrollTo = useCallback((id: SectionId) => {
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [location.pathname]);
-
-  const handleSplashScreenComplete = () => {
-    setShowSplashScreen(false);
-  };
-
-  useEffect(() => {
-    // Only handle loading state if splash screen is not showing
-    if (!showSplashScreen) {
-      setIsLoading(true);
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 600); // Slightly shorter loading time
-
-      return () => clearTimeout(timer);
-    }
-  }, [location.pathname, showSplashScreen]);
+  }, []);
 
   return (
-    <AnimatePresence mode="wait">
-      {showSplashScreen ? (
-        <SplashScreen key="splash-screen" onComplete={handleSplashScreenComplete} />
-      ) : (
-        <MainLayout>
-          <AnimatePresence mode="wait">
-            {isLoading ? (
-              <LoadingScreen key="loading" />
-            ) : (
-              <AnimatePresence mode="wait">
-                <Routes location={location} key={location.pathname}>
-                  <Route path="/" element={<Hero />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/experience" element={<Experience />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/resume" element={<ResumeViewer />} />
-                </Routes>
-              </AnimatePresence>
-            )}
-          </AnimatePresence>
-        </MainLayout>
-      )}
-    </AnimatePresence>
-  );
-};
+    <div className="relative min-h-screen bg-background text-slate-100">
+      <div className="pointer-events-none fixed inset-0 bg-radial-fade opacity-70" aria-hidden="true" />
+      <div className="pointer-events-none fixed inset-0 bg-grid opacity-[0.08]" aria-hidden="true" />
+      <div className="pointer-events-none fixed inset-0 noise-bg opacity-40" aria-hidden="true" />
 
-const App: React.FC = () => {
-  return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+      <Navbar items={navItems} activeId={activeId} onNavigate={scrollTo} />
+
+      <main className="relative">
+        <Hero onNavigate={scrollTo} />
+        <About />
+        <Skills />
+        <SIEM />
+        <GameHub />
+        <Projects />
+        <Contact />
+      </main>
+
+      <footer className="border-t border-white/5 bg-black/40 py-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 text-sm text-slate-400">
+          <span>Crafted with React, TypeScript, Tailwind, and Framer Motion.</span>
+          <span className="text-primary">Security-first • Human-centered • Playful</span>
+        </div>
+      </footer>
+    </div>
   );
 };
 
