@@ -111,7 +111,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           <p className="text-text-secondary">
             More writeups and technical content coming soon. Follow my learning journey on{' '}
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/jasonachkar"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-primary hover:text-primary-hover"
