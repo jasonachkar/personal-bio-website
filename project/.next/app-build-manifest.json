@@ -21,15 +21,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/threat-modeling/page.js"
     ],
+    "/devsecops/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/devsecops/page.js"
+    ],
     "/azure-blueprint/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/azure-blueprint/page.js"
     ],
-    "/devsecops/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/devsecops/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

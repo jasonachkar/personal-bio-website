@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { SiemDetectionConsole } from '@/features/siem/components/SiemDetectionConsole';
+import { ShowcaseHeader } from '@/components/layout/ShowcaseHeader';
 
 export const metadata: Metadata = {
   title: 'SIEM Detection Console - Interactive Security Demo',
@@ -10,6 +11,10 @@ export const metadata: Metadata = {
 export default function SiemPage() {
   return (
     <main className="min-h-screen bg-background">
+      <ShowcaseHeader
+        title="SIEM Detection Console"
+        description="Real-time security event monitoring and threat detection"
+      />
       <SiemDetectionConsole />
     </main>
   );

@@ -1,28 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { NextRequest } from 'next/server';
+import { loadContent } from '@/infra/content/contentRepository';
+import { jsonResponse, errorResponse } from '@/infra/http/responses';
 import { siemEventsSchema } from '@/lib/schemas';
-import { securityHeaders } from '@/lib/security';
 
+/**
+ * GET /api/siem/events
+ *
+ * Returns all SIEM security events from the content repository.
+ * Events are validated against the schema and cached for performance.
+ *
+ * @returns JSON response with events array and total count
+ */
 export async function GET(request: NextRequest) {
   try {
-    // Read events from JSON file
-    const filePath = join(process.cwd(), '../content/siem/events.json');
-    const fileContents = readFileSync(filePath, 'utf8');
-    const events = JSON.parse(fileContents);
+    const events = loadContent('siem/events.json', siemEventsSchema);
 
-    // Validate with Zod
-    const validatedEvents = siemEventsSchema.parse(events);
-
-    return NextResponse.json(
-      { events: validatedEvents, total: validatedEvents.length },
-      { headers: securityHeaders }
-    );
+    return jsonResponse({
+      events,
+      total: events.length,
+    });
   } catch (error) {
-    console.error('Error loading SIEM events:', error);
-    return NextResponse.json(
-      { error: 'Failed to load events' },
-      { status: 500, headers: securityHeaders }
-    );
+    return errorResponse('Failed to load SIEM events', {
+      status: 500,
+      code: 'SIEM_EVENTS_LOAD_ERROR',
+      logError: error,
+    });
   }
 }

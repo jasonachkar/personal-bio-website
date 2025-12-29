@@ -1,28 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { NextRequest } from 'next/server';
+import { loadContent } from '@/infra/content/contentRepository';
+import { jsonResponse, errorResponse } from '@/infra/http/responses';
 import { detectionRulesSchema } from '@/lib/schemas';
-import { securityHeaders } from '@/lib/security';
 
+/**
+ * GET /api/siem/rules
+ *
+ * Returns all SIEM detection rules from the content repository.
+ * Rules are validated against the schema and cached for performance.
+ *
+ * @returns JSON response with rules array and total count
+ */
 export async function GET(request: NextRequest) {
   try {
-    // Read rules from JSON file
-    const filePath = join(process.cwd(), '../content/siem/rules.json');
-    const fileContents = readFileSync(filePath, 'utf8');
-    const rules = JSON.parse(fileContents);
+    const rules = loadContent('siem/rules.json', detectionRulesSchema);
 
-    // Validate with Zod
-    const validatedRules = detectionRulesSchema.parse(rules);
-
-    return NextResponse.json(
-      { rules: validatedRules, total: validatedRules.length },
-      { headers: securityHeaders }
-    );
+    return jsonResponse({
+      rules,
+      total: rules.length,
+    });
   } catch (error) {
-    console.error('Error loading SIEM rules:', error);
-    return NextResponse.json(
-      { error: 'Failed to load rules' },
-      { status: 500, headers: securityHeaders }
-    );
+    return errorResponse('Failed to load SIEM detection rules', {
+      status: 500,
+      code: 'SIEM_RULES_LOAD_ERROR',
+      logError: error,
+    });
   }
 }

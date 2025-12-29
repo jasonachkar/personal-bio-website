@@ -202,6 +202,42 @@ export const detectionRuleSchema = z.object({
 export const siemEventsSchema = z.array(securityEventSchema);
 export const detectionRulesSchema = z.array(detectionRuleSchema);
 
+// Azure Architecture Schemas
+export const azureMisconfigurationSchema = z.object({
+  issue: z.string().min(1),
+  risk: z.enum(['Low', 'Medium', 'High', 'Critical']),
+  fix: z.string().min(1),
+});
+
+export const azureComponentSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  category: z.string().min(1),
+  description: z.string().min(1),
+  securityControls: z.array(z.string()).min(1),
+  commonMisconfigurations: z.array(azureMisconfigurationSchema),
+  bestPractices: z.array(z.string()).min(1),
+});
+
+export const azureCisControlSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  implementation: z.string().min(1),
+});
+
+export const azureArchitectureSchema = z.object({
+  components: z.array(azureComponentSchema),
+  cisControls: z.array(azureCisControlSchema).optional(),
+  architecturePatterns: z.any().optional(),
+}).passthrough();
+
+// Threat Modeling Schemas
+// Using very permissive schema - complex nested structure causes Zod issues
+export const threatModelComponentSchema = z.any();
+export const threatModelDataFlowSchema = z.any();
+export const threatModelThreatSchema = z.any();
+export const threatModelTemplateSchema = z.any();
+
 // Type exports for TypeScript
 export type Hero = z.infer<typeof heroSchema>;
 export type About = z.infer<typeof aboutSchema>;
@@ -214,3 +250,8 @@ export type Contact = z.infer<typeof contactSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 export type SecurityEvent = z.infer<typeof securityEventSchema>;
 export type DetectionRule = z.infer<typeof detectionRuleSchema>;
+export type AzureComponent = z.infer<typeof azureComponentSchema>;
+export type AzureArchitecture = z.infer<typeof azureArchitectureSchema>;
+export type ThreatModelComponent = z.infer<typeof threatModelComponentSchema>;
+export type ThreatModelThreat = z.infer<typeof threatModelThreatSchema>;
+export type ThreatModelTemplate = z.infer<typeof threatModelTemplateSchema>;

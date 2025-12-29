@@ -5,6 +5,7 @@ import { Cloud, Shield, AlertTriangle, Loader2, CheckCircle2, XCircle, Download 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Tabs } from '@/components/ui/Tabs';
+import { ShowcaseHeader } from '@/components/layout/ShowcaseHeader';
 
 type TabId = 'components' | 'misconfigurations' | 'checklist';
 
@@ -62,9 +63,9 @@ export default function AzureBlueprintPage() {
         const response = await fetch('/api/azure');
         if (!response.ok) throw new Error('Failed to load Azure architecture');
         const data = await response.json();
-        setArchitecture(data.architecture);
-        if (data.architecture.components.length > 0) {
-          setSelectedComponent(data.architecture.components[0].id);
+        setArchitecture(data.data.architecture);
+        if (data.data.architecture.components.length > 0) {
+          setSelectedComponent(data.data.architecture.components[0].id);
         }
       } catch (error) {
         console.error('Error loading Azure architecture:', error);
@@ -120,6 +121,10 @@ export default function AzureBlueprintPage() {
 
   return (
     <main className="min-h-screen bg-background">
+      <ShowcaseHeader
+        title="Azure Security Blueprint"
+        description="Comprehensive security reference for Microsoft Azure cloud infrastructure"
+      />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -127,18 +132,6 @@ export default function AzureBlueprintPage() {
         className="container mx-auto px-4 py-8"
       >
         <div className="space-y-6">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <Cloud className="h-8 w-8 text-primary" />
-                <h1 className="text-3xl font-bold text-text-primary">Azure Security Blueprint</h1>
-              </div>
-              <p className="text-text-secondary">
-                Comprehensive security reference for Microsoft Azure cloud infrastructure
-              </p>
-            </div>
-          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

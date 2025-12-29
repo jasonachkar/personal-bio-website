@@ -26,7 +26,7 @@ export function ThreatModelingPlayground({ className }: { className?: string }) 
         const response = await fetch('/api/threat-models');
         if (!response.ok) throw new Error('Failed to load threat model template');
         const data = await response.json();
-        setTemplate(data.template);
+        setTemplate(data.data.template);
       } catch (error) {
         console.error('Error loading threat model:', error);
         setError(error instanceof Error ? error.message : 'Failed to load data');

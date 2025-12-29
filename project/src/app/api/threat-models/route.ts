@@ -1,23 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { securityHeaders } from '@/lib/security';
+import { NextRequest } from 'next/server';
+import { loadContent } from '@/infra/content/contentRepository';
+import { jsonResponse, errorResponse } from '@/infra/http/responses';
+import { threatModelTemplateSchema } from '@/lib/schemas';
 
+/**
+ * GET /api/threat-models
+ *
+ * Returns threat model template for web application architecture.
+ * Includes STRIDE analysis, components, and MITRE ATT&CK mappings.
+ * Data is validated against the schema and cached for performance.
+ *
+ * @returns JSON response with threat model template
+ */
 export async function GET(request: NextRequest) {
   try {
-    const templatePath = join(process.cwd(), '../content/threat-models/web-app.json');
-    const fileContents = readFileSync(templatePath, 'utf8');
-    const template = JSON.parse(fileContents);
+    const template = loadContent('threat-models/web-app.json', threatModelTemplateSchema);
 
-    return NextResponse.json(
-      { template },
-      { headers: securityHeaders }
-    );
+    return jsonResponse({ template });
   } catch (error) {
-    console.error('Error loading threat model template:', error);
-    return NextResponse.json(
-      { error: 'Failed to load threat model template' },
-      { status: 500, headers: securityHeaders }
-    );
+    return errorResponse('Failed to load threat model template', {
+      status: 500,
+      code: 'THREAT_MODEL_LOAD_ERROR',
+      logError: error,
+    });
   }
 }

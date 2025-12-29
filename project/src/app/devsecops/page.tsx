@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { DevSecOpsPipeline } from '@/features/devsecops/components/DevSecOpsPipeline';
+import { ShowcaseHeader } from '@/components/layout/ShowcaseHeader';
 
 export const metadata: Metadata = {
   title: 'DevSecOps Pipeline Simulator - Security Scan Results',
@@ -10,6 +11,10 @@ export const metadata: Metadata = {
 export default function DevSecOpsPage() {
   return (
     <main className="min-h-screen bg-background">
+      <ShowcaseHeader
+        title="DevSecOps Pipeline Simulator"
+        description="Security scanning with SAST, SCA, secrets detection, and IaC"
+      />
       <DevSecOpsPipeline />
     </main>
   );

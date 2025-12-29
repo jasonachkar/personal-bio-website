@@ -35,13 +35,13 @@ function SiemConsoleContent() {
         const eventsResponse = await fetch('/api/siem/events');
         if (!eventsResponse.ok) throw new Error('Failed to load events');
         const eventsData = await eventsResponse.json();
-        dispatch({ type: 'SET_EVENTS', payload: eventsData.events });
+        dispatch({ type: 'SET_EVENTS', payload: eventsData.data.events });
 
         // Load rules
         const rulesResponse = await fetch('/api/siem/rules');
         if (!rulesResponse.ok) throw new Error('Failed to load rules');
         const rulesData = await rulesResponse.json();
-        dispatch({ type: 'SET_RULES', payload: rulesData.rules });
+        dispatch({ type: 'SET_RULES', payload: rulesData.data.rules });
 
         // Run detections
         const detectResponse = await fetch('/api/siem/detect', { method: 'POST' });
