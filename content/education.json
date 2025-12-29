@@ -1,0 +1,48 @@
+[
+  {
+    "id": "msc-cyber",
+    "degree": "Master of Science in Cybersecurity",
+    "institution": "University of London",
+    "location": "Online",
+    "period": "2025 - Present",
+    "status": "in-progress",
+    "highlights": [
+      "Graduate-level study of cybersecurity principles, risk management, and security governance",
+      "Focus on secure systems design, software security, and network security concepts",
+      "Academic grounding in cryptography, cybercrime, and information security management",
+      "Developing analytical and research skills applicable to cybersecurity consulting and engineering roles"
+    ],
+    "relevantCourses": [
+      "Cyber Security Foundations",
+      "Security Management and Governance",
+      "Network and Infrastructure Security",
+      "Software and Application Security",
+      "Applied Cryptography",
+      "Cybercrime"
+    ]
+  },
+  {
+    "id": "bsc-cs",
+    "degree": "Bachelor of Science in Computer Science",
+    "institution": "Concordia University",
+    "location": "Montreal, QC",
+    "period": "2022 - 2025",
+    "status": "completed",
+    "highlights": [
+      "Strong foundation in computer science, software engineering, and systems programming",
+      "Hands-on experience designing and implementing web applications and backend services",
+      "Studied core networking and operating systems concepts relevant to cybersecurity",
+      "Developed analytical problem-solving skills through algorithms and data structures coursework"
+    ],
+    "relevantCourses": [
+      "COMP 248 – Object-Oriented Programming I",
+      "COMP 249 – Object-Oriented Programming II",
+      "COMP 352 – Data Structures and Algorithms",
+      "COMP 445 – Data Communications and Computer Networks",
+      "COMP 346 – Operating Systems",
+      "COMP 353 – Databases",
+      "COMP 348 – Principles of Programming Languages",
+      "SOEN 341 – Software Process"
+    ]
+  }
+]

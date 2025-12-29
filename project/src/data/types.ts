@@ -1,10 +1,10 @@
 export type SectionId =
   | 'hero'
   | 'about'
-  | 'skills'
+  | 'certifications'
+  | 'experience'
   | 'projects'
-  | 'siem'
-  | 'games'
+  | 'writeups'
   | 'contact';
 
 export type NavItem = {
@@ -82,4 +82,50 @@ export type IntelItem = {
   detail: string;
   risk: AlertSeverity;
   reference: string;
+};
+
+export type Certification = {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  verificationUrl?: string;
+  badge?: string;
+  skills: string[];
+  description: string;
+};
+
+export type Education = {
+  id: string;
+  degree: string;
+  institution: string;
+  location: string;
+  period: string;
+  status: 'completed' | 'in-progress';
+  highlights: string[];
+  relevantCourses?: string[];
+};
+
+export type Experience = {
+  id: string;
+  role: string;
+  company: string;
+  location: string;
+  period: string;
+  type: 'full-time' | 'contract' | 'part-time';
+  achievements: string[];
+  securityHighlights: string[];
+  technologies: string[];
+};
+
+export type Writeup = {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  readingTime: string;
+  tags: string[];
+  content?: string;
+  category: 'tutorial' | 'research' | 'certification-notes' | 'lab-report' | 'analysis';
 };

@@ -2,19 +2,25 @@ import type { CallToAction } from './types';
 
 export const heroCopy = {
   name: 'Jason Achkar Diab',
-  title: 'Security-minded Full-Stack Engineer',
-  tagline: 'Building resilient software, SOC-grade telemetry, and playful WebGL experiences.',
+  title: 'Software Developer → Cybersecurity',
+  tagline: 'Cloud Security (Azure) | Security+ | AZ-900 | MSc Cybersecurity (UoL)',
   blurb:
-    'I combine product engineering, security reviews, and game prototyping to ship experiences that feel fast, observable, and defensible.',
+    'Building secure-by-design software with a focus on cloud security, threat detection, and application security. Transitioning from full-stack development to cybersecurity consulting and security engineering.',
+  currentFocus: [
+    'Azure Security & Defender for Cloud',
+    'SIEM Detection Engineering',
+    'Secure SDLC & Threat Modeling',
+    'Cloud IAM & Zero Trust Architecture',
+  ],
 };
 
 export const heroStats = [
-  { label: 'Disclosures', value: '40+', detail: 'responsible findings with remediation plans' },
-  { label: 'Deployments', value: '25+', detail: 'production launches across web & APIs' },
-  { label: 'Game builds', value: '6', detail: 'PlayCanvas / R3F prototypes with polish' },
+  { label: 'Certifications', value: '3', detail: 'Security+, AZ-900, Google Cyber' },
+  { label: 'Experience', value: '5+ yrs', detail: 'secure full-stack development' },
+  { label: 'Projects', value: '6', detail: 'cybersecurity labs & tools' },
 ];
 
 export const heroCtas: CallToAction[] = [
   { label: 'View Projects', href: '#projects', kind: 'primary' },
-  { label: 'Cyber Arcade', href: '#games', kind: 'ghost' },
+  { label: 'Download Resume', href: '/resume.pdf', kind: 'ghost' },
 ];

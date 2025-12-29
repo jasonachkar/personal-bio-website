@@ -3,25 +3,145 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Layout constants */
+    --header-height: 4rem; /* 64px */
+
+    /* Light mode - Professional Azure theme */
+    --bg-primary: #ffffff;
+    --bg-card: #f8f9fa;
+    --bg-elevated: #f0f2f5;
+    --border-default: #d0d7de;
+    --border-accent: #0078d4;
+    --primary: #0078d4;
+    --primary-hover: #106ebe;
+    --secondary: #0088cc;
+    --secondary-hover: #006ba6;
+    --accent: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --text-primary: #24292f;
+    --text-secondary: #57606a;
+    --text-muted: #6e7781;
+  }
+
+  .dark {
+    /* Dark mode - Azure security theme with subtle gradients */
+    --bg-primary: #0a0a0f;
+    --bg-card: #13131a;
+    --bg-elevated: #1a1a24;
+    --border-default: #2a2a35;
+    --border-accent: #00d4ff;
+    --primary: #00d4ff;
+    --primary-hover: #00f0ff;
+    --secondary: #50e6ff;
+    --secondary-hover: #70f0ff;
+    --accent: #a78bfa;
+    --accent-hover: #c4b5fd;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #606060;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-text-primary;
+    @apply bg-background text-text-primary transition-colors duration-300;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer utilities {
+  /* Typography scale - Premium hierarchy */
+  .text-display {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .text-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  .text-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 65ch;
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+
+  /* Spacing rhythm utilities */
+  .stack-xs > * + * {
+    margin-top: 0.5rem;
+  }
+
+  .stack-sm > * + * {
+    margin-top: 1rem;
+  }
+
+  .stack-md > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .stack-lg > * + * {
+    margin-top: 2rem;
+  }
+
+  .stack-xl > * + * {
+    margin-top: 3rem;
+  }
+
+  /* Visual utilities */
   .glass-panel {
-    @apply bg-background-card/50 backdrop-blur-md;
+    background-color: var(--bg-card);
+    opacity: 0.8;
+    backdrop-filter: blur(12px);
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-primary-purple to-primary bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .bg-radial-fade {
+    background: radial-gradient(circle at top, rgba(0, 212, 255, 0.08), transparent 50%);
+  }
+
+  .noise-bg {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
   }
 }

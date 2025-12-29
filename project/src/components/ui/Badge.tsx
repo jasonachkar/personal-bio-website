@@ -8,7 +8,7 @@ type BadgeProps = {
 const Badge = ({ label, className }: BadgeProps) => (
   <span
     className={cn(
-      'inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200 shadow-inner shadow-black/30',
+      'inline-flex items-center rounded-full border border-border bg-background-elevated px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary',
       className,
     )}
   >

@@ -26,7 +26,7 @@ const SectionHeader = ({ eyebrow, title, subtitle }: SectionHeaderProps) => (
     >
       {title}
     </motion.h2>
-    {subtitle && <p className="max-w-2xl text-slate-300">{subtitle}</p>}
+    {subtitle && <p className="max-w-2xl text-text-secondary">{subtitle}</p>}
   </div>
 );
 

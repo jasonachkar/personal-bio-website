@@ -21,15 +21,15 @@ type ButtonProps =
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    'bg-primary text-background hover:bg-primary/90 shadow-glow',
+    'bg-primary text-white hover:bg-primary-hover shadow-md hover:shadow-lg',
   secondary:
-    'bg-primary-purple text-white hover:bg-primary-purple/90 shadow-glow-purple',
+    'bg-accent text-white hover:bg-accent-hover shadow-md hover:shadow-lg',
   outline:
-    'border-2 border-primary text-primary hover:bg-primary/10',
+    'border-2 border-primary text-primary hover:bg-primary/10 dark:hover:bg-primary/20',
   ghost:
-    'text-text-primary hover:bg-background-elevated',
+    'text-text-primary hover:bg-background-elevated hover:text-text-primary',
   danger:
-    'bg-severity-critical text-white hover:bg-severity-critical/90',
+    'bg-severity-critical text-white hover:bg-severity-critical/90 shadow-md hover:shadow-lg',
 };
 
 export const Button = ({ variant = 'primary', icon, className, children, ...rest }: ButtonProps) => {
@@ -48,10 +48,12 @@ export const Button = ({ variant = 'primary', icon, className, children, ...rest
     );
   }
 
+  const { type = 'button', ...buttonProps } = rest as ButtonHTMLAttributes<HTMLButtonElement>;
+
   return (
     <button
-      type="button"
-      {...rest}
+      type={type}
+      {...buttonProps}
       className={cn(baseClasses, variantStyles[variant], className)}
     >
       {children}

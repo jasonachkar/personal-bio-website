@@ -50,7 +50,7 @@ export default function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-background text-text-primary antialiased`}
       >
         <Navbar />
-        <main>{children}</main>
+        <main className="pt-16">{children}</main>
         <Footer />
       </body>
     </html>

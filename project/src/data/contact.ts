@@ -1,7 +1,7 @@
 export const contactCopy = {
-  title: 'Let’s build defensible products.',
+  title: 'Get In Touch',
   subtitle:
-    'Available for security consulting, full-stack delivery, and game-like interactive experiences.',
-  success: "Message sent! I'll respond via email shortly (mock response).",
-  error: 'Please complete every field with a valid email.',
+    'Interested in cloud security, cybersecurity consulting, or DevSecOps roles? Let\'s connect. Open to opportunities in Canada and remote positions.',
+  success: "Message sent! I'll respond via email shortly.",
+  error: 'Please complete all fields with a valid email address.',
 };
