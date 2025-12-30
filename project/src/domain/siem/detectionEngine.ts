@@ -1,4 +1,4 @@
-import type { SecurityEvent, DetectionRule, DetectionResult } from '../types';
+import type { SecurityEvent, DetectionRule, DetectionResult } from './types';
 import { parseAndCompileQuery } from './queryParser';
 
 /**

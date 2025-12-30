@@ -1,7 +1,8 @@
 {
-  "/page": "app/page.js",
+  "/threat-modeling/page": "app/threat-modeling/page.js",
   "/siem/page": "app/siem/page.js",
+  "/api/threat-models/route": "app/api/threat-models/route.js",
+  "/page": "app/page.js",
   "/devsecops/page": "app/devsecops/page.js",
-  "/azure-blueprint/page": "app/azure-blueprint/page.js",
-  "/threat-modeling/page": "app/threat-modeling/page.js"
+  "/azure-blueprint/page": "app/azure-blueprint/page.js"
 }

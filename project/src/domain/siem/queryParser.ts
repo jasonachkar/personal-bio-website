@@ -1,4 +1,4 @@
-import type { SecurityEvent, QueryNode, EventPredicate } from '../types';
+import type { SecurityEvent, QueryNode, EventPredicate } from './types';
 
 /**
  * Simplified KQL-like Query Parser
