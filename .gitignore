@@ -4,8 +4,45 @@
 # Google Cloud credentials
 project/google-cloud-credentials.json
 
+# Node/Next build artifacts
+node_modules
+.next
+out
+dist
+dist-ssr
+coverage
+*.tsbuildinfo
+.turbo
+.vercel
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
 # Environment files
 .env
 .env.local
 .env.development
 .env.production
+.env.*
+!.env.example
+
+# Editor/OS files
+.DS_Store
+Thumbs.db
+.idea
+.vs
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Tooling directories
+.cursor
+.claude

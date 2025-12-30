@@ -133,7 +133,7 @@ export async function validateRequestBody<T>(
     return schema.parse(body);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new ValidationError('Invalid request body', error.errors);
+      throw new ValidationError('Invalid request body', error.issues);
     }
     throw new Error('Invalid JSON in request body');
   }
@@ -151,7 +151,7 @@ export function validateQueryParams<T>(
     return schema.parse(params);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new ValidationError('Invalid query parameters', error.errors);
+      throw new ValidationError('Invalid query parameters', error.issues);
     }
     throw new Error('Invalid query parameters');
   }
