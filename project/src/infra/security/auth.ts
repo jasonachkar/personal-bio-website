@@ -69,7 +69,8 @@ export async function verifySessionToken(
       algorithms: [SESSION_CONFIG.algorithm],
     });
 
-    return payload as SessionPayload;
+    // Cast through unknown to satisfy TypeScript
+    return payload as unknown as SessionPayload;
   } catch (error) {
     throw new Error('Invalid or expired session token');
   }
