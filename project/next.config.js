@@ -4,7 +4,12 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: ['your-supabase-project.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'your-supabase-project.supabase.co',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -22,7 +27,11 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 
+  // Turbopack configuration (Next.js 16 uses Turbopack by default)
+  turbopack: {},
+
   // Bundle analyzer (run with ANALYZE=true npm run build)
+  // Note: Bundle analyzer requires webpack, use --webpack flag when analyzing
   webpack: (config, { isServer }) => {
     // Bundle analyzer
     if (process.env.ANALYZE === 'true') {

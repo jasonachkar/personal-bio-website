@@ -61,9 +61,11 @@ export const Button = ({ variant = 'primary', icon, className, children, ...rest
       );
     }
 
+    const { href, ...anchorProps } = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
     return (
       <motion.a
-        {...rest}
+        href={href}
+        {...(anchorProps as any)}
         className={cn(baseClasses, variantStyles[variant], className)}
         variants={buttonVariants}
         initial="rest"
@@ -93,7 +95,7 @@ export const Button = ({ variant = 'primary', icon, className, children, ...rest
   return (
     <motion.button
       type={type}
-      {...buttonProps}
+      {...(buttonProps as any)}
       className={cn(baseClasses, variantStyles[variant], className)}
       variants={buttonVariants}
       initial="rest"

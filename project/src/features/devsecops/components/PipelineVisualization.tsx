@@ -34,19 +34,19 @@ export function PipelineVisualization({ stages, onStageClick, className }: Pipel
 
       <div className="relative">
         {/* Desktop horizontal view */}
-        <div className="hidden md:flex items-center justify-between gap-2">
+        <div className="hidden md:flex items-center gap-2 overflow-x-auto pb-2">
           {stages.map((stage, index) => {
             const StatusIcon = statusIcons[stage.status];
 
             return (
-              <div key={stage.id} className="flex items-center flex-1">
+              <div key={stage.id} className="flex items-center flex-shrink-0" style={{ minWidth: '140px', maxWidth: '180px' }}>
                 <motion.button
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => onStageClick?.(stage)}
                   className={cn(
-                    'flex-1 p-4 rounded-lg border-2 transition-all text-left',
+                    'w-full p-4 rounded-lg border-2 transition-all text-left',
                     statusColors[stage.status],
                     'hover:scale-105 cursor-pointer'
                   )}
@@ -54,7 +54,7 @@ export function PipelineVisualization({ stages, onStageClick, className }: Pipel
                   <div className="flex items-start gap-3">
                     <StatusIcon className={cn('h-5 w-5 flex-shrink-0 mt-0.5', stage.status === 'running' && 'animate-spin')} />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm mb-1">{stage.name}</h4>
+                      <h4 className="font-semibold text-sm mb-1 break-words">{stage.name}</h4>
                       {stage.duration !== undefined && stage.duration > 0 && (
                         <p className="text-xs opacity-75">{stage.duration}s</p>
                       )}
@@ -62,7 +62,7 @@ export function PipelineVisualization({ stages, onStageClick, className }: Pipel
                   </div>
 
                   {stage.scanResult && (
-                    <div className="mt-2 flex items-center gap-1 text-xs">
+                    <div className="mt-2 flex items-center gap-1 text-xs flex-wrap">
                       {stage.scanResult.summary.critical > 0 && (
                         <span className="px-1.5 py-0.5 rounded bg-severity-critical/20 text-severity-critical">
                           {stage.scanResult.summary.critical} Critical

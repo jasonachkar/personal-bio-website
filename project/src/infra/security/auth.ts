@@ -81,7 +81,7 @@ export async function verifySessionToken(
  * @returns Session payload if valid, null otherwise
  */
 export async function getSession(): Promise<SessionPayload | null> {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_CONFIG.cookieName)?.value;
 
   if (!token) {
