@@ -117,7 +117,7 @@ export const contactSchema = z.object({
 export const socialLinkSchema = z.object({
   label: z.string().min(1),
   href: z.string().min(1),
-  type: z.enum(['email', 'linkedin', 'github', 'resume-download']),
+  type: z.enum(['email', 'linkedin', 'github', 'resume-download', 'resume-preview']),
 });
 
 export const socialSchema = z.array(socialLinkSchema);

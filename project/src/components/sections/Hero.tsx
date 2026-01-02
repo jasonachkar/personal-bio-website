@@ -8,6 +8,7 @@ import Badge from '../ui/Badge';
 import { Shield, Cloud, Lock } from 'lucide-react';
 import { scrollVariants, transitions } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { downloadResume } from '@/lib/resume';
 
 type HeroProps = {
   onNavigate: (id: SectionId) => void;
@@ -34,9 +35,14 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
     prefersReducedMotion ? [1, 1] : [1, 0]
   );
 
-  const handleCta = (href: string) => {
+  const handleCta = async (href: string, label: string) => {
     if (href.startsWith('#')) {
       onNavigate(href.replace('#', '') as SectionId);
+      return;
+    }
+    // Handle resume download
+    if (href === '/resume.pdf' && label.toLowerCase().includes('resume')) {
+      await downloadResume();
       return;
     }
     if (href.startsWith('/')) {
@@ -95,7 +101,7 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
                 <Button
                   key={cta.label}
                   variant={cta.kind === 'primary' ? 'primary' : 'ghost'}
-                  onClick={() => handleCta(cta.href)}
+                  onClick={() => handleCta(cta.href, cta.label)}
                 >
                   {cta.label}
                 </Button>

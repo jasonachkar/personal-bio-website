@@ -15,6 +15,11 @@
     "type": "github"
   },
   {
+    "label": "Preview Resume",
+    "href": "/resume.pdf",
+    "type": "resume-preview"
+  },
+  {
     "label": "Download Resume",
     "href": "/resume.pdf",
     "type": "resume-download"

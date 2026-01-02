@@ -5,6 +5,11 @@ export const socialLinks: SocialLink[] = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jasonachkar', type: 'linkedin' },
   { label: 'GitHub', href: 'https://github.com/jasonachkar', type: 'github' },
   {
+    label: 'Preview Resume',
+    href: '/resume.pdf',
+    type: 'resume-preview',
+  },
+  {
     label: 'Download Resume',
     href: '/resume.pdf',
     type: 'resume-download',

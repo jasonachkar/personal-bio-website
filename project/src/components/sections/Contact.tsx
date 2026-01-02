@@ -9,6 +9,7 @@ import { Button } from '../ui/Button';
 import type { Contact, SocialLink } from '@/lib/schemas';
 import { scrollVariants, viewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { previewResume, downloadResume } from '@/lib/resume';
 
 interface ContactProps {
   content: Contact;
@@ -176,23 +177,69 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
             Prefer async? Reach out via email or socials. Resume is available to preview or download.
           </p>
           <div className="space-y-2">
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-                rel="noreferrer"
-                className="flex items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
-                initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
-                whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                viewport={viewportSettings}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
-              >
-                <span>{link.label}</span>
-                <span className="text-xs uppercase tracking-wide text-primary">{link.type}</span>
-              </motion.a>
-            ))}
+            {socialLinks.map((link, index) => {
+              // Handle resume preview and download with custom functions
+              if (link.type === 'resume-preview') {
+                return (
+                  <motion.button
+                    key={link.type}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      previewResume();
+                    }}
+                    className="flex w-full items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-left text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
+                    initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
+                    whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    viewport={viewportSettings}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
+                  >
+                    <span>{link.label}</span>
+                    <span className="text-xs uppercase tracking-wide text-primary">{link.type}</span>
+                  </motion.button>
+                );
+              }
+
+              if (link.type === 'resume-download') {
+                return (
+                  <motion.button
+                    key={link.type}
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await downloadResume();
+                    }}
+                    className="flex w-full items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-left text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
+                    initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
+                    whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    viewport={viewportSettings}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
+                  >
+                    <span>{link.label}</span>
+                    <span className="text-xs uppercase tracking-wide text-primary">{link.type}</span>
+                  </motion.button>
+                );
+              }
+
+              // Regular links (email, LinkedIn, GitHub)
+              return (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel="noreferrer"
+                  className="flex items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
+                  initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
+                  whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                  viewport={viewportSettings}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
+                >
+                  <span>{link.label}</span>
+                  <span className="text-xs uppercase tracking-wide text-primary">{link.type}</span>
+                </motion.a>
+              );
+            })}
           </div>
         </Card>
       </motion.div>
