@@ -1,9 +1,12 @@
 'use client';
 
+import { memo, useMemo } from 'react';
 import { Shield, Network, Cloud, GitBranch, ExternalLink, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
+import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ShowcaseCardProps {
   icon: React.ElementType;
@@ -25,13 +28,15 @@ function ShowcaseCard({
   gradient,
 }: ShowcaseCardProps) {
   const isLive = status === 'live';
+  const prefersReducedMotion = useReducedMotion();
+  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardSlideUp, [prefersReducedMotion]);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      variants={itemVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportSettings}
       className="group relative"
     >
       <Link
@@ -90,7 +95,12 @@ function ShowcaseCard({
   );
 }
 
-export default function Showcases() {
+function Showcases() {
+  const prefersReducedMotion = useReducedMotion();
+  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
+  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
+  const footerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion]);
+
   const showcases: ShowcaseCardProps[] = [
     {
       icon: Shield,
@@ -158,10 +168,10 @@ export default function Showcases() {
     <section id="showcases" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           className="text-center mb-12"
         >
           <h2 className="text-headline font-bold text-text-primary mb-4">
@@ -174,17 +184,24 @@ export default function Showcases() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           {showcases.map((showcase, index) => (
             <ShowcaseCard key={index} {...showcase} />
           ))}
-        </div>
+        </motion.div>
 
         {/* Technical Note */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          variants={footerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-12 p-6 rounded-lg border border-border bg-background-card/50"
         >
@@ -209,3 +226,5 @@ export default function Showcases() {
     </section>
   );
 }
+
+export default memo(Showcases);

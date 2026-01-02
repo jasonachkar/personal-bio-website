@@ -1,8 +1,11 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, GraduationCap, Award, CheckCircle2 } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Certification, Education } from '@/lib/schemas';
+import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface CertificationsProps {
   certifications: Certification[];
@@ -10,6 +13,11 @@ interface CertificationsProps {
 }
 
 const Certifications = ({ certifications, education }: CertificationsProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
+  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
+  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
+
   return (
     <section
       id="certifications"
@@ -17,10 +25,10 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
     >
       <div className="mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -32,21 +40,30 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
         </motion.div>
 
         <div className="mb-16">
-          <div className="mb-8 flex items-center gap-3">
+          <motion.div
+            variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="mb-8 flex items-center gap-3"
+          >
             <Award className="h-6 w-6 text-primary" />
             <h3 className="text-2xl font-semibold text-text-primary">Certifications</h3>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {certifications.map((cert, index) => (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {certifications.map((cert) => (
               <motion.div
                 key={cert.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={itemVariants}
               >
-                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6 transition-all hover:border-primary/50 hover:shadow-lg">
+                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6">
                   <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
                     <Shield className="h-8 w-8 text-primary/20" />
                   </div>
@@ -79,25 +96,34 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         <div>
-          <div className="mb-8 flex items-center gap-3">
+          <motion.div
+            variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="mb-8 flex items-center gap-3"
+          >
             <GraduationCap className="h-6 w-6 text-secondary" />
             <h3 className="text-2xl font-semibold text-text-primary">Education</h3>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            {education.map((edu, index) => (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="grid gap-6 lg:grid-cols-2"
+          >
+            {education.map((edu) => (
               <motion.div
                 key={edu.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={itemVariants}
               >
-                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6 transition-all hover:border-secondary/50 hover:shadow-lg">
+                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6">
                   {edu.status === 'in-progress' && (
                     <div className="absolute right-4 top-4">
                       <span className="inline-flex items-center gap-1 rounded-full bg-secondary/20 px-3 py-1 text-xs font-medium text-secondary">
@@ -148,11 +174,11 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 };
 
-export default Certifications;
+export default memo(Certifications);

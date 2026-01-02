@@ -46,12 +46,6 @@ const nextConfig = {
 
   // Compress responses
   compress: true,
-
-  // Optimize fonts
-  optimizeFonts: true,
-
-  // SWC minification (faster than Terser)
-  swcMinify: true,
 };
 
 module.exports = nextConfig;

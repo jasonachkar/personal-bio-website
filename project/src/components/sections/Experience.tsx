@@ -1,13 +1,21 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, MapPin, Calendar, Shield, Code } from 'lucide-react';
 import Badge from '../ui/Badge';
 import type { Experience } from '@/lib/schemas';
+import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ExperienceProps {
   experience: Experience[];
 }
 
 const Experience = ({ experience }: ExperienceProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
+  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
+  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.slideLeft, [prefersReducedMotion]);
+
   return (
     <section
       id="experience"
@@ -15,10 +23,10 @@ const Experience = ({ experience }: ExperienceProps) => {
     >
       <div className="mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -32,14 +40,17 @@ const Experience = ({ experience }: ExperienceProps) => {
         <div className="relative">
           <div className="absolute left-8 top-0 hidden h-full w-0.5 bg-gradient-to-b from-primary via-secondary to-accent opacity-30 md:block" />
 
-          <div className="space-y-12">
-            {experience.map((exp, index) => (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="space-y-12"
+          >
+            {experience.map((exp) => (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={itemVariants}
                 className="relative"
               >
                 <div className="absolute left-6 top-6 hidden h-5 w-5 rounded-full border-4 border-primary bg-background shadow-lg shadow-primary/50 md:block" />
@@ -121,11 +132,11 @@ const Experience = ({ experience }: ExperienceProps) => {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 };
 
-export default Experience;
+export default memo(Experience);

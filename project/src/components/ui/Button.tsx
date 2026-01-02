@@ -1,5 +1,10 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../lib/cn';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { buttonVariants, transitions } from '@/utils/animations';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
 
@@ -33,32 +38,71 @@ const variantStyles: Record<Variant, string> = {
 };
 
 export const Button = ({ variant = 'primary', icon, className, children, ...rest }: ButtonProps) => {
+  const prefersReducedMotion = useReducedMotion();
   const baseClasses =
     'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50 disabled:cursor-not-allowed';
 
+  const buttonContent = (
+    <>
+      {children}
+      {icon}
+    </>
+  );
+
   if ('href' in rest && rest.href) {
+    if (prefersReducedMotion) {
+      return (
+        <a
+          {...rest}
+          className={cn(baseClasses, variantStyles[variant], className)}
+        >
+          {buttonContent}
+        </a>
+      );
+    }
+
     return (
-      <a
+      <motion.a
         {...rest}
         className={cn(baseClasses, variantStyles[variant], className)}
+        variants={buttonVariants}
+        initial="rest"
+        whileHover="hover"
+        whileTap="tap"
+        transition={transitions.fast}
       >
-        {children}
-        {icon}
-      </a>
+        {buttonContent}
+      </motion.a>
     );
   }
 
   const { type = 'button', ...buttonProps } = rest as ButtonHTMLAttributes<HTMLButtonElement>;
 
+  if (prefersReducedMotion) {
+    return (
+      <button
+        type={type}
+        {...buttonProps}
+        className={cn(baseClasses, variantStyles[variant], className)}
+      >
+        {buttonContent}
+      </button>
+    );
+  }
+
   return (
-    <button
+    <motion.button
       type={type}
       {...buttonProps}
       className={cn(baseClasses, variantStyles[variant], className)}
+      variants={buttonVariants}
+      initial="rest"
+      whileHover="hover"
+      whileTap="tap"
+      transition={transitions.fast}
     >
-      {children}
-      {icon}
-    </button>
+      {buttonContent}
+    </motion.button>
   );
 };
 

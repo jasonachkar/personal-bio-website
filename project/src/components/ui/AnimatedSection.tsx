@@ -2,21 +2,42 @@
 
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { scrollVariants, transitions, viewportSettings } from '@/utils/animations';
+import type { Variants } from 'framer-motion';
 
 interface AnimatedSectionProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  variant?: keyof typeof scrollVariants;
 }
 
-export function AnimatedSection({ children, className = '', delay = 0 }: AnimatedSectionProps) {
+export function AnimatedSection({
+  children,
+  className = '',
+  delay = 0,
+  variant = 'fadeUp',
+}: AnimatedSectionProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const animationVariants = scrollVariants[variant] as Variants;
+
+  // If reduced motion is preferred, use instant transitions
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.5, delay }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportSettings}
+      variants={animationVariants}
+      transition={{ ...transitions.smooth, delay }}
       className={className}
+      style={{
+        contain: 'layout style paint',
+      }}
     >
       {children}
     </motion.div>

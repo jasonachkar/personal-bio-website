@@ -1,8 +1,11 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Clock, Tag, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Writeup } from '@/lib/schemas';
+import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface WriteupsProps {
   writeups: Writeup[];
@@ -17,6 +20,11 @@ const categoryColors = {
 };
 
 const Writeups = ({ writeups }: WriteupsProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
+  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
+  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
+
   return (
     <section
       id="writeups"
@@ -24,10 +32,10 @@ const Writeups = ({ writeups }: WriteupsProps) => {
     >
       <div className="mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -38,14 +46,17 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {writeups.map((writeup, index) => (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {writeups.map((writeup) => (
             <motion.div
               key={writeup.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
+              variants={itemVariants}
             >
               <Card className="group relative h-full overflow-hidden border border-border bg-background-card transition-all hover:border-primary/50 hover:shadow-lg">
                 <div className="p-6">
@@ -99,12 +110,13 @@ const Writeups = ({ writeups }: WriteupsProps) => {
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          variants={useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion])}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12 text-center"
         >
@@ -126,4 +138,4 @@ const Writeups = ({ writeups }: WriteupsProps) => {
   );
 };
 
-export default Writeups;
+export default memo(Writeups);

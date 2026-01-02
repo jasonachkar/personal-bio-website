@@ -1,10 +1,13 @@
-import { motion } from 'framer-motion';
+import { memo, useMemo, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import type { SectionId } from '../../data/types';
 import type { Hero as HeroContent } from '@/lib/schemas';
 import { Button } from '../ui/Button';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import { Shield, Cloud, Lock } from 'lucide-react';
+import { scrollVariants, transitions } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 type HeroProps = {
   onNavigate: (id: SectionId) => void;
@@ -12,6 +15,25 @@ type HeroProps = {
 };
 
 const Hero = ({ onNavigate, content }: HeroProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Parallax transforms (only if motion is not reduced) - optimized for performance
+  const yTransform = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, -30]
+  );
+  const opacityTransform = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    prefersReducedMotion ? [1, 1] : [1, 0]
+  );
+
   const handleCta = (href: string) => {
     if (href.startsWith('#')) {
       onNavigate(href.replace('#', '') as SectionId);
@@ -24,20 +46,33 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
     window.open(href, '_blank', 'noreferrer');
   };
 
+  const leftVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeIn, [prefersReducedMotion]);
+  const rightVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.scaleFade, [prefersReducedMotion]);
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-40"
     >
-      <div className="absolute inset-0 bg-grid bg-[size:120px_120px] opacity-[0.03] dark:opacity-[0.08]" aria-hidden="true" />
+      <motion.div
+        style={{ 
+          y: yTransform, 
+          opacity: opacityTransform,
+          willChange: prefersReducedMotion ? 'auto' : 'transform, opacity',
+        }}
+        className="absolute inset-0 bg-grid bg-[size:120px_120px] opacity-[0.03] dark:opacity-[0.08]"
+        aria-hidden="true"
+      />
       <div className="absolute inset-0 bg-radial-fade" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6">
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            variants={leftVariants}
+            initial="hidden"
+            animate="visible"
+            transition={transitions.smooth}
             className="flex flex-col gap-6"
           >
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-primary">
@@ -86,9 +121,10 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={rightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ ...transitions.smooth, delay: 0.2 }}
           >
             <Card className="glass-panel relative overflow-hidden rounded-3xl border border-border bg-background-card p-6">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
@@ -144,4 +180,4 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
   );
 };
 
-export default Hero;
+export default memo(Hero);

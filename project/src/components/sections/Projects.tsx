@@ -1,41 +1,56 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Project } from '@/lib/schemas';
+import { scrollVariants, staggerContainer, viewportSettings, transitions } from '@/utils/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ProjectsProps {
   projects: Project[];
 }
 
-const Projects = ({ projects }: ProjectsProps) => (
-  <section id="projects" className="relative overflow-hidden py-20 md:py-28">
-    <div className="mx-auto max-w-6xl px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-12 text-center"
-      >
-        <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
-          Featured Projects
-        </h2>
-        <p className="mx-auto max-w-2xl text-lg text-text-secondary">
-          Cybersecurity projects demonstrating security architecture, threat detection, and secure development practices
-        </p>
-      </motion.div>
+const Projects = ({ projects }: ProjectsProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
+  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
+  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.05 }}
-          >
-            <Card className="group relative h-full overflow-hidden border border-border bg-background-card transition-all hover:border-primary/50 hover:shadow-lg">
+  return (
+    <section id="projects" className="relative overflow-hidden py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="mb-12 text-center"
+        >
+          <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
+            Featured Projects
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-text-secondary">
+            Cybersecurity projects demonstrating security architecture, threat detection, and secure development practices
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          style={{ contain: 'layout style paint' }}
+        >
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              variants={itemVariants}
+              custom={index}
+              style={{ contain: 'layout style paint' }}
+            >
+              <Card className="group relative h-full overflow-hidden border border-border bg-background-card">
               <div className="p-6">
                 <div className="mb-4 flex items-start justify-between gap-2">
                   <h3 className="text-xl font-semibold text-text-primary transition-colors group-hover:text-primary">
@@ -94,31 +109,33 @@ const Projects = ({ projects }: ProjectsProps) => (
             </Card>
           </motion.div>
         ))}
+        </motion.div>
+
+        <motion.div
+          variants={prefersReducedMotion ? {} : scrollVariants.fade}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          transition={{ ...transitions.smooth, delay: 0.3 }}
+          className="mt-12 text-center"
+        >
+          <p className="text-text-secondary">
+            More projects and labs in development. Check my{' '}
+            <a
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-medium text-primary hover:text-primary-hover"
+            >
+              GitHub
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            {' '}for the latest updates.
+          </p>
+        </motion.div>
       </div>
+    </section>
+  );
+};
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-12 text-center"
-      >
-        <p className="text-text-secondary">
-          More projects and labs in development. Check my{' '}
-          <a
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-medium text-primary hover:text-primary-hover"
-          >
-            GitHub
-            <ArrowRight className="h-4 w-4" />
-          </a>
-          {' '}for the latest updates.
-        </p>
-      </motion.div>
-    </div>
-  </section>
-);
-
-export default Projects;
+export default memo(Projects);
