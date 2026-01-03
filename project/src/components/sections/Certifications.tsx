@@ -1,11 +1,12 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, GraduationCap, Award, CheckCircle2 } from 'lucide-react';
+import { Shield, GraduationCap, Award, CheckCircle2, ExternalLink, Verified } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Certification, Education } from '@/lib/schemas';
 import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { cn } from '@/lib/cn';
 
 interface CertificationsProps {
   certifications: Certification[];
@@ -63,17 +64,47 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
                 key={cert.id}
                 variants={itemVariants}
               >
-                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6">
+                <Card className="group relative h-full overflow-hidden border border-border bg-background-card p-6 transition-all hover:border-primary/50">
                   <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
                     <Shield className="h-8 w-8 text-primary/20" />
                   </div>
 
-                  <div className="mb-4">
+                  {/* Verification Badge */}
+                  {(cert as any).verificationUrl && (
+                    <div className="absolute left-4 top-4">
+                      <motion.a
+                        href={(cert as any).verificationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          'inline-flex items-center gap-1.5 rounded-full bg-severity-low/20 px-3 py-1.5',
+                          'text-xs font-semibold text-severity-low border border-severity-low/30',
+                          'hover:bg-severity-low/30 transition-colors'
+                        )}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Verified className="h-3.5 w-3.5" />
+                        Verified
+                        <ExternalLink className="h-3 w-3" />
+                      </motion.a>
+                    </div>
+                  )}
+
+                  <div className={cn('mb-4', (cert as any).verificationUrl && 'mt-10')}>
                     <h4 className="mb-2 text-xl font-semibold text-text-primary">
                       {cert.name}
                     </h4>
                     <p className="mb-1 text-sm font-medium text-primary">{cert.issuer}</p>
-                    <p className="text-sm text-text-muted">{cert.date}</p>
+                    <div className="flex items-center gap-2 text-sm text-text-muted">
+                      <span>{cert.date}</span>
+                      {(cert as any).credentialId && (
+                        <>
+                          <span>•</span>
+                          <span className="font-mono text-xs">ID: {(cert as any).credentialId}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   <p className="mb-4 text-sm text-text-secondary">{cert.description}</p>

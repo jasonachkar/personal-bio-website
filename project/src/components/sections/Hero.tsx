@@ -1,14 +1,15 @@
-import { memo, useMemo, useRef } from 'react';
+import { memo, useMemo, useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import type { SectionId } from '../../data/types';
 import type { Hero as HeroContent } from '@/lib/schemas';
 import { Button } from '../ui/Button';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
-import { Shield, Cloud, Lock } from 'lucide-react';
+import { Shield, Cloud, Lock, TrendingUp } from 'lucide-react';
 import { scrollVariants, transitions } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { downloadResume } from '@/lib/resume';
+import { fadeScaleVariants } from '@/utils/microInteractions';
 
 type HeroProps = {
   onNavigate: (id: SectionId) => void;
@@ -67,9 +68,10 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
           opacity: opacityTransform,
           willChange: prefersReducedMotion ? 'auto' : 'transform, opacity',
         }}
-        className="absolute inset-0 bg-grid bg-[size:120px_120px] opacity-[0.03] dark:opacity-[0.08]"
+        className="absolute inset-0 bg-cyber-grid opacity-[0.03] dark:opacity-[0.08]"
         aria-hidden="true"
       />
+      <div className="absolute inset-0 bg-cyber-mesh opacity-30" aria-hidden="true" />
       <div className="absolute inset-0 bg-radial-fade" aria-hidden="true" />
 
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6">
@@ -132,8 +134,9 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
             animate="visible"
             transition={{ ...transitions.smooth, delay: 0.2 }}
           >
-            <Card className="glass-panel relative overflow-hidden rounded-3xl border border-border bg-background-card p-6">
+            <Card className="glass-panel relative overflow-hidden rounded-3xl border border-border bg-background-card p-6 terminal-border">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+              <div className="absolute inset-0 hex-pattern opacity-30 pointer-events-none" />
 
               <div className="relative z-10 space-y-6">
                 <div className="flex items-center justify-between">
@@ -148,14 +151,8 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  {content.stats.map((stat) => (
-                    <div key={stat.label} className="rounded-xl border border-border bg-background-elevated p-4">
-                      <div className="text-2xl font-bold text-primary">{stat.value}</div>
-                      <div className="text-xs font-semibold uppercase tracking-wide text-text-muted">
-                        {stat.label}
-                      </div>
-                      <p className="mt-1 text-[11px] text-text-secondary">{stat.detail}</p>
-                    </div>
+                  {content.stats.map((stat, idx) => (
+                    <AnimatedStatCard key={stat.label} stat={stat} delay={idx * 0.1} prefersReducedMotion={prefersReducedMotion} />
                   ))}
                 </div>
 
@@ -185,5 +182,66 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
     </section>
   );
 };
+
+// Animated stat card with counter
+function AnimatedStatCard({ 
+  stat, 
+  delay, 
+  prefersReducedMotion 
+}: { 
+  stat: { label: string; value: string; detail: string }; 
+  delay: number; 
+  prefersReducedMotion: boolean;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [displayValue, setDisplayValue] = useState('0');
+  const numericValue = parseInt(stat.value.replace(/\D/g, '')) || 0;
+  const hasNumber = numericValue > 0;
+  
+  useEffect(() => {
+    if (isVisible && hasNumber && !prefersReducedMotion) {
+      let current = 0;
+      const increment = numericValue / 30;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= numericValue) {
+          setDisplayValue(numericValue.toString());
+          clearInterval(timer);
+        } else {
+          setDisplayValue(Math.floor(current).toString());
+        }
+      }, 20);
+      return () => clearInterval(timer);
+    } else if (isVisible) {
+      setDisplayValue(stat.value);
+    }
+  }, [isVisible, numericValue, hasNumber, prefersReducedMotion, stat.value]);
+
+  return (
+    <motion.div
+      variants={fadeScaleVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ delay }}
+      onViewportEnter={() => setIsVisible(true)}
+      className="rounded-xl border border-border bg-background-elevated p-4 transition-all hover:border-primary/50 hover:bg-background-card"
+    >
+      {hasNumber ? (
+        <div className="text-2xl font-bold text-primary">
+          {displayValue}
+          {stat.value.includes('+') && '+'}
+          {stat.value.includes('yrs') && ' yrs'}
+        </div>
+      ) : (
+        <div className="text-2xl font-bold text-primary">{stat.value}</div>
+      )}
+      <div className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+        {stat.label}
+      </div>
+      <p className="mt-1 text-[11px] text-text-secondary">{stat.detail}</p>
+    </motion.div>
+  );
+}
 
 export default memo(Hero);

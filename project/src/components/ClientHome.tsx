@@ -6,6 +6,7 @@ import Certifications from '@/components/sections/Certifications';
 import Experience from '@/components/sections/Experience';
 import Projects from '@/components/sections/Projects';
 import Showcases from '@/components/sections/Showcases';
+import { CaseStudies } from '@/components/sections/CaseStudies';
 import Writeups from '@/components/sections/Writeups';
 import Contact from '@/components/sections/Contact';
 import type {
@@ -58,6 +59,7 @@ export default function ClientHome({
       <Experience experience={experience} />
       <Projects projects={projects} />
       <Showcases />
+      <CaseStudies />
       <Writeups writeups={writeups} />
       <Contact content={contactContent} socialLinks={socialLinks} />
     </main>

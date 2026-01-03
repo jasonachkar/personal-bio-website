@@ -1,21 +1,61 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Shield, Network, Loader2, AlertTriangle, Download, FileText } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
+import { Shield, Network, Loader2, AlertTriangle, Download, FileText, BarChart3, Grid, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Tabs } from '@/components/ui/Tabs';
 import { ArchitectureDiagram } from './ArchitectureDiagram';
 import { ThreatList } from './ThreatList';
-import type { ThreatModelTemplate } from '../types';
+import { LiveThreatScanner } from './LiveThreatScanner';
+import { RiskDashboard } from './RiskDashboard';
+import { ThreatIntelligencePanel } from './ThreatIntelligencePanel';
+import { ThreatMatrix } from './ThreatMatrix';
+import { CloudComplianceMapper } from './CloudComplianceMapper';
+import { ThreatDetailsViewer } from './ThreatDetailsViewer';
+import type { ThreatModelTemplate, Threat, CloudProvider } from '../types';
+import { detectCloudProvider } from '../utils/threatAnalyzer';
 
-type TabId = 'architecture' | 'threats' | 'summary';
+type TabId = 'architecture' | 'threats' | 'summary' | 'risk' | 'intelligence' | 'compliance';
 
 export function ThreatModelingPlayground({ className }: { className?: string }) {
   const [template, setTemplate] = useState<ThreatModelTemplate | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabId>('architecture');
+  const [dynamicThreats, setDynamicThreats] = useState<Threat[]>([]);
+  const [selectedThreat, setSelectedThreat] = useState<Threat | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
+
+  // All hooks must be called before any conditional returns
+  const allThreats = useMemo(() => {
+    if (!template) return [];
+    return [...template.threats, ...dynamicThreats];
+  }, [template?.threats, dynamicThreats]);
+
+  const cloudProvider = useMemo(() => {
+    if (!template) return undefined;
+    return detectCloudProvider(template.components);
+  }, [template?.components]);
+
+  const stats = useMemo(() => {
+    if (!template) {
+      return {
+        totalThreats: 0,
+        criticalThreats: 0,
+        highThreats: 0,
+        implementedMitigations: 0,
+        totalMitigations: 0,
+      };
+    }
+    return {
+      totalThreats: allThreats.length,
+      criticalThreats: allThreats.filter((t) => t.severity === 'critical').length,
+      highThreats: allThreats.filter((t) => t.severity === 'high').length,
+      implementedMitigations: template.mitigations.filter((m) => m.implemented).length,
+      totalMitigations: template.mitigations.length,
+    };
+  }, [template, allThreats]);
 
   useEffect(() => {
     async function loadTemplate() {
@@ -109,14 +149,6 @@ Generated on ${new Date().toLocaleDateString()}
     );
   }
 
-  const stats = {
-    totalThreats: template.threats.length,
-    criticalThreats: template.threats.filter((t) => t.severity === 'critical').length,
-    highThreats: template.threats.filter((t) => t.severity === 'high').length,
-    implementedMitigations: template.mitigations.filter((m) => m.implemented).length,
-    totalMitigations: template.mitigations.length,
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -145,6 +177,14 @@ Generated on ${new Date().toLocaleDateString()}
             Export
           </button>
         </div>
+
+        {/* Live Threat Scanner */}
+        <LiveThreatScanner
+          components={template.components}
+          dataFlows={template.dataFlows}
+          trustBoundaries={template.trustBoundaries}
+          onThreatsGenerated={setDynamicThreats}
+        />
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -178,6 +218,9 @@ Generated on ${new Date().toLocaleDateString()}
             tabs={[
               { id: 'architecture', label: 'Architecture' },
               { id: 'threats', label: 'Threats & Mitigations' },
+              { id: 'risk', label: 'Risk Dashboard' },
+              { id: 'intelligence', label: 'Threat Intelligence' },
+              { id: 'compliance', label: 'Compliance' },
               { id: 'summary', label: 'Summary' },
             ]}
             activeTab={activeTab}
@@ -187,15 +230,49 @@ Generated on ${new Date().toLocaleDateString()}
           />
 
           {activeTab === 'architecture' && (
-            <ArchitectureDiagram
-              components={template.components}
-              dataFlows={template.dataFlows}
-              trustBoundaries={template.trustBoundaries}
-            />
+            <div className="space-y-6">
+              <ArchitectureDiagram
+                components={template.components}
+                dataFlows={template.dataFlows}
+                trustBoundaries={template.trustBoundaries}
+                onComponentClick={(comp) => setSelectedComponent(comp.id)}
+              />
+              {allThreats.length > 0 && (
+                <ThreatMatrix threats={allThreats} components={template.components} />
+              )}
+            </div>
           )}
 
           {activeTab === 'threats' && (
-            <ThreatList threats={template.threats} mitigations={template.mitigations} />
+            <div className="space-y-6">
+              <ThreatList
+                threats={allThreats}
+                mitigations={template.mitigations}
+                onThreatClick={setSelectedThreat}
+              />
+              {selectedThreat && (
+                <ThreatDetailsViewer threat={selectedThreat} />
+              )}
+            </div>
+          )}
+
+          {activeTab === 'risk' && (
+            <RiskDashboard threats={allThreats} />
+          )}
+
+          {activeTab === 'intelligence' && (
+            <div className="space-y-6">
+              <ThreatIntelligencePanel
+                component={selectedComponent ? template.components.find(c => c.id === selectedComponent) : undefined}
+              />
+            </div>
+          )}
+
+          {activeTab === 'compliance' && cloudProvider && (
+            <CloudComplianceMapper
+              provider={cloudProvider}
+              threats={allThreats}
+            />
           )}
 
           {activeTab === 'summary' && (

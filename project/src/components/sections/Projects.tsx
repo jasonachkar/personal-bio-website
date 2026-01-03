@@ -50,8 +50,9 @@ const Projects = ({ projects }: ProjectsProps) => {
               custom={index}
               style={{ contain: 'layout style paint' }}
             >
-              <Card className="group relative h-full overflow-hidden border border-border bg-background-card">
-              <div className="p-6">
+              <Card className="group relative h-full overflow-hidden border border-border bg-background-card terminal-border">
+              <div className="absolute inset-0 hex-pattern opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div className="p-6 relative z-10">
                 <div className="mb-4 flex items-start justify-between gap-2">
                   <h3 className="text-xl font-semibold text-text-primary transition-colors group-hover:text-primary">
                     {project.title}

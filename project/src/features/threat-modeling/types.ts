@@ -83,3 +83,139 @@ export interface StrideMapping {
     threats: Omit<Threat, 'id' | 'affectedComponents'>[];
   };
 }
+
+// MITRE ATT&CK Types
+export interface MitreTactic {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  techniques: string[];
+}
+
+export interface MitreTechnique {
+  id: string;
+  name: string;
+  description: string;
+  tactics: string[];
+  platforms: string[];
+  kill_chain_phases?: string[];
+  detection?: string[];
+  mitigation?: string[];
+  url: string;
+  subtechniques?: MitreTechnique[];
+}
+
+export interface MitreTechniqueDetails {
+  id: string;
+  name: string;
+  description: string;
+  tactics: string[];
+  platforms: string[];
+  kill_chain_phases?: string[];
+  url: string;
+  subtechniques?: MitreTechnique[];
+  examples?: Array<{
+    description: string;
+    name: string;
+  }>;
+  detection?: Array<{
+    description: string;
+    name: string;
+  }>;
+  mitigation?: Array<{
+    description: string;
+    name: string;
+  }>;
+}
+
+export interface MitreMapping {
+  tactics: string[];
+  techniques: string[];
+  subtechniques?: string[];
+}
+
+// CVE Types
+export interface CVE {
+  id: string;
+  description: string;
+  cvssScore?: number;
+  cvssVector?: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  publishedDate: string;
+  affectedTechnologies: string[];
+  references: string[];
+}
+
+export interface CVEDetails extends CVE {
+  cweId?: string;
+  affectedVersions?: string[];
+  remediation?: string;
+}
+
+// Cloud Security Types
+export type CloudProvider = 'aws' | 'azure' | 'gcp';
+
+export interface CloudConfig {
+  provider: CloudProvider;
+  region?: string;
+  accountId?: string;
+  credentials?: Record<string, string>; // For simulation, not real credentials
+}
+
+export interface CloudFinding {
+  id: string;
+  title: string;
+  description: string;
+  severity: Severity;
+  service: string;
+  resourceId?: string;
+  complianceFramework?: string[];
+  recommendation: string;
+  category: 'misconfiguration' | 'vulnerability' | 'compliance' | 'threat';
+}
+
+export interface ComplianceStatus {
+  framework: string;
+  score: number;
+  passed: number;
+  failed: number;
+  total: number;
+  findings: CloudFinding[];
+}
+
+// Threat Analysis Types
+export interface ThreatAnalysis {
+  components: ThreatModelComponent[];
+  dataFlows: DataFlow[];
+  identifiedRisks: string[];
+  trustBoundaries: TrustBoundary[];
+  cloudProvider?: CloudProvider;
+}
+
+export interface RiskScore {
+  overall: number;
+  confidentiality: number;
+  integrity: number;
+  availability: number;
+  factors: {
+    cveCount: number;
+    mitreTechniqueCount: number;
+    cloudMisconfigurations: number;
+    unencryptedFlows: number;
+  };
+}
+
+// Component Library Types
+export interface ComponentTemplate {
+  id: string;
+  name: string;
+  type: ComponentType;
+  provider?: CloudProvider;
+  service?: string;
+  description: string;
+  defaultMetadata: ThreatModelComponent['metadata'];
+  knownVulnerabilities?: string[];
+  bestPractices?: string[];
+  icon?: string;
+}

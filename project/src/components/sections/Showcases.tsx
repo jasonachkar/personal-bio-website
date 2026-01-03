@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import { Shield, Network, Cloud, GitBranch, ExternalLink, ArrowRight } from 'lucide-react';
+import { Shield, Network, Cloud, GitBranch, Search, ExternalLink, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
@@ -42,14 +42,17 @@ function ShowcaseCard({
       <Link
         href={isLive ? href : '#'}
         className={cn(
-          'block h-full rounded-xl border border-border bg-background-card p-6 transition-all duration-300',
+          'block h-full rounded-xl border border-border bg-background-card p-6 transition-all duration-300 relative overflow-hidden',
           isLive
-            ? 'hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10'
+            ? 'hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 terminal-border'
             : 'cursor-not-allowed opacity-60'
         )}
       >
+        {isLive && (
+          <div className="absolute inset-0 hex-pattern opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        )}
         {/* Status Badge */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-10">
           <span
             className={cn(
               'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold uppercase',
@@ -63,12 +66,13 @@ function ShowcaseCard({
         </div>
 
         {/* Icon with Gradient */}
-        <div className={cn('w-14 h-14 rounded-lg flex items-center justify-center mb-4', gradient)}>
+        <div className={cn('w-14 h-14 rounded-lg flex items-center justify-center mb-4 relative z-10', gradient)}>
           <Icon className="h-7 w-7 text-white" />
         </div>
 
         {/* Content */}
-        <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-primary transition-colors">
+        <div className="relative z-10">
+        <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-primary transition-colors glitch-effect">
           {title}
         </h3>
         <p className="text-text-secondary mb-4 leading-relaxed">{description}</p>
@@ -90,6 +94,7 @@ function ShowcaseCard({
             <ExternalLink className="h-4 w-4" />
           </div>
         )}
+        </div>
       </Link>
     </motion.div>
   );
@@ -102,6 +107,21 @@ function Showcases() {
   const footerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion]);
 
   const showcases: ShowcaseCardProps[] = [
+    {
+      icon: Search,
+      title: 'Vulnerability Scanner',
+      description:
+        'Interactive security scanner demonstrating OWASP Top 10 vulnerabilities with CVSS scoring, remediation guidance, and code examples.',
+      features: [
+        'OWASP Top 10 (2021) vulnerability showcase',
+        'CVSS v3.1 scoring with visual indicators',
+        'Detailed remediation guides with code examples',
+        'CWE/CVE reference mapping',
+      ],
+      href: '/vulnerability-scanner',
+      status: 'live',
+      gradient: 'bg-gradient-to-br from-severity-critical to-severity-high',
+    },
     {
       icon: Shield,
       title: 'SIEM Detection Console',

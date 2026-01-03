@@ -68,4 +68,38 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/yourusername/devsecops-pipeline',
     thumbnail: '/thumbnails/devsecops.jpg',
   },
+  {
+    id: 'vulnerability-scanner',
+    title: 'Automated Vulnerability Scanner',
+    category: 'cyber',
+    description:
+      'Comprehensive web application security scanner that identifies OWASP Top 10 vulnerabilities, performs CVSS scoring, and provides detailed remediation guidance. Features automated scanning, severity classification, and compliance mapping.',
+    tech: ['Python', 'OWASP', 'CVSS', 'REST API', 'Security Testing'],
+    role: 'Security Engineer',
+    repoUrl: 'https://github.com/yourusername/vulnerability-scanner',
+    demoUrl: '/vulnerability-scanner',
+    thumbnail: '/thumbnails/vuln-scanner.jpg',
+  },
+  {
+    id: 'network-analyzer',
+    title: 'Network Traffic Analyzer',
+    category: 'cyber',
+    description:
+      'Real-time network traffic analysis tool for detecting anomalies, security threats, and suspicious patterns. Features packet capture analysis, protocol inspection, anomaly detection, and threat intelligence integration.',
+    tech: ['Python', 'Wireshark', 'NetworkX', 'Packet Analysis', 'Security Monitoring'],
+    role: 'Security Engineer',
+    repoUrl: 'https://github.com/yourusername/network-analyzer',
+    thumbnail: '/thumbnails/network-analyzer.jpg',
+  },
+  {
+    id: 'pentest-framework',
+    title: 'Penetration Testing Framework',
+    category: 'cyber',
+    description:
+      'Comprehensive penetration testing framework with automated exploit detection, vulnerability assessment, and security testing capabilities. Integrates with popular security tools and provides structured reporting.',
+    tech: ['Python', 'Metasploit', 'Nmap', 'Security Testing', 'Exploit Development'],
+    role: 'Security Engineer',
+    repoUrl: 'https://github.com/yourusername/pentest-framework',
+    thumbnail: '/thumbnails/pentest.jpg',
+  },
 ];

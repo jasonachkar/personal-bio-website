@@ -11,13 +11,19 @@
   "/api/azure/route": "app/api/azure/route.js",
   "/api/content/[section]/route": "app/api/content/[section]/route.js",
   "/api/devsecops/route": "app/api/devsecops/route.js",
+  "/api/security-scan/route": "app/api/security-scan/route.js",
   "/api/siem/detect/route": "app/api/siem/detect/route.js",
   "/api/siem/events/route": "app/api/siem/events/route.js",
   "/api/siem/rules/route": "app/api/siem/rules/route.js",
+  "/api/threat-modeling/cloud-security/route": "app/api/threat-modeling/cloud-security/route.js",
+  "/api/threat-modeling/cve/route": "app/api/threat-modeling/cve/route.js",
+  "/api/threat-modeling/mitre/route": "app/api/threat-modeling/mitre/route.js",
   "/api/threat-models/route": "app/api/threat-models/route.js",
+  "/api/vulnerability-scanner/route": "app/api/vulnerability-scanner/route.js",
   "/azure-blueprint/page": "app/azure-blueprint/page.js",
   "/devsecops/page": "app/devsecops/page.js",
   "/page": "app/page.js",
   "/siem/page": "app/siem/page.js",
-  "/threat-modeling/page": "app/threat-modeling/page.js"
+  "/threat-modeling/page": "app/threat-modeling/page.js",
+  "/vulnerability-scanner/page": "app/vulnerability-scanner/page.js"
 }

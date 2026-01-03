@@ -17,6 +17,7 @@ const Card = ({ children, className, glow = false }: CardProps) => {
 
   const cardClasses = cn(
     'relative overflow-hidden rounded-2xl border border-border bg-background-card p-6 shadow-card',
+    'transition-all hover:border-primary/50',
     glow && 'before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/10 before:via-accent/10 before:to-transparent before:opacity-60 before:blur-3xl',
     className,
   );
