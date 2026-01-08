@@ -5,7 +5,7 @@ export const caseStudies: CaseStudy[] = [
     id: '1',
     title: 'Multi-Cloud Security Posture Enhancement',
     category: 'cloud',
-    problem: 'Organization had inconsistent security configurations across Azure and AWS, with 45% of resources non-compliant with CIS Benchmarks. Multiple misconfigurations exposed sensitive data and increased attack surface.',
+    problem: 'SES & Technologies Ltd. had inconsistent security configurations across Azure and AWS, with 45% of resources non-compliant with CIS Benchmarks. Multiple misconfigurations exposed sensitive data and increased attack surface.',
     analysis: 'Conducted comprehensive security assessment using Azure Security Center and AWS Security Hub. Identified 127 misconfigurations across storage accounts, IAM policies, and network security groups. Root cause: lack of centralized security governance and automated compliance checking.',
     solution: 'Implemented Infrastructure as Code (Terraform) with security policies, automated compliance scanning via Azure Policy and AWS Config, and established security baseline configurations. Created custom detection rules in Microsoft Sentinel for real-time misconfiguration alerts.',
     impact: {
@@ -34,7 +34,7 @@ export const caseStudies: CaseStudy[] = [
       'Infrastructure as Code prevents configuration drift',
       'Centralized security monitoring provides visibility across multi-cloud environments',
     ],
-    date: '2024-11-15',
+    date: '2025-08-02',
     duration: '3 months',
     status: 'completed',
   },
@@ -42,7 +42,7 @@ export const caseStudies: CaseStudy[] = [
     id: '2',
     title: 'SIEM Detection Engineering for Advanced Threats',
     category: 'detection',
-    problem: 'Security team was missing advanced persistent threats (APTs) due to insufficient detection coverage. Only 8 out of 14 MITRE ATT&CK tactics had detection rules, leaving significant blind spots.',
+    problem: 'Matrox Graphics Inc. Security team was missing advanced persistent threats (APTs) due to insufficient detection coverage. Only 8 out of 14 MITRE ATT&CK tactics had detection rules, leaving significant blind spots.',
     analysis: 'Analyzed 6 months of security logs and identified gaps in detection coverage. Most existing rules were signature-based and failed to detect behavioral anomalies. Missing detections for lateral movement, privilege escalation, and data exfiltration techniques.',
     solution: 'Developed 34 custom KQL-based detection rules covering missing MITRE tactics. Implemented behavioral analytics for anomaly detection, created correlation rules for multi-stage attacks, and established automated response playbooks. Achieved 85% MITRE ATT&CK coverage.',
     impact: {
