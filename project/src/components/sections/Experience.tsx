@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { Briefcase, MapPin, Calendar, Shield, Code } from 'lucide-react';
 import Badge from '../ui/Badge';
 import type { Experience } from '@/lib/schemas';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface ExperienceProps {
   experience: Experience[];
@@ -12,6 +13,8 @@ interface ExperienceProps {
 
 const Experience = ({ experience }: ExperienceProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.slideLeft, [prefersReducedMotion]);
@@ -26,7 +29,7 @@ const Experience = ({ experience }: ExperienceProps) => {
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -44,7 +47,7 @@ const Experience = ({ experience }: ExperienceProps) => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="space-y-12"
           >
             {experience.map((exp) => (

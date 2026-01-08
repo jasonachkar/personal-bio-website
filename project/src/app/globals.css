@@ -65,6 +65,37 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  /* Progressive enhancement: Ensure content is visible even if animations fail */
+  /* All animated sections should start visible by default */
+  section,
+  [data-animated],
+  [class*="motion"],
+  [class*="animate"] {
+    opacity: 1 !important;
+  }
+
+  /* If JavaScript is disabled or animations fail, content remains visible */
+  .no-js section,
+  .no-js [data-animated],
+  .no-js [class*="motion"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Mobile-specific: Reduce animation complexity for better performance */
+  @media (max-width: 1023px) {
+    * {
+      /* Reduce will-change usage on mobile for better performance */
+      will-change: auto !important;
+    }
+
+    /* Ensure faster animations on mobile */
+    [class*="motion"],
+    [data-animated] {
+      transition-duration: 250ms !important;
+    }
+  }
 }
 
 @layer utilities {

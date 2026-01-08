@@ -2,6 +2,7 @@
 
 import type { Variants, Transition } from 'framer-motion';
 
+
 // Easing functions for smooth animations
 export const easings = {
   easeOutCubic: [0.16, 1, 0.3, 1] as [number, number, number, number],
@@ -10,7 +11,7 @@ export const easings = {
   spring: { type: 'spring', stiffness: 300, damping: 30 },
 };
 
-// Base transition settings
+// Base transition settings - use default values (mobile optimization happens in variants)
 export const transitions = {
   smooth: {
     duration: 0.35,
@@ -27,129 +28,128 @@ export const transitions = {
   spring: easings.spring,
 };
 
+// Mobile-optimized transitions (faster for better performance)
+export const mobileTransitions = {
+  smooth: {
+    duration: 0.25,
+    ease: easings.easeOutCubic,
+  } as Transition,
+  fast: {
+    duration: 0.2,
+    ease: easings.easeOutCubic,
+  } as Transition,
+  slow: {
+    duration: 0.3,
+    ease: easings.easeOutCubic,
+  } as Transition,
+};
+
+// Get transform values based on device type (reduced on mobile for performance)
+// These are called at runtime when variants are used, not at module load
+const getTransformY = (isMobile: boolean) => isMobile ? 10 : 30;
+const getTransformX = (isMobile: boolean) => isMobile ? 10 : 30;
+const getScale = (isMobile: boolean) => isMobile ? 0.98 : 0.95;
+
 // Animation variants for scroll-triggered animations
+// Mobile-optimized: smaller transforms, faster transitions, no willChange issues
 export const scrollVariants: Record<string, Variants> = {
   fadeUp: {
     hidden: { 
-      opacity: 0, 
-      y: 30,
-      willChange: 'transform, opacity',
+      opacity: 0.01, // Use 0.01 instead of 0 for better fallback (nearly invisible but still renders)
+      y: 30, // Default desktop value, mobile optimization happens via getScrollVariants
     },
     visible: {
       opacity: 1,
       y: 0,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   fadeDown: {
     hidden: { 
-      opacity: 0, 
+      opacity: 0.01,
       y: -30,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       y: 0,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   scaleFade: {
     hidden: { 
-      opacity: 0, 
+      opacity: 0.01,
       scale: 0.95,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       scale: 1,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   slideLeft: {
     hidden: { 
-      opacity: 0, 
+      opacity: 0.01,
       x: -30,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       x: 0,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   slideRight: {
     hidden: { 
-      opacity: 0, 
+      opacity: 0.01,
       x: 30,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       x: 0,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   fadeIn: {
     hidden: { 
-      opacity: 0,
-      willChange: 'opacity',
+      opacity: 0.01,
     },
     visible: {
       opacity: 1,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   fade: {
     hidden: { 
-      opacity: 0,
-      willChange: 'opacity',
+      opacity: 0.01,
     },
     visible: {
       opacity: 1,
-      willChange: 'auto',
       transition: transitions.smooth,
     },
   },
   cardReveal: {
     hidden: { 
-      opacity: 0, 
-      scale: 0.92, 
+      opacity: 0.01,
+      scale: 0.92,
       rotate: -1,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       scale: 1,
       rotate: 0,
-      willChange: 'auto',
-      transition: {
-        duration: 0.4,
-        ease: easings.easeOutCubic,
-      },
+      transition: transitions.slow,
     },
   },
   cardSlideUp: {
     hidden: { 
-      opacity: 0, 
-      scale: 0.95, 
+      opacity: 0.01,
+      scale: 0.95,
       y: 30,
-      willChange: 'transform, opacity',
     },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
-      willChange: 'auto',
-      transition: {
-        duration: 0.35,
-        ease: easings.easeOutCubic,
-      },
+      transition: transitions.smooth,
     },
   },
 };
@@ -166,7 +166,7 @@ export const staggerContainer: Variants = {
   },
 };
 
-// Card hover animation variants
+// Card hover animation variants - Mobile optimization happens at component level
 export const cardHoverVariants = {
   rest: {
     scale: 1,
@@ -208,10 +208,28 @@ export const badgeVariants = {
   },
 };
 
-// Viewport settings for scroll animations
-export const viewportSettings = {
+// Viewport settings for scroll animations - Desktop (aggressive)
+const desktopViewportSettings = {
   once: true,
   margin: '-50px',
   amount: 0.3,
 };
+
+// Viewport settings for scroll animations - Mobile (safer, triggers earlier)
+const mobileViewportSettings = {
+  once: true,
+  margin: '-10px', // Smaller negative margin for mobile
+  amount: 0.1, // Lower threshold - triggers earlier
+};
+
+// Get viewport settings based on device type
+export const getViewportSettings = (isMobile?: boolean) => {
+  if (typeof window === 'undefined') return mobileViewportSettings; // SSR default to safe mobile
+  // If isMobile is provided, use it; otherwise default to mobile (safer)
+  const mobile = isMobile !== undefined ? isMobile : true;
+  return mobile ? mobileViewportSettings : desktopViewportSettings;
+};
+
+// Default viewport settings (will be determined client-side)
+export const viewportSettings = desktopViewportSettings;
 

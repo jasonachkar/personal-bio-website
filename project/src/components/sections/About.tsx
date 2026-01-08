@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, Target } from 'lucide-react';
 import Card from '../ui/Card';
 import type { About } from '@/lib/schemas';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface AboutProps {
   content: About;
@@ -12,6 +13,8 @@ interface AboutProps {
 
 const About = ({ content }: AboutProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const paragraphVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
@@ -23,7 +26,7 @@ const About = ({ content }: AboutProps) => {
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -38,8 +41,9 @@ const About = ({ content }: AboutProps) => {
           <motion.div
             variants={containerVariants}
             initial="hidden"
+            animate="visible"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="lg:col-span-2 space-y-6"
           >
             {content.paragraphs.map((paragraph, index) => (
@@ -57,8 +61,9 @@ const About = ({ content }: AboutProps) => {
             <motion.div
               variants={paragraphVariants}
               initial="hidden"
+              animate="visible"
               whileInView="visible"
-              viewport={viewportSettings}
+              viewport={viewport}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-8"
             >
@@ -80,8 +85,9 @@ const About = ({ content }: AboutProps) => {
           <motion.div
             variants={prefersReducedMotion ? {} : scrollVariants.slideRight}
             initial="hidden"
+            animate="visible"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-4"
           >
@@ -89,8 +95,9 @@ const About = ({ content }: AboutProps) => {
             <motion.div
               variants={containerVariants}
               initial="hidden"
+              animate="visible"
               whileInView="visible"
-              viewport={viewportSettings}
+              viewport={viewport}
               className="space-y-3"
             >
               {content.coreStrengths.map((strength, index) => (

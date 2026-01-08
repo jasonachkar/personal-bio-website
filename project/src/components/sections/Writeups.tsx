@@ -4,8 +4,9 @@ import { FileText, Clock, Tag, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Writeup } from '@/lib/schemas';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { WriteupViewer } from './WriteupViewer';
 
 interface WriteupsProps {
@@ -22,6 +23,8 @@ const categoryColors = {
 
 const Writeups = ({ writeups }: WriteupsProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const [selectedWriteup, setSelectedWriteup] = useState<Writeup | null>(null);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
@@ -38,7 +41,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -53,7 +56,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           {writeups.map((writeup) => (
@@ -123,7 +126,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           variants={useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion])}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12 text-center"
         >

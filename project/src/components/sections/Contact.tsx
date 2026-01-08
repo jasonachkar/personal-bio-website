@@ -8,8 +8,9 @@ import SectionHeader from '../ui/SectionHeader';
 import Card from '../ui/Card';
 import { Button } from '../ui/Button';
 import type { Contact, SocialLink } from '@/lib/schemas';
-import { scrollVariants, viewportSettings } from '@/utils/animations';
+import { scrollVariants, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { previewResume, downloadResume } from '@/lib/resume';
 
 interface ContactProps {
@@ -27,6 +28,8 @@ const initialForm: FormState = { name: '', email: '', message: '' };
 
 const Contact = ({ content, socialLinks }: ContactProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const [form, setForm] = useState<FormState>(initialForm);
   const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'loading'>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -140,8 +143,9 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
       <motion.div
         variants={cardVariants}
         initial="hidden"
+        animate="visible"
         whileInView="visible"
-        viewport={viewportSettings}
+        viewport={viewport}
         className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]"
       >
         <Card className="space-y-4">
@@ -224,7 +228,7 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
                     className="flex w-full items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-left text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
                     initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
                     whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                    viewport={viewportSettings}
+                    viewport={viewport}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
                   >
@@ -245,7 +249,7 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
                     className="flex w-full items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-left text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
                     initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
                     whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                    viewport={viewportSettings}
+                    viewport={viewport}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
                   >
@@ -265,7 +269,7 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
                   className="flex items-center justify-between rounded-xl border border-border bg-background-elevated px-4 py-3 text-text-secondary transition hover:border-primary/60 hover:text-text-primary"
                   initial={prefersReducedMotion ? {} : { opacity: 0, x: -20 }}
                   whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-                  viewport={viewportSettings}
+                  viewport={viewport}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
                 >

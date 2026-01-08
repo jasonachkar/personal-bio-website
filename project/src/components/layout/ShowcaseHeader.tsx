@@ -46,7 +46,7 @@ export function ShowcaseHeader({
           {/* Left: Back to Home Navigation */}
           <div className="flex items-start gap-4">
             <Link
-              href="/"
+              href="/#showcases"
               className={cn(
                 'group flex items-center gap-2 rounded-lg px-3 py-2',
                 'text-sm font-medium text-text-secondary',
@@ -56,14 +56,14 @@ export function ShowcaseHeader({
                 'focus-visible:outline-offset-2 focus-visible:outline-primary',
                 'active:scale-95'
               )}
-              aria-label="Return to portfolio home page"
+              aria-label="Return to interactive showcases section"
             >
               <ArrowLeft
                 className="h-4 w-4 transition-transform group-hover:-translate-x-1"
                 aria-hidden="true"
               />
-              <span className="hidden sm:inline">Back to Home</span>
-              <span className="sm:hidden">Home</span>
+              <span className="hidden sm:inline">Back to Showcases</span>
+              <span className="sm:hidden">Showcases</span>
             </Link>
 
             {/* Breadcrumb Separator */}

@@ -8,12 +8,15 @@ import { CaseStudyCard } from '@/features/case-studies/components/CaseStudyCard'
 import { CaseStudyViewer } from '@/features/case-studies/components/CaseStudyViewer';
 import { caseStudies } from '@/features/case-studies/data';
 import type { CaseStudy } from '@/features/case-studies/types';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export function CaseStudies() {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
 
@@ -31,7 +34,7 @@ export function CaseStudies() {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {caseStudies.map((caseStudy, index) => (

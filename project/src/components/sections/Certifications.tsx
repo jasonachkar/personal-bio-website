@@ -4,8 +4,9 @@ import { Shield, GraduationCap, Award, CheckCircle2, ExternalLink, Verified } fr
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Certification, Education } from '@/lib/schemas';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { cn } from '@/lib/cn';
 
 interface CertificationsProps {
@@ -15,6 +16,8 @@ interface CertificationsProps {
 
 const Certifications = ({ certifications, education }: CertificationsProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
@@ -28,8 +31,9 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
         <motion.div
           variants={headerVariants}
           initial="hidden"
+          animate="visible"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -45,7 +49,7 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
             variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="mb-8 flex items-center gap-3"
           >
             <Award className="h-6 w-6 text-primary" />
@@ -56,7 +60,7 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
             {certifications.map((cert) => (
@@ -135,7 +139,7 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
             variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="mb-8 flex items-center gap-3"
           >
             <GraduationCap className="h-6 w-6 text-secondary" />
@@ -146,7 +150,7 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportSettings}
+            viewport={viewport}
             className="grid gap-6 lg:grid-cols-2"
           >
             {education.map((edu) => (

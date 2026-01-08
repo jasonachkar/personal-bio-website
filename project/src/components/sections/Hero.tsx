@@ -6,8 +6,9 @@ import { Button } from '../ui/Button';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import { Shield, Cloud, Lock, TrendingUp } from 'lucide-react';
-import { scrollVariants, transitions } from '@/utils/animations';
+import { scrollVariants, transitions, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { downloadResume } from '@/lib/resume';
 import { fadeScaleVariants } from '@/utils/microInteractions';
 
@@ -18,6 +19,7 @@ type HeroProps = {
 
 const Hero = ({ onNavigate, content }: HeroProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -193,6 +195,7 @@ function AnimatedStatCard({
   delay: number; 
   prefersReducedMotion: boolean;
 }) {
+  const isMobile = useIsMobile();
   const [isVisible, setIsVisible] = useState(false);
   const [displayValue, setDisplayValue] = useState('0');
   const numericValue = parseInt(stat.value.replace(/\D/g, '')) || 0;
@@ -222,7 +225,7 @@ function AnimatedStatCard({
       variants={fadeScaleVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
+      viewport={getViewportSettings(isMobile)}
       transition={{ delay }}
       onViewportEnter={() => setIsVisible(true)}
       className="rounded-xl border border-border bg-background-elevated p-4 transition-all hover:border-primary/50 hover:bg-background-card"

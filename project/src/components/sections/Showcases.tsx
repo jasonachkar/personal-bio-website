@@ -5,8 +5,9 @@ import { Shield, Network, Cloud, GitBranch, Search, ExternalLink, ArrowRight } f
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
-import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface ShowcaseCardProps {
   icon: React.ElementType;
@@ -29,6 +30,8 @@ function ShowcaseCard({
 }: ShowcaseCardProps) {
   const isLive = status === 'live';
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardSlideUp, [prefersReducedMotion]);
 
   return (
@@ -36,7 +39,7 @@ function ShowcaseCard({
       variants={itemVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={viewportSettings}
+      viewport={viewport}
       className="group relative"
     >
       <Link
@@ -102,6 +105,8 @@ function ShowcaseCard({
 
 function Showcases() {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const footerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion]);
@@ -189,9 +194,9 @@ function Showcases() {
       <div className="container mx-auto px-4">
         <motion.div
           variants={headerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
           className="text-center mb-12"
         >
           <h2 className="text-headline font-bold text-text-primary mb-4">
@@ -206,9 +211,9 @@ function Showcases() {
 
         <motion.div
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {showcases.map((showcase, index) => (
@@ -219,9 +224,9 @@ function Showcases() {
         {/* Technical Note */}
         <motion.div
           variants={footerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-12 p-6 rounded-lg border border-border bg-background-card/50"
         >

@@ -4,8 +4,9 @@ import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Project } from '@/lib/schemas';
-import { scrollVariants, staggerContainer, viewportSettings, transitions } from '@/utils/animations';
+import { scrollVariants, staggerContainer, getViewportSettings, transitions } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface ProjectsProps {
   projects: Project[];
@@ -13,6 +14,8 @@ interface ProjectsProps {
 
 const Projects = ({ projects }: ProjectsProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const viewport = getViewportSettings(isMobile);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
@@ -24,7 +27,7 @@ const Projects = ({ projects }: ProjectsProps) => {
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
@@ -39,7 +42,7 @@ const Projects = ({ projects }: ProjectsProps) => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           style={{ contain: 'layout style paint' }}
         >
@@ -116,7 +119,7 @@ const Projects = ({ projects }: ProjectsProps) => {
           variants={prefersReducedMotion ? {} : scrollVariants.fade}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSettings}
+          viewport={viewport}
           transition={{ ...transitions.smooth, delay: 0.3 }}
           className="mt-12 text-center"
         >
