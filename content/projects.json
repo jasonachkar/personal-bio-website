@@ -12,7 +12,7 @@
       "KQL"
     ],
     "role": "Security architecture & infrastructure automation",
-    "repoUrl": "https://github.com/jasonachkar/azure-landing-zone",
+    "repoUrl": "https://github.com/jasonachkar/azure-secure-landing-zone-baseline",
     "thumbnail": "/thumbnails/azure-landing-zone.jpg"
   },
   {
@@ -28,7 +28,7 @@
       "MITRE ATT&CK"
     ],
     "role": "Detection engineering & threat hunting",
-    "repoUrl": "https://github.com/jasonachkar/sentinel-detections",
+    "repoUrl": "https://github.com/jasonachkar/microsoft-sentinel-siem-detection",
     "thumbnail": "/thumbnails/sentinel.jpg"
   },
   {
@@ -46,7 +46,7 @@
     ],
     "role": "Secure architecture & implementation",
     "repoUrl": "https://github.com/jasonachkar/secure-api-gateway",
-    "demoUrl": "https://api-gateway-demo.yourdomain.com",
+    "demoUrl": "https://secure-api-gateway-gold.vercel.app/",
     "thumbnail": "/thumbnails/api-gateway.jpg"
   },
   {
@@ -77,7 +77,7 @@
       "Security Scanner"
     ],
     "role": "Security compliance & automation",
-    "repoUrl": "https://github.com/jasonachkar/cloud-hardening",
+    "repoUrl": "https://github.com/jasonachkar/cloud-security-hardening-checklist",
     "thumbnail": "/thumbnails/cloud-hardening.jpg"
   },
   {

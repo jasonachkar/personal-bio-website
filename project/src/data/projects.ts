@@ -9,7 +9,7 @@ export const projects: Project[] = [
       'Infrastructure-as-Code implementation of Azure landing zone with security best practices. Includes network segmentation, Azure Policy enforcement, RBAC configuration, centralized logging to Log Analytics, and compliance monitoring.',
     tech: ['Azure', 'Terraform', 'Azure Policy', 'ARM Templates', 'KQL'],
     role: 'Security architecture & infrastructure automation',
-    repoUrl: 'https://github.com/jasonachkar/azure-landing-zone',
+    repoUrl: 'https://github.com/jasonachkar/azure-secure-landing-zone-baseline',
     thumbnail: '/thumbnails/azure-landing-zone.jpg',
   },
   {
@@ -20,7 +20,7 @@ export const projects: Project[] = [
       'Collection of KQL-based detection rules for Azure Sentinel targeting common attack patterns. Includes detections for suspicious authentication, privilege escalation, lateral movement, and data exfiltration with MITRE ATT&CK mapping.',
     tech: ['Microsoft Sentinel', 'KQL', 'Azure Monitor', 'Logic Apps', 'MITRE ATT&CK'],
     role: 'Detection engineering & threat hunting',
-    repoUrl: 'https://github.com/jasonachkar/sentinel-detections',
+    repoUrl: 'https://github.com/jasonachkar/microsoft-sentinel-siem-detection',
     thumbnail: '/thumbnails/sentinel.jpg',
   },
   {
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     tech: ['Node.js', 'Express', 'Redis', 'JWT', 'Helmet', 'Express-validator'],
     role: 'Secure architecture & implementation',
     repoUrl: 'https://github.com/jasonachkar/secure-api-gateway',
-    demoUrl: 'https://api-gateway-demo.yourdomain.com',
+    demoUrl: 'https://secure-api-gateway-gold.vercel.app/',
     thumbnail: '/thumbnails/api-gateway.jpg',
   },
   {
@@ -54,7 +54,7 @@ export const projects: Project[] = [
       'CIS Benchmark-aligned security hardening guide for Azure and AWS environments. Covers identity management, network security, encryption, logging, compliance, and automated verification scripts for continuous compliance monitoring.',
     tech: ['Azure', 'CIS Benchmarks', 'PowerShell', 'Azure CLI', 'Security Scanner'],
     role: 'Security compliance & automation',
-    repoUrl: 'https://github.com/jasonachkar/cloud-hardening',
+    repoUrl: 'https://github.com/jasonachkar/cloud-security-hardening-checklist',
     thumbnail: '/thumbnails/cloud-hardening.jpg',
   },
   {
