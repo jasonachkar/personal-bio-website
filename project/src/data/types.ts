@@ -128,4 +128,5 @@ export type Writeup = {
   tags: string[];
   content?: string;
   category: 'tutorial' | 'research' | 'certification-notes' | 'lab-report' | 'analysis';
+  githubUrl?: string;
 };

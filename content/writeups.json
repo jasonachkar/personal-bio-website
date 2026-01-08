@@ -12,7 +12,8 @@
       "Governance",
       "Best Practices"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/blob/main/docs/tutorials/azure-landing-zone/README.md"
   },
   {
     "id": "owasp-api-top-10",
@@ -27,7 +28,8 @@
       "Web Security",
       "Best Practices"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/tutorials/owasp-api-security-top-10"
   },
   {
     "id": "threat-modeling-web-app",
@@ -41,7 +43,8 @@
       "AppSec",
       "Risk Assessment"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/research/threat-modeling-saas"
   },
   {
     "id": "sentinel-detection-engineering",
@@ -56,7 +59,8 @@
       "Detection Engineering",
       "Azure"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/tutorials/detection-engineering-sentinel"
   },
   {
     "id": "security-plus-study-guide",
@@ -70,7 +74,8 @@
       "Study Guide",
       "Labs"
     ],
-    "category": "certification-notes"
+    "category": "certification-notes",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/certification-notes/security-plus"
   },
   {
     "id": "oauth-security-analysis",
@@ -84,7 +89,8 @@
       "Web Security",
       "Vulnerabilities"
     ],
-    "category": "research"
+    "category": "research",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/research/oauth-misconfigurations"
   },
   {
     "id": "ci-cd-security-gates",
@@ -99,7 +105,8 @@
       "Container Security",
       "Automation"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/tutorials/ci-cd-gates"
   },
   {
     "id": "azure-entra-id-security",
@@ -114,6 +121,7 @@
       "Zero Trust",
       "MFA"
     ],
-    "category": "tutorial"
+    "category": "tutorial",
+    "githubUrl": "https://github.com/jasonachkar/cybersecurity-writeups/tree/main/docs/tutorials/securing-entra-id"
   }
 ]

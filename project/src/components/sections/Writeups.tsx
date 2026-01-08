@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Clock, Tag, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
@@ -6,6 +6,7 @@ import Badge from '../ui/Badge';
 import type { Writeup } from '@/lib/schemas';
 import { scrollVariants, staggerContainer, viewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { WriteupViewer } from './WriteupViewer';
 
 interface WriteupsProps {
   writeups: Writeup[];
@@ -21,11 +22,13 @@ const categoryColors = {
 
 const Writeups = ({ writeups }: WriteupsProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const [selectedWriteup, setSelectedWriteup] = useState<Writeup | null>(null);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
 
   return (
+    <>
     <section
       id="writeups"
       className="relative overflow-hidden py-20 md:py-28"
@@ -100,13 +103,17 @@ const Writeups = ({ writeups }: WriteupsProps) => {
                     )}
                   </div>
 
-                  <button className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-all group-hover:gap-3">
+                  <button
+                    onClick={() => setSelectedWriteup(writeup)}
+                    className="relative z-10 inline-flex items-center gap-2 text-sm font-medium text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-card rounded"
+                    aria-label={`Read more about ${writeup.title}`}
+                  >
                     Read more
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
 
-                <div className="absolute inset-0 border-2 border-primary/0 transition-all group-hover:border-primary/20" />
+                <div className="absolute inset-0 border-2 border-primary/0 transition-all group-hover:border-primary/20 pointer-events-none" />
               </Card>
             </motion.div>
           ))}
@@ -134,7 +141,15 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           </p>
         </motion.div>
       </div>
-    </section>
+      </section>
+
+      {selectedWriteup && (
+        <WriteupViewer
+          writeup={selectedWriteup}
+          onClose={() => setSelectedWriteup(null)}
+        />
+      )}
+    </>
   );
 };
 

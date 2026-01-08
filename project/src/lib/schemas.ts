@@ -101,6 +101,7 @@ export const writeupSchema = z.object({
   readingTime: z.string().min(1),
   tags: z.array(z.string().min(1)).min(1),
   category: z.enum(['tutorial', 'research', 'certification-notes', 'lab-report', 'analysis']),
+  githubUrl: z.string().url().optional(),
 });
 
 export const writeupsSchema = z.array(writeupSchema);
