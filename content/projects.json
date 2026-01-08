@@ -93,7 +93,7 @@
       "Terraform"
     ],
     "role": "DevSecOps implementation & automation",
-    "repoUrl": "https://github.com/jasonachkar/devsecops-pipeline",
+    "repoUrl": "https://github.com/jasonachkar/devsecops-ci-gates",
     "thumbnail": "/thumbnails/devsecops.jpg"
   }
 ]

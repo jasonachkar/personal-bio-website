@@ -65,7 +65,7 @@ export const projects: Project[] = [
       'Reference CI/CD pipeline integrating security tools: SAST scanning with SonarQube, dependency vulnerability checking, container scanning, infrastructure-as-code security validation, and automated security testing gates.',
     tech: ['GitHub Actions', 'SonarQube', 'Trivy', 'OWASP Dependency-Check', 'Terraform'],
     role: 'DevSecOps implementation & automation',
-    repoUrl: 'https://github.com/jasonachkar/devsecops-pipeline',
+    repoUrl: 'https://github.com/jasonachkar/devsecops-ci-gates',
     thumbnail: '/thumbnails/devsecops.jpg',
   },
   {
