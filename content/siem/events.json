@@ -1,0 +1,851 @@
+[
+  {
+    "id": "evt-001",
+    "timestamp": "2025-01-15T14:23:45Z",
+    "eventType": "authentication",
+    "severity": "medium",
+    "source": {
+      "type": "application",
+      "name": "Azure AD",
+      "agent": "aad-connect-1"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.10",
+      "hostname": "WKS-ADMIN-01"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "failure",
+      "reason": "Invalid password"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 45,
+      "tags": ["failed-login"]
+    },
+    "rawLog": "[2025-01-15T14:23:45Z] AUTH_FAIL: user=admin@corp.com ip=203.0.113.10"
+  },
+  {
+    "id": "evt-002",
+    "timestamp": "2025-01-15T14:24:12Z",
+    "eventType": "authentication",
+    "severity": "medium",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.10"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "failure",
+      "reason": "Invalid password"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 50,
+      "tags": ["failed-login", "brute-force-candidate"]
+    }
+  },
+  {
+    "id": "evt-003",
+    "timestamp": "2025-01-15T14:25:01Z",
+    "eventType": "authentication",
+    "severity": "high",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.10"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "failure",
+      "reason": "Invalid password"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 75,
+      "tags": ["failed-login", "brute-force-pattern"]
+    }
+  },
+  {
+    "id": "evt-004",
+    "timestamp": "2025-01-15T09:15:00Z",
+    "eventType": "authentication",
+    "severity": "critical",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "jsmith@corp.com",
+      "ipAddress": "198.51.100.50"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "success",
+      "reason": "MFA completed",
+      "location": "Tokyo, Japan"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 95,
+      "tags": ["impossible-travel", "suspicious-location"]
+    }
+  },
+  {
+    "id": "evt-005",
+    "timestamp": "2025-01-15T08:30:00Z",
+    "eventType": "authentication",
+    "severity": "low",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "jsmith@corp.com",
+      "ipAddress": "192.0.2.100"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "success",
+      "reason": "Password authentication",
+      "location": "New York, USA"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 10,
+      "tags": ["normal-login"]
+    }
+  },
+  {
+    "id": "evt-006",
+    "timestamp": "2025-01-15T15:42:10Z",
+    "eventType": "process_creation",
+    "severity": "high",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint",
+      "agent": "mde-sensor-2.1"
+    },
+    "actor": {
+      "username": "mwilson@corp.com",
+      "hostname": "WKS-FIN-07",
+      "processName": "cmd.exe",
+      "processId": 4521
+    },
+    "target": {
+      "resource": "powershell.exe"
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "powershell.exe -EncodedCommand SEVYT0JdQVNFNjRfRU5DT0RFRF9DT01NQU5E",
+      "parentProcess": "cmd.exe"
+    },
+    "enrichment": {
+      "mitreTactics": ["Execution", "Defense Evasion"],
+      "mitreTechniques": ["T1059.001", "T1027"],
+      "riskScore": 85,
+      "tags": ["encoded-powershell", "suspicious-execution"]
+    }
+  },
+  {
+    "id": "evt-007",
+    "timestamp": "2025-01-15T16:05:33Z",
+    "eventType": "process_creation",
+    "severity": "critical",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "SYSTEM",
+      "hostname": "SRV-DB-03",
+      "processName": "svchost.exe",
+      "processId": 1248
+    },
+    "target": {
+      "resource": "mimikatz.exe"
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "mimikatz.exe privilege::debug sekurlsa::logonpasswords",
+      "parentProcess": "svchost.exe"
+    },
+    "enrichment": {
+      "mitreTactics": ["Credential Access"],
+      "mitreTechniques": ["T1003.001"],
+      "riskScore": 100,
+      "tags": ["credential-dumping", "mimikatz", "lsass-access"]
+    }
+  },
+  {
+    "id": "evt-008",
+    "timestamp": "2025-01-15T10:12:45Z",
+    "eventType": "process_creation",
+    "severity": "medium",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "tbrown@corp.com",
+      "hostname": "WKS-DEV-12",
+      "processName": "rundll32.exe",
+      "processId": 3344
+    },
+    "target": {
+      "resource": "javascript:alert(1)"
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "rundll32.exe javascript:\"\\..\\mshtml,RunHTMLApplication\";alert(1)",
+      "parentProcess": "explorer.exe"
+    },
+    "enrichment": {
+      "mitreTactics": ["Execution", "Defense Evasion"],
+      "mitreTechniques": ["T1218.011"],
+      "riskScore": 70,
+      "tags": ["lolbin", "rundll32-abuse"]
+    }
+  },
+  {
+    "id": "evt-009",
+    "timestamp": "2025-01-15T13:55:20Z",
+    "eventType": "network_connection",
+    "severity": "high",
+    "source": {
+      "type": "network",
+      "name": "Azure Firewall",
+      "agent": "fw-prod-01"
+    },
+    "actor": {
+      "hostname": "WKS-MKT-05",
+      "ipAddress": "10.0.1.45"
+    },
+    "target": {
+      "ipAddress": "185.220.101.50",
+      "port": 443,
+      "protocol": "HTTPS"
+    },
+    "details": {
+      "action": "connect",
+      "result": "success",
+      "bytesTransferred": 2048,
+      "connectionDuration": 120
+    },
+    "enrichment": {
+      "mitreTactics": ["Command and Control"],
+      "mitreTechniques": ["T1071.001"],
+      "riskScore": 80,
+      "tags": ["c2-candidate", "known-bad-ip", "tor-exit-node"]
+    }
+  },
+  {
+    "id": "evt-010",
+    "timestamp": "2025-01-15T14:12:30Z",
+    "eventType": "network_connection",
+    "severity": "medium",
+    "source": {
+      "type": "network",
+      "name": "DNS Server"
+    },
+    "actor": {
+      "hostname": "WKS-IT-09",
+      "ipAddress": "10.0.2.22"
+    },
+    "target": {
+      "resource": "aHR0cHM6Ly9leGFtcGxlLmNvbS9kYXRh.malicious.com",
+      "protocol": "DNS"
+    },
+    "details": {
+      "action": "dns_query",
+      "result": "success",
+      "queryType": "TXT",
+      "responseSize": 512
+    },
+    "enrichment": {
+      "mitreTactics": ["Command and Control", "Exfiltration"],
+      "mitreTechniques": ["T1071.004", "T1048.003"],
+      "riskScore": 75,
+      "tags": ["dns-tunneling", "base64-subdomain"]
+    }
+  },
+  {
+    "id": "evt-011",
+    "timestamp": "2025-01-15T11:30:15Z",
+    "eventType": "network_connection",
+    "severity": "high",
+    "source": {
+      "type": "network",
+      "name": "Azure Firewall"
+    },
+    "actor": {
+      "hostname": "WKS-SEC-01",
+      "ipAddress": "10.0.3.10"
+    },
+    "target": {
+      "ipAddress": "10.0.10.0/24",
+      "port": 445,
+      "protocol": "SMB"
+    },
+    "details": {
+      "action": "port_scan",
+      "result": "success",
+      "portsScanned": 256,
+      "duration": 30
+    },
+    "enrichment": {
+      "mitreTactics": ["Discovery"],
+      "mitreTechniques": ["T1046"],
+      "riskScore": 65,
+      "tags": ["port-scan", "network-reconnaissance"]
+    }
+  },
+  {
+    "id": "evt-012",
+    "timestamp": "2025-01-15T16:45:00Z",
+    "eventType": "file_access",
+    "severity": "critical",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "unknown",
+      "hostname": "WKS-HR-04",
+      "processName": "ransomware.exe",
+      "processId": 7744
+    },
+    "target": {
+      "resource": "C:\\Users\\Documents\\*.docx"
+    },
+    "details": {
+      "action": "write",
+      "result": "success",
+      "filesModified": 142,
+      "pattern": "mass_encryption"
+    },
+    "enrichment": {
+      "mitreTactics": ["Impact"],
+      "mitreTechniques": ["T1486"],
+      "riskScore": 100,
+      "tags": ["ransomware", "mass-encryption", "data-destruction"]
+    }
+  },
+  {
+    "id": "evt-013",
+    "timestamp": "2025-01-15T16:40:00Z",
+    "eventType": "file_access",
+    "severity": "high",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "unknown",
+      "hostname": "WKS-HR-04",
+      "processName": "vssadmin.exe",
+      "processId": 7710
+    },
+    "target": {
+      "resource": "Shadow Copies"
+    },
+    "details": {
+      "action": "delete",
+      "result": "success",
+      "commandLine": "vssadmin.exe delete shadows /all /quiet"
+    },
+    "enrichment": {
+      "mitreTactics": ["Impact", "Defense Evasion"],
+      "mitreTechniques": ["T1490"],
+      "riskScore": 90,
+      "tags": ["shadow-copy-deletion", "ransomware-prep"]
+    }
+  },
+  {
+    "id": "evt-014",
+    "timestamp": "2025-01-15T12:20:00Z",
+    "eventType": "cloud_iam",
+    "severity": "high",
+    "source": {
+      "type": "cloud",
+      "name": "Azure Activity Log"
+    },
+    "actor": {
+      "username": "devops@corp.com",
+      "userId": "user-5432"
+    },
+    "target": {
+      "resource": "GlobalAdministrator"
+    },
+    "details": {
+      "action": "role_assignment_create",
+      "result": "success",
+      "targetUser": "contractor@external.com"
+    },
+    "enrichment": {
+      "mitreTactics": ["Privilege Escalation", "Persistence"],
+      "mitreTechniques": ["T1098"],
+      "riskScore": 85,
+      "tags": ["privilege-escalation", "external-user", "global-admin"]
+    }
+  },
+  {
+    "id": "evt-015",
+    "timestamp": "2025-01-15T17:30:00Z",
+    "eventType": "cloud_storage",
+    "severity": "critical",
+    "source": {
+      "type": "cloud",
+      "name": "Azure Storage Analytics"
+    },
+    "actor": {
+      "username": "compromised-app",
+      "ipAddress": "203.0.113.99"
+    },
+    "target": {
+      "resource": "sensitive-data-container",
+      "protocol": "HTTPS"
+    },
+    "details": {
+      "action": "blob_download",
+      "result": "success",
+      "bytesTransferred": 524288000,
+      "fileCount": 1500
+    },
+    "enrichment": {
+      "mitreTactics": ["Exfiltration"],
+      "mitreTechniques": ["T1537"],
+      "riskScore": 95,
+      "tags": ["data-exfiltration", "mass-download", "external-ip"]
+    }
+  },
+  {
+    "id": "evt-016",
+    "timestamp": "2025-01-15T14:26:30Z",
+    "eventType": "authentication",
+    "severity": "medium",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.10"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "failure",
+      "reason": "Invalid password"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 80,
+      "tags": ["failed-login", "brute-force-detected"]
+    }
+  },
+  {
+    "id": "evt-017",
+    "timestamp": "2025-01-15T14:27:15Z",
+    "eventType": "authentication",
+    "severity": "critical",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.10"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "failure",
+      "reason": "Invalid password"
+    },
+    "enrichment": {
+      "mitreTactics": ["Initial Access"],
+      "mitreTechniques": ["T1078"],
+      "riskScore": 90,
+      "tags": ["failed-login", "brute-force-active"]
+    }
+  },
+  {
+    "id": "evt-018",
+    "timestamp": "2025-01-15T10:05:00Z",
+    "eventType": "process_creation",
+    "severity": "medium",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "kjones@corp.com",
+      "hostname": "WKS-SALES-02",
+      "processName": "powershell.exe",
+      "processId": 2211
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "powershell.exe Get-Process"
+    },
+    "enrichment": {
+      "mitreTactics": ["Execution"],
+      "mitreTechniques": ["T1059.001"],
+      "riskScore": 30,
+      "tags": ["powershell", "benign-command"]
+    }
+  },
+  {
+    "id": "evt-019",
+    "timestamp": "2025-01-15T15:10:00Z",
+    "eventType": "network_connection",
+    "severity": "low",
+    "source": {
+      "type": "network",
+      "name": "Azure Firewall"
+    },
+    "actor": {
+      "hostname": "WKS-DEV-08",
+      "ipAddress": "10.0.1.88"
+    },
+    "target": {
+      "ipAddress": "13.107.42.14",
+      "port": 443,
+      "protocol": "HTTPS"
+    },
+    "details": {
+      "action": "connect",
+      "result": "success",
+      "destination": "microsoft.com"
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 5,
+      "tags": ["legitimate-traffic"]
+    }
+  },
+  {
+    "id": "evt-020",
+    "timestamp": "2025-01-15T11:45:00Z",
+    "eventType": "authentication",
+    "severity": "low",
+    "source": {
+      "type": "application",
+      "name": "VPN Gateway"
+    },
+    "actor": {
+      "username": "remote-worker@corp.com",
+      "ipAddress": "198.51.100.200"
+    },
+    "details": {
+      "action": "vpn_connect",
+      "result": "success",
+      "mfaMethod": "authenticator-app"
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 10,
+      "tags": ["vpn-access", "remote-work"]
+    }
+  },
+  {
+    "id": "evt-021",
+    "timestamp": "2025-01-15T13:20:00Z",
+    "eventType": "process_creation",
+    "severity": "high",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "maintenance",
+      "hostname": "SRV-APP-05",
+      "processName": "wmic.exe",
+      "processId": 5544
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "wmic process call create \"cmd.exe /c net user hacker Password123! /add\"",
+      "parentProcess": "services.exe"
+    },
+    "enrichment": {
+      "mitreTactics": ["Execution", "Persistence"],
+      "mitreTechniques": ["T1047", "T1136.001"],
+      "riskScore": 85,
+      "tags": ["wmi-execution", "user-creation", "lateral-movement"]
+    }
+  },
+  {
+    "id": "evt-022",
+    "timestamp": "2025-01-15T16:50:00Z",
+    "eventType": "file_access",
+    "severity": "medium",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "backup-service",
+      "hostname": "SRV-FILE-01",
+      "processName": "robocopy.exe",
+      "processId": 3322
+    },
+    "target": {
+      "resource": "\\\\FILESERVER\\Backups"
+    },
+    "details": {
+      "action": "read",
+      "result": "success",
+      "filesAccessed": 500
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 20,
+      "tags": ["backup-operation", "scheduled-task"]
+    }
+  },
+  {
+    "id": "evt-023",
+    "timestamp": "2025-01-15T09:30:00Z",
+    "eventType": "network_connection",
+    "severity": "high",
+    "source": {
+      "type": "network",
+      "name": "Azure Firewall"
+    },
+    "actor": {
+      "hostname": "WKS-FIN-03",
+      "ipAddress": "10.0.1.30"
+    },
+    "target": {
+      "ipAddress": "104.244.42.65",
+      "port": 8443,
+      "protocol": "HTTPS"
+    },
+    "details": {
+      "action": "connect",
+      "result": "success",
+      "frequency": 300,
+      "beaconInterval": 60
+    },
+    "enrichment": {
+      "mitreTactics": ["Command and Control"],
+      "mitreTechniques": ["T1071.001"],
+      "riskScore": 80,
+      "tags": ["c2-beaconing", "regular-interval", "suspicious-destination"]
+    }
+  },
+  {
+    "id": "evt-024",
+    "timestamp": "2025-01-15T15:00:00Z",
+    "eventType": "cloud_iam",
+    "severity": "medium",
+    "source": {
+      "type": "cloud",
+      "name": "Azure Activity Log"
+    },
+    "actor": {
+      "username": "admin@corp.com",
+      "ipAddress": "203.0.113.50"
+    },
+    "target": {
+      "resource": "storage-account-prod"
+    },
+    "details": {
+      "action": "access_key_regenerate",
+      "result": "success"
+    },
+    "enrichment": {
+      "mitreTactics": ["Credential Access"],
+      "mitreTechniques": ["T1552"],
+      "riskScore": 50,
+      "tags": ["key-rotation", "credential-access"]
+    }
+  },
+  {
+    "id": "evt-025",
+    "timestamp": "2025-01-15T11:00:00Z",
+    "eventType": "authentication",
+    "severity": "low",
+    "source": {
+      "type": "application",
+      "name": "Office 365"
+    },
+    "actor": {
+      "username": "employee@corp.com",
+      "ipAddress": "192.0.2.50"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "success",
+      "application": "Outlook Web Access"
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 5,
+      "tags": ["email-access", "normal-activity"]
+    }
+  },
+  {
+    "id": "evt-026",
+    "timestamp": "2025-01-15T14:15:00Z",
+    "eventType": "process_creation",
+    "severity": "high",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "attacker",
+      "hostname": "WKS-COMP-11",
+      "processName": "cmd.exe",
+      "processId": 6677
+    },
+    "target": {
+      "resource": "reg.exe"
+    },
+    "details": {
+      "action": "execute",
+      "result": "success",
+      "commandLine": "reg.exe add HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v Backdoor /d C:\\malware.exe"
+    },
+    "enrichment": {
+      "mitreTactics": ["Persistence"],
+      "mitreTechniques": ["T1547.001"],
+      "riskScore": 85,
+      "tags": ["registry-persistence", "autorun-key"]
+    }
+  },
+  {
+    "id": "evt-027",
+    "timestamp": "2025-01-15T10:40:00Z",
+    "eventType": "network_connection",
+    "severity": "medium",
+    "source": {
+      "type": "network",
+      "name": "DNS Server"
+    },
+    "actor": {
+      "hostname": "WKS-MKT-08",
+      "ipAddress": "10.0.2.45"
+    },
+    "target": {
+      "resource": "unusual-domain-12345.xyz",
+      "protocol": "DNS"
+    },
+    "details": {
+      "action": "dns_query",
+      "result": "success",
+      "domainAge": 2
+    },
+    "enrichment": {
+      "mitreTactics": ["Command and Control"],
+      "mitreTechniques": ["T1071.004"],
+      "riskScore": 60,
+      "tags": ["newly-registered-domain", "dga-candidate"]
+    }
+  },
+  {
+    "id": "evt-028",
+    "timestamp": "2025-01-15T13:10:00Z",
+    "eventType": "file_access",
+    "severity": "low",
+    "source": {
+      "type": "endpoint",
+      "name": "Microsoft Defender for Endpoint"
+    },
+    "actor": {
+      "username": "analyst@corp.com",
+      "hostname": "WKS-SEC-02",
+      "processName": "excel.exe",
+      "processId": 4411
+    },
+    "target": {
+      "resource": "C:\\Reports\\Security-Metrics.xlsx"
+    },
+    "details": {
+      "action": "read",
+      "result": "success"
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 5,
+      "tags": ["document-access", "normal-activity"]
+    }
+  },
+  {
+    "id": "evt-029",
+    "timestamp": "2025-01-15T16:20:00Z",
+    "eventType": "cloud_iam",
+    "severity": "critical",
+    "source": {
+      "type": "cloud",
+      "name": "Azure Activity Log"
+    },
+    "actor": {
+      "username": "service-principal-001",
+      "userId": "sp-9988"
+    },
+    "target": {
+      "resource": "virtual-machine-prod-01"
+    },
+    "details": {
+      "action": "vm_delete",
+      "result": "success"
+    },
+    "enrichment": {
+      "mitreTactics": ["Impact"],
+      "mitreTechniques": ["T1485"],
+      "riskScore": 90,
+      "tags": ["resource-deletion", "service-principal", "destructive-action"]
+    }
+  },
+  {
+    "id": "evt-030",
+    "timestamp": "2025-01-15T12:50:00Z",
+    "eventType": "authentication",
+    "severity": "low",
+    "source": {
+      "type": "application",
+      "name": "Azure AD"
+    },
+    "actor": {
+      "username": "normal-user@corp.com",
+      "ipAddress": "192.0.2.75"
+    },
+    "details": {
+      "action": "authenticate",
+      "result": "success",
+      "mfaMethod": "sms"
+    },
+    "enrichment": {
+      "mitreTactics": [],
+      "mitreTechniques": [],
+      "riskScore": 5,
+      "tags": ["normal-login", "mfa-success"]
+    }
+  }
+]

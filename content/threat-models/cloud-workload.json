@@ -1,0 +1,480 @@
+{
+  "id": "cloud-workload-threat-model",
+  "name": "Cloud-Native Workload Security",
+  "description": "Threat model for a cloud-native application using serverless functions, containers, managed databases, and object storage in a multi-tenant cloud environment.",
+  "components": [
+    {
+      "id": "cdn",
+      "name": "CDN / WAF",
+      "type": "external",
+      "description": "Content delivery network with web application firewall for edge security"
+    },
+    {
+      "id": "api-lambda",
+      "name": "API Lambda Functions",
+      "type": "process",
+      "description": "Serverless functions (AWS Lambda, Azure Functions) handling API requests"
+    },
+    {
+      "id": "container-app",
+      "name": "Containerized Application",
+      "type": "process",
+      "description": "Docker containers running on Kubernetes or managed container service"
+    },
+    {
+      "id": "iam",
+      "name": "Cloud IAM",
+      "type": "process",
+      "description": "Identity and Access Management service managing roles, policies, and service accounts"
+    },
+    {
+      "id": "secrets-manager",
+      "name": "Secrets Manager",
+      "type": "datastore",
+      "description": "Managed secrets service (AWS Secrets Manager, Azure Key Vault) storing API keys and credentials"
+    },
+    {
+      "id": "rds",
+      "name": "Managed Database (RDS)",
+      "type": "datastore",
+      "description": "Managed relational database service with automated backups and encryption"
+    },
+    {
+      "id": "s3",
+      "name": "Object Storage (S3)",
+      "type": "datastore",
+      "description": "Cloud object storage for user uploads, backups, and static assets"
+    },
+    {
+      "id": "message-queue",
+      "name": "Message Queue (SQS/EventBridge)",
+      "type": "process",
+      "description": "Managed message queue for async processing and event-driven architecture"
+    },
+    {
+      "id": "monitoring",
+      "name": "Cloud Monitoring & Logging",
+      "type": "process",
+      "description": "Centralized logging and monitoring service (CloudWatch, Azure Monitor)"
+    },
+    {
+      "id": "container-registry",
+      "name": "Container Registry",
+      "type": "datastore",
+      "description": "Private container image registry (ECR, ACR) storing application images"
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "flow-1",
+      "from": "cdn",
+      "to": "api-lambda",
+      "data": "HTTPS requests with authentication headers"
+    },
+    {
+      "id": "flow-2",
+      "from": "api-lambda",
+      "to": "container-app",
+      "data": "Service-to-service API calls"
+    },
+    {
+      "id": "flow-3",
+      "from": "container-app",
+      "to": "rds",
+      "data": "Database queries with customer data"
+    },
+    {
+      "id": "flow-4",
+      "from": "container-app",
+      "to": "s3",
+      "data": "File uploads and downloads"
+    },
+    {
+      "id": "flow-5",
+      "from": "api-lambda",
+      "to": "secrets-manager",
+      "data": "Credential retrieval requests"
+    },
+    {
+      "id": "flow-6",
+      "from": "container-registry",
+      "to": "container-app",
+      "data": "Container image pulls"
+    }
+  ],
+  "trustBoundaries": [
+    {
+      "id": "boundary-1",
+      "name": "Cloud Account Boundary",
+      "description": "Separates cloud resources from external internet and other cloud accounts"
+    },
+    {
+      "id": "boundary-2",
+      "name": "VPC/Virtual Network Boundary",
+      "description": "Isolates compute resources from public internet and other VPCs"
+    },
+    {
+      "id": "boundary-3",
+      "name": "Container Trust Boundary",
+      "description": "Isolates containers from host and other containers"
+    }
+  ],
+  "threats": [
+    {
+      "id": "cloud-threat-1",
+      "category": "spoofing",
+      "title": "IAM Credential Theft",
+      "description": "Attacker steals long-lived IAM access keys hardcoded in Lambda functions or committed to Git repositories, gaining persistent cloud account access.",
+      "severity": "critical",
+      "affectedComponents": ["api-lambda", "iam"],
+      "mitreTactics": ["Credential Access", "Persistence"],
+      "mitreTechniques": ["T1552.001", "T1078.004"],
+      "cvss": 9.8,
+      "likelihood": "high",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-2",
+      "category": "spoofing",
+      "title": "Container Image Supply Chain Attack",
+      "description": "Compromised base image or malicious package in container introduces backdoor, allowing attacker to compromise all deployed containers.",
+      "severity": "critical",
+      "affectedComponents": ["container-registry", "container-app"],
+      "mitreTactics": ["Initial Access", "Persistence"],
+      "mitreTechniques": ["T1195.001", "T1525"],
+      "cvss": 9.1,
+      "likelihood": "medium",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-3",
+      "category": "spoofing",
+      "title": "Serverless Function Impersonation",
+      "description": "Attacker exploits misconfigured Lambda execution role to impersonate the function and access other cloud resources.",
+      "severity": "high",
+      "affectedComponents": ["api-lambda", "iam"],
+      "mitreTactics": ["Privilege Escalation"],
+      "mitreTechniques": ["T1078.004"],
+      "cvss": 8.1,
+      "likelihood": "medium",
+      "impact": "high"
+    },
+    {
+      "id": "cloud-threat-4",
+      "category": "tampering",
+      "title": "S3 Bucket Poisoning",
+      "description": "Attacker uploads malicious files to S3 bucket with overly permissive write access, replacing legitimate files or injecting malware.",
+      "severity": "high",
+      "affectedComponents": ["s3"],
+      "mitreTactics": ["Impact", "Initial Access"],
+      "mitreTechniques": ["T1565.001", "T1190"],
+      "cvss": 7.5,
+      "likelihood": "medium",
+      "impact": "high"
+    },
+    {
+      "id": "cloud-threat-5",
+      "category": "tampering",
+      "title": "Container Escape",
+      "description": "Attacker exploits container runtime vulnerability or misconfiguration to escape container and access host system or other containers.",
+      "severity": "critical",
+      "affectedComponents": ["container-app"],
+      "mitreTactics": ["Privilege Escalation", "Lateral Movement"],
+      "mitreTechniques": ["T1611", "T1610"],
+      "cwe": "CWE-250",
+      "cvss": 9.0,
+      "likelihood": "low",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-6",
+      "category": "repudiation",
+      "title": "Cloud Audit Log Tampering",
+      "description": "Attacker with elevated permissions disables CloudTrail/Azure Activity Logs or deletes log entries to hide malicious activity.",
+      "severity": "high",
+      "affectedComponents": ["monitoring", "iam"],
+      "mitreTactics": ["Defense Evasion"],
+      "mitreTechniques": ["T1562.008"],
+      "cvss": 7.3,
+      "likelihood": "low",
+      "impact": "high"
+    },
+    {
+      "id": "cloud-threat-7",
+      "category": "repudiation",
+      "title": "Insufficient Lambda Execution Logging",
+      "description": "Lambda functions lack detailed logging of input parameters and business logic decisions, making forensic investigation difficult.",
+      "severity": "medium",
+      "affectedComponents": ["api-lambda", "monitoring"],
+      "mitreTactics": ["Defense Evasion"],
+      "mitreTechniques": ["T1070"],
+      "likelihood": "high",
+      "impact": "medium"
+    },
+    {
+      "id": "cloud-threat-8",
+      "category": "information-disclosure",
+      "title": "Public S3 Bucket Exposure",
+      "description": "S3 bucket containing sensitive data (customer info, backups) misconfigured with public read access, exposing data to internet.",
+      "severity": "critical",
+      "affectedComponents": ["s3"],
+      "mitreTactics": ["Collection", "Exfiltration"],
+      "mitreTechniques": ["T1530", "T1567.002"],
+      "cwe": "CWE-284",
+      "cvss": 9.1,
+      "likelihood": "medium",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-9",
+      "category": "information-disclosure",
+      "title": "RDS Snapshot Exposure",
+      "description": "Database snapshots shared publicly or with untrusted AWS accounts, exposing entire database contents.",
+      "severity": "critical",
+      "affectedComponents": ["rds"],
+      "mitreTactics": ["Collection"],
+      "mitreTechniques": ["T1530"],
+      "cvss": 9.1,
+      "likelihood": "low",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-10",
+      "category": "information-disclosure",
+      "title": "Secrets in Container Images",
+      "description": "API keys, database passwords, or certificates baked into container images and pushed to registry, exposing secrets to anyone with registry access.",
+      "severity": "high",
+      "affectedComponents": ["container-registry", "container-app"],
+      "mitreTactics": ["Credential Access"],
+      "mitreTechniques": ["T1552.001"],
+      "cwe": "CWE-798",
+      "cvss": 7.5,
+      "likelihood": "high",
+      "impact": "high"
+    },
+    {
+      "id": "cloud-threat-11",
+      "category": "information-disclosure",
+      "title": "Metadata Service Exploitation (SSRF)",
+      "description": "Attacker exploits SSRF vulnerability to access cloud metadata service (169.254.169.254), stealing IAM credentials and instance metadata.",
+      "severity": "high",
+      "affectedComponents": ["container-app", "api-lambda"],
+      "mitreTactics": ["Credential Access"],
+      "mitreTechniques": ["T1552.005"],
+      "cwe": "CWE-918",
+      "cvss": 8.6,
+      "likelihood": "medium",
+      "impact": "high"
+    },
+    {
+      "id": "cloud-threat-12",
+      "category": "denial-of-service",
+      "title": "Lambda Throttling Attack",
+      "description": "Attacker triggers mass Lambda invocations to exhaust concurrent execution limits, causing legitimate requests to be throttled.",
+      "severity": "medium",
+      "affectedComponents": ["api-lambda"],
+      "mitreTactics": ["Impact"],
+      "mitreTechniques": ["T1499"],
+      "cvss": 6.5,
+      "likelihood": "medium",
+      "impact": "medium"
+    },
+    {
+      "id": "cloud-threat-13",
+      "category": "denial-of-service",
+      "title": "Cloud Cost Exhaustion (Economic DoS)",
+      "description": "Attacker triggers expensive operations (Lambda invocations, data transfer, storage operations) to generate massive cloud bills.",
+      "severity": "medium",
+      "affectedComponents": ["api-lambda", "s3", "message-queue"],
+      "mitreTactics": ["Impact"],
+      "mitreTechniques": ["T1499"],
+      "likelihood": "medium",
+      "impact": "medium"
+    },
+    {
+      "id": "cloud-threat-14",
+      "category": "elevation-of-privilege",
+      "title": "Overly Permissive IAM Roles",
+      "description": "Lambda execution roles or container service accounts granted overly broad permissions (e.g., s3:*, iam:*), enabling lateral movement if compromised.",
+      "severity": "critical",
+      "affectedComponents": ["iam", "api-lambda", "container-app"],
+      "mitreTactics": ["Privilege Escalation", "Lateral Movement"],
+      "mitreTechniques": ["T1078.004", "T1098"],
+      "cvss": 8.8,
+      "likelihood": "high",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-15",
+      "category": "elevation-of-privilege",
+      "title": "IAM Privilege Escalation",
+      "description": "Attacker with limited IAM permissions exploits misconfigurations (e.g., iam:PassRole, lambda:CreateFunction) to escalate to administrator privileges.",
+      "severity": "critical",
+      "affectedComponents": ["iam"],
+      "mitreTactics": ["Privilege Escalation"],
+      "mitreTechniques": ["T1078.004", "T1098"],
+      "cvss": 9.1,
+      "likelihood": "low",
+      "impact": "critical"
+    },
+    {
+      "id": "cloud-threat-16",
+      "category": "elevation-of-privilege",
+      "title": "Kubernetes RBAC Misconfiguration",
+      "description": "Overly permissive Kubernetes roles (e.g., cluster-admin binding to default service account) allow container breakout to cluster admin.",
+      "severity": "critical",
+      "affectedComponents": ["container-app"],
+      "mitreTactics": ["Privilege Escalation"],
+      "mitreTechniques": ["T1078", "T1610"],
+      "cvss": 9.0,
+      "likelihood": "medium",
+      "impact": "critical"
+    }
+  ],
+  "mitigations": [
+    {
+      "id": "cloud-mit-1",
+      "threatId": "cloud-threat-1",
+      "title": "Use IAM Roles Instead of Access Keys",
+      "description": "Eliminate long-lived access keys. Use IAM roles for Lambda, EC2 instance profiles, IRSA for Kubernetes. Rotate temporary credentials automatically.",
+      "implementation": "Assign IAM roles to all compute resources. Delete all access keys. Use AWS STS for temporary credentials.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-2",
+      "threatId": "cloud-threat-1",
+      "title": "Implement Secret Scanning in CI/CD",
+      "description": "Use tools like git-secrets, TruffleHog, or GitHub Secret Scanning to prevent credential commits.",
+      "implementation": "Add pre-commit hooks and CI/CD pipeline checks to block secret commits.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-3",
+      "threatId": "cloud-threat-2",
+      "title": "Container Image Signing and Verification",
+      "description": "Sign container images with Cosign or Docker Content Trust. Configure admission controllers to only allow signed images.",
+      "implementation": "Use Sigstore/Cosign for signing. Deploy Kubernetes admission webhook to verify signatures.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-4",
+      "threatId": "cloud-threat-2",
+      "title": "Automated Container Vulnerability Scanning",
+      "description": "Scan all container images with Trivy, Clair, or cloud-native scanners. Block deployment of images with critical vulnerabilities.",
+      "implementation": "Integrate Trivy in CI/CD. Set policy: block critical CVEs, fail build on high-severity issues.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-5",
+      "threatId": "cloud-threat-4",
+      "title": "S3 Bucket Policies and ACLs",
+      "description": "Disable public access at account level. Use bucket policies with explicit deny for public access. Enable versioning and MFA delete.",
+      "implementation": "Enable S3 Block Public Access. Use CloudFormation guard rules to prevent public buckets.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-6",
+      "threatId": "cloud-threat-5",
+      "title": "Container Security Hardening",
+      "description": "Run containers as non-root. Use read-only root filesystem. Drop unnecessary Linux capabilities. Enable seccomp and AppArmor profiles.",
+      "implementation": "Set runAsNonRoot: true, readOnlyRootFilesystem: true. Drop all capabilities, add only required ones.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-7",
+      "threatId": "cloud-threat-5",
+      "title": "Runtime Container Security",
+      "description": "Deploy runtime security tools (Falco, Sysdig) to detect container escape attempts and suspicious syscalls.",
+      "implementation": "Deploy Falco with custom rules for container escapes. Alert on CAP_SYS_ADMIN usage.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-8",
+      "threatId": "cloud-threat-6",
+      "title": "Immutable Cloud Audit Logs",
+      "description": "Send CloudTrail/Activity Logs to separate security account with write-only permissions. Enable log file validation.",
+      "implementation": "Configure CloudTrail with cross-account delivery. Use S3 Object Lock for immutability.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-9",
+      "threatId": "cloud-threat-7",
+      "title": "Structured Lambda Logging",
+      "description": "Log all Lambda invocations with request ID, input parameters (sanitized), execution duration, and errors in JSON format.",
+      "implementation": "Use structured logging library (winston, pino). Log to CloudWatch Logs with retention.",
+      "priority": "medium"
+    },
+    {
+      "id": "cloud-mit-10",
+      "threatId": "cloud-threat-8",
+      "title": "S3 Block Public Access",
+      "description": "Enable S3 Block Public Access at account and bucket levels. Use CloudFormation or Terraform to enforce configuration.",
+      "implementation": "Apply account-level block public access. Use AWS Config rules to detect violations.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-11",
+      "threatId": "cloud-threat-9",
+      "title": "RDS Snapshot Encryption and Access Control",
+      "description": "Enable encryption for all RDS snapshots. Never share snapshots publicly. Use KMS keys for encryption.",
+      "implementation": "Set StorageEncrypted: true on RDS. Monitor for public snapshot sharing with CloudWatch Events.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-12",
+      "threatId": "cloud-threat-10",
+      "title": "Secrets Management for Containers",
+      "description": "Use Secrets Manager or Parameter Store for secrets. Mount secrets as environment variables or volumes at runtime, never bake into images.",
+      "implementation": "Use Kubernetes External Secrets Operator or AWS Secrets CSI driver.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-13",
+      "threatId": "cloud-threat-11",
+      "title": "Disable/Restrict Metadata Service Access",
+      "description": "Use IMDSv2 (session-oriented) which requires PUT request. Configure hop limit = 1 to prevent container access to host metadata.",
+      "implementation": "Enforce IMDSv2 only. Set HttpPutResponseHopLimit: 1 on EC2 instances.",
+      "priority": "high"
+    },
+    {
+      "id": "cloud-mit-14",
+      "threatId": "cloud-threat-12",
+      "title": "Lambda Reserved Concurrency",
+      "description": "Set reserved concurrency limits on functions to prevent exhaustion. Implement upstream rate limiting.",
+      "implementation": "Set reserved concurrency per function. Use API Gateway throttling.",
+      "priority": "medium"
+    },
+    {
+      "id": "cloud-mit-15",
+      "threatId": "cloud-threat-13",
+      "title": "Cloud Cost Monitoring and Budgets",
+      "description": "Set up billing alerts and budgets. Monitor for anomalous spending patterns. Implement cost allocation tags.",
+      "implementation": "Create AWS Budgets with 80%, 100%, 150% thresholds. Enable CloudWatch billing alarms.",
+      "priority": "medium"
+    },
+    {
+      "id": "cloud-mit-16",
+      "threatId": "cloud-threat-14",
+      "title": "Principle of Least Privilege for IAM",
+      "description": "Grant minimum permissions required. Use managed policies with specific resource ARNs. Regularly audit with IAM Access Analyzer.",
+      "implementation": "Generate policies from CloudTrail logs with Access Analyzer. Set resource-level restrictions.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-17",
+      "threatId": "cloud-threat-15",
+      "title": "IAM Permission Boundaries",
+      "description": "Use permission boundaries to set maximum permissions for IAM roles. Prevent privilege escalation paths.",
+      "implementation": "Apply permission boundary to all non-admin roles. Deny iam:PassRole on escalation-prone services.",
+      "priority": "critical"
+    },
+    {
+      "id": "cloud-mit-18",
+      "threatId": "cloud-threat-16",
+      "title": "Kubernetes RBAC Hardening",
+      "description": "Follow least privilege for K8s roles. Avoid cluster-admin bindings. Use namespace-scoped roles. Audit with kube-bench.",
+      "implementation": "Remove cluster-admin from default service accounts. Use RoleBindings over ClusterRoleBindings.",
+      "priority": "critical"
+    }
+  ]
+}

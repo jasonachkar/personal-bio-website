@@ -1,0 +1,144 @@
+[
+  {
+    "id": "rule-001",
+    "name": "Brute Force Authentication Attack",
+    "description": "Detects multiple failed login attempts from the same IP address within a short time window, indicating a brute force attack.",
+    "severity": "high",
+    "enabled": true,
+    "mitre": {
+      "tactics": ["Initial Access", "Credential Access"],
+      "techniques": ["T1078", "T1110"]
+    },
+    "query": "eventType == \"authentication\" and details.result == \"failure\"",
+    "timeWindow": {
+      "duration": 300,
+      "threshold": 3,
+      "groupBy": ["actor.ipAddress", "actor.username"]
+    },
+    "author": "Security Team",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-15T00:00:00Z",
+    "tags": ["authentication", "brute-force", "credential-access"],
+    "alertTemplate": {
+      "title": "Brute Force Attack Detected",
+      "description": "Multiple failed login attempts detected from IP {actor.ipAddress} targeting user {actor.username}",
+      "recommendations": [
+        "Block source IP address",
+        "Enable MFA for affected account",
+        "Review authentication logs for successful logins from same IP",
+        "Check if account credentials are compromised"
+      ]
+    }
+  },
+  {
+    "id": "rule-002",
+    "name": "Impossible Travel Detection",
+    "description": "Detects successful authentications from geographically distant locations within a time frame impossible for physical travel.",
+    "severity": "critical",
+    "enabled": true,
+    "mitre": {
+      "tactics": ["Initial Access", "Credential Access"],
+      "techniques": ["T1078", "T1078.004"]
+    },
+    "query": "eventType == \"authentication\" and details.result == \"success\" and enrichment.tags contains \"impossible-travel\"",
+    "author": "Security Team",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-15T00:00:00Z",
+    "tags": ["authentication", "impossible-travel", "account-compromise"],
+    "alertTemplate": {
+      "title": "Impossible Travel Detected",
+      "description": "User {actor.username} authenticated from {details.location} shortly after authenticating from a distant location",
+      "recommendations": [
+        "Immediately invalidate user sessions",
+        "Force password reset",
+        "Contact user to verify recent authentication activity",
+        "Enable Conditional Access policies based on location",
+        "Review account activity for unauthorized actions"
+      ]
+    }
+  },
+  {
+    "id": "rule-003",
+    "name": "PowerShell Encoded Command Execution",
+    "description": "Detects execution of PowerShell with encoded commands, often used to obfuscate malicious activity and evade detection.",
+    "severity": "high",
+    "enabled": true,
+    "mitre": {
+      "tactics": ["Execution", "Defense Evasion"],
+      "techniques": ["T1059.001", "T1027"]
+    },
+    "query": "eventType == \"process_creation\" and target.resource == \"powershell.exe\" and details.commandLine contains \"EncodedCommand\"",
+    "author": "Security Team",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-15T00:00:00Z",
+    "tags": ["powershell", "encoded-command", "defense-evasion"],
+    "alertTemplate": {
+      "title": "Suspicious PowerShell Execution Detected",
+      "description": "PowerShell executed with encoded command on {actor.hostname} by user {actor.username}",
+      "recommendations": [
+        "Decode and analyze the PowerShell command",
+        "Isolate affected endpoint",
+        "Review parent process for malicious activity",
+        "Check for additional suspicious processes on the host",
+        "Implement PowerShell logging and script block logging"
+      ]
+    }
+  },
+  {
+    "id": "rule-004",
+    "name": "Credential Dumping Activity",
+    "description": "Detects execution of known credential dumping tools (e.g., Mimikatz) or suspicious LSASS access patterns used to steal credentials.",
+    "severity": "critical",
+    "enabled": true,
+    "mitre": {
+      "tactics": ["Credential Access"],
+      "techniques": ["T1003.001", "T1003.002"]
+    },
+    "query": "eventType == \"process_creation\" and (target.resource contains \"mimikatz\" or enrichment.tags contains \"credential-dumping\" or enrichment.tags contains \"lsass-access\")",
+    "author": "Security Team",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-15T00:00:00Z",
+    "tags": ["credential-dumping", "mimikatz", "lsass"],
+    "alertTemplate": {
+      "title": "Credential Dumping Tool Detected",
+      "description": "Potential credential dumping activity detected on {actor.hostname} - process: {target.resource}",
+      "recommendations": [
+        "Immediately isolate affected endpoint",
+        "Force password reset for all users on affected system",
+        "Review authentication logs for suspicious logins",
+        "Enable Credential Guard on Windows systems",
+        "Investigate parent process and command line arguments",
+        "Check for lateral movement from affected host"
+      ]
+    }
+  },
+  {
+    "id": "rule-005",
+    "name": "Shadow Copy Deletion (Ransomware Indicator)",
+    "description": "Detects deletion of Volume Shadow Copies, a common ransomware preparation technique to prevent file recovery.",
+    "severity": "critical",
+    "enabled": true,
+    "mitre": {
+      "tactics": ["Impact", "Defense Evasion"],
+      "techniques": ["T1490", "T1486"]
+    },
+    "query": "eventType == \"file_access\" and details.action == \"delete\" and target.resource contains \"Shadow Cop\"",
+    "author": "Security Team",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-15T00:00:00Z",
+    "tags": ["ransomware", "shadow-copy", "backup-deletion"],
+    "alertTemplate": {
+      "title": "Ransomware Preparation Detected",
+      "description": "Shadow copy deletion detected on {actor.hostname} - potential ransomware activity",
+      "recommendations": [
+        "IMMEDIATELY isolate affected endpoint from network",
+        "Kill suspicious processes",
+        "Check for file encryption activity",
+        "Restore from clean backups if encryption occurred",
+        "Block execution of vssadmin.exe via AppLocker/WDAC",
+        "Hunt for additional compromised systems",
+        "Engage incident response team"
+      ]
+    }
+  }
+]

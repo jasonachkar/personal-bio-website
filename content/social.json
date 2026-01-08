@@ -1,0 +1,27 @@
+[
+  {
+    "label": "Email",
+    "href": "mailto:jasonachkardiab@gmail.com",
+    "type": "email"
+  },
+  {
+    "label": "LinkedIn",
+    "href": "https://www.linkedin.com/in/jason-achkar-diab",
+    "type": "linkedin"
+  },
+  {
+    "label": "GitHub",
+    "href": "https://github.com/jasonachkar",
+    "type": "github"
+  },
+  {
+    "label": "Preview Resume",
+    "href": "/resume.pdf",
+    "type": "resume-preview"
+  },
+  {
+    "label": "Download Resume",
+    "href": "/resume.pdf",
+    "type": "resume-download"
+  }
+]
