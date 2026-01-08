@@ -2,6 +2,7 @@
 
 import { memo, useMemo, FormEvent, useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import Section from '../layout/Section';
 import SectionHeader from '../ui/SectionHeader';
 import Card from '../ui/Card';
@@ -50,32 +51,65 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
 
     setStatus('loading');
 
-    // If FORMSPREE_ENDPOINT is configured, use it
-    const formspreeEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+    // Check if EmailJS is configured
+    const emailjsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const emailjsTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const emailjsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-    if (formspreeEndpoint) {
+    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
       try {
-        const response = await fetch(formspreeEndpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            message: form.message,
-          }),
+        // Generate timestamp for email template
+        const currentTime = new Date().toLocaleString('en-US', {
+          dateStyle: 'full',
+          timeStyle: 'short',
         });
 
-        if (response.ok) {
+        const response = await emailjs.send(
+          emailjsServiceId,
+          emailjsTemplateId,
+          {
+            name: form.name, // Template uses {{name}}
+            email: form.email, // Template uses {{email}} for From Email and Reply-To
+            message: form.message, // Template uses {{message}}
+            title: 'Portfolio Contact Form', // Template uses {{title}} in subject
+            time: currentTime, // Template uses {{time}}
+            // Legacy support (in case template uses these)
+            from_name: form.name,
+            from_email: form.email,
+            reply_to: form.email, // Sets Reply-To header so replies go to sender
+          },
+          emailjsPublicKey
+        );
+
+        // Check if response indicates success
+        if (response.status === 200 || response.text === 'OK') {
           setStatus('success');
           setForm(initialForm);
         } else {
-          setError('Failed to send message. Please try again.');
-          setStatus('error');
+          throw new Error(`Unexpected response: ${response.status} - ${response.text}`);
         }
       } catch (err) {
-        setError('Network error. Please try again.');
+        // Extract meaningful error message
+        let errorMessage = 'Failed to send message. Please try again.';
+        
+        if (err instanceof Error) {
+          errorMessage = err.message || errorMessage;
+        } else if (typeof err === 'object' && err !== null) {
+          // EmailJS errors might have text, status, or other properties
+          const errorObj = err as Record<string, unknown>;
+          if (errorObj.text) {
+            errorMessage = `Error: ${String(errorObj.text)}`;
+          } else if (errorObj.status) {
+            errorMessage = `Error ${errorObj.status}: Failed to send message`;
+          } else {
+            // Log full error for debugging
+            console.error('EmailJS error details:', JSON.stringify(err, null, 2));
+            errorMessage = 'Failed to send message. Please check your EmailJS configuration.';
+          }
+        }
+        
+        console.error('EmailJS error:', err);
+        setError(errorMessage);
         setStatus('error');
       }
     } else {

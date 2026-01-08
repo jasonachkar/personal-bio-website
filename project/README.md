@@ -43,7 +43,42 @@ Create a `.env.local` file in the `project` directory:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+
+# EmailJS Configuration (for contact form)
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_emailjs_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 ```
+
+> **Note**: To use EmailJS for the contact form:
+> 1. Create a free account at [emailjs.com](https://www.emailjs.com/)
+> 2. Create an email service and template
+> 3. In your EmailJS template settings:
+>    - **Subject**: Add `{{from_name}} - Contact Form Submission` or similar
+>    - **Content**: Use these template variables:
+>      - `{{from_name}}` - Sender's name
+>      - `{{from_email}}` or `{{email}}` - Sender's email address
+>      - `{{message}}` - Message content
+>    - **Reply-To field**: Set to `{{email}}` or `{{from_email}}` so replies go directly to the sender
+> 4. Copy your Service ID, Template ID, and Public Key to the `.env.local` file
+> 
+> **Example EmailJS Template:**
+> ```
+> From: {{from_name}} <your-email@example.com>
+> Reply-To: {{email}}
+> 
+> Subject: Contact Form: {{from_name}}
+> 
+> You have received a new message from your portfolio contact form.
+> 
+> Name: {{from_name}}
+> Email: {{email}}
+> 
+> Message:
+> {{message}}
+> ```
+> 
+> If EmailJS is not configured, the form will fallback to opening a mailto link.
 
 ### 4. Supabase Database Setup
 

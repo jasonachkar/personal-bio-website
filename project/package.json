@@ -23,7 +23,8 @@
     "rate-limiter-flexible": "^9.0.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "@emailjs/browser": "^4.4.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",

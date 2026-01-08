@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://formspree.io https://api.github.com",
+      "connect-src 'self' https://formspree.io https://api.github.com https://api.emailjs.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

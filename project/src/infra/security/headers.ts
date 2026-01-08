@@ -23,7 +23,7 @@ export function buildCSP(config: SecurityHeadersConfig): string {
     "style-src 'self' 'unsafe-inline'", // Required for Tailwind and Framer Motion
     "img-src 'self' data: https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://formspree.io https://api.github.com",
+    "connect-src 'self' https://formspree.io https://api.github.com https://api.emailjs.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
