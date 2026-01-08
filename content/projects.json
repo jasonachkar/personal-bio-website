@@ -12,7 +12,7 @@
       "KQL"
     ],
     "role": "Security architecture & infrastructure automation",
-    "repoUrl": "https://github.com/yourusername/azure-landing-zone",
+    "repoUrl": "https://github.com/jasonachkar/azure-landing-zone",
     "thumbnail": "/thumbnails/azure-landing-zone.jpg"
   },
   {
@@ -28,7 +28,7 @@
       "MITRE ATT&CK"
     ],
     "role": "Detection engineering & threat hunting",
-    "repoUrl": "https://github.com/yourusername/sentinel-detections",
+    "repoUrl": "https://github.com/jasonachkar/sentinel-detections",
     "thumbnail": "/thumbnails/sentinel.jpg"
   },
   {
@@ -45,7 +45,7 @@
       "Express-validator"
     ],
     "role": "Secure architecture & implementation",
-    "repoUrl": "https://github.com/yourusername/secure-api-gateway",
+    "repoUrl": "https://github.com/jasonachkar/secure-api-gateway",
     "demoUrl": "https://api-gateway-demo.yourdomain.com",
     "thumbnail": "/thumbnails/api-gateway.jpg"
   },
@@ -61,7 +61,7 @@
       "Markdown"
     ],
     "role": "Security analysis & risk assessment",
-    "repoUrl": "https://github.com/yourusername/crm-threat-model",
+    "repoUrl": "https://github.com/jasonachkar/crm-threat-model",
     "thumbnail": "/thumbnails/threat-model.jpg"
   },
   {
@@ -77,7 +77,7 @@
       "Security Scanner"
     ],
     "role": "Security compliance & automation",
-    "repoUrl": "https://github.com/yourusername/cloud-hardening",
+    "repoUrl": "https://github.com/jasonachkar/cloud-hardening",
     "thumbnail": "/thumbnails/cloud-hardening.jpg"
   },
   {
@@ -93,7 +93,7 @@
       "Terraform"
     ],
     "role": "DevSecOps implementation & automation",
-    "repoUrl": "https://github.com/yourusername/devsecops-pipeline",
+    "repoUrl": "https://github.com/jasonachkar/devsecops-pipeline",
     "thumbnail": "/thumbnails/devsecops.jpg"
   }
 ]

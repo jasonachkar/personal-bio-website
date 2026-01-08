@@ -198,7 +198,7 @@ VALUES
     'Real-time threat monitoring and analysis system',
     'A comprehensive security platform that aggregates threat data from multiple sources, performs automated analysis, and provides actionable insights. Features include real-time log analysis, automated threat hunting, and custom alert rules.',
     ARRAY['React', 'TypeScript', 'Python', 'Elasticsearch', 'Docker'],
-    'https://github.com/yourusername/threat-intel',
+    'https://github.com/jasonachkar/threat-intel',
     'https://threat-intel-demo.vercel.app',
     'cybersecurity',
     true
@@ -208,7 +208,7 @@ VALUES
     'Automated web application vulnerability scanner',
     'Open-source tool for detecting common web vulnerabilities including SQL injection, XSS, and CSRF. Supports custom scan configurations and generates detailed reports.',
     ARRAY['Python', 'Flask', 'Selenium', 'Beautiful Soup'],
-    'https://github.com/yourusername/vuln-scanner',
+    'https://github.com/jasonachkar/vuln-scanner',
     NULL,
     'cybersecurity',
     true
@@ -218,7 +218,7 @@ VALUES
     'Modern portfolio template with analytics',
     'A beautiful, responsive portfolio template built with Next.js and Tailwind CSS. Includes integrated analytics, dark mode, and CMS support.',
     ARRAY['Next.js', 'TypeScript', 'Tailwind CSS', 'Supabase'],
-    'https://github.com/yourusername/portfolio-template',
+    'https://github.com/jasonachkar/portfolio-template',
     'https://portfolio-template-demo.vercel.app',
     'software',
     false
@@ -228,7 +228,7 @@ VALUES
     'Distributed rate limiting middleware',
     'High-performance rate limiting middleware for Node.js applications. Supports Redis backend and multiple limiting strategies.',
     ARRAY['Node.js', 'Redis', 'TypeScript'],
-    'https://github.com/yourusername/rate-limiter',
+    'https://github.com/jasonachkar/rate-limiter',
     NULL,
     'software',
     false
@@ -271,7 +271,7 @@ VALUES
 ```sql
 INSERT INTO links (type, url, label, icon_name, "order")
 VALUES
-  ('github', 'https://github.com/yourusername', 'GitHub', 'Github', 1),
+  ('github', 'https://github.com/jasonachkar', 'GitHub', 'Github', 1),
   ('linkedin', 'https://linkedin.com/in/yourprofile', 'LinkedIn', 'Linkedin', 2),
   ('email', 'mailto:your.email@example.com', 'Email Me', 'Mail', 3),
   ('resume_download', '/resume.pdf', 'Download Resume', 'Download', 4),
@@ -359,7 +359,7 @@ VALUES (
   'A cool new app I built',
   'Detailed description here...',
   ARRAY['React', 'Node.js', 'MongoDB'],
-  'https://github.com/yourusername/new-project',
+  'https://github.com/jasonachkar/new-project',
   'software'
 );
 ```
