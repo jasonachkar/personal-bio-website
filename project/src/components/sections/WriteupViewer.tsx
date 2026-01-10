@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Clock, Calendar, Loader2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -44,83 +44,108 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
   const [error, setError] = useState<string | null>(null);
   const [isRendered, setIsRendered] = useState(false);
   
-  // Track the current writeup ID to prevent stale state
-  const [currentWriteupId, setCurrentWriteupId] = useState<string | null>(null);
-
-  /**
-   * Fetch writeup content from GitHub
-   * Uses the writeup ID to prevent race conditions
-   */
-  const fetchContent = useCallback(async (writeupData: Writeup) => {
-    // Reset state for new writeup
-    setLoading(true);
-    setError(null);
-    setContent('');
-    setIsRendered(false);
-    setCurrentWriteupId(writeupData.id);
-
-    if (!writeupData.githubUrl) {
-      setError('GitHub URL not available');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const rawUrl = githubUrlToRaw(writeupData.githubUrl);
-      const apiUrl = `/api/writeups/fetch?url=${encodeURIComponent(rawUrl)}`;
-
-      const response = await fetch(apiUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      // Check if this is still the current writeup (prevent race conditions)
-      if (writeupData.id !== currentWriteupId && currentWriteupId !== null) {
-        return; // Ignore stale response
-      }
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      if (data.rendered) {
-        // GitHub API returned rendered HTML - sanitize and use directly
-        const sanitized = sanitizeMarkdownHtml(data.content);
-        setContent(sanitized);
-        setIsRendered(true);
-      } else {
-        // Fallback: render markdown ourselves
-        const html = markdownToHtml(data.content);
-        setContent(html);
-        setIsRendered(false);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load content');
-    } finally {
-      setLoading(false);
-    }
-  }, [currentWriteupId]);
+  // Use a ref to track the current request ID for race condition prevention
+  // This is more reliable than state because it updates synchronously
+  const currentRequestIdRef = useRef<string | null>(null);
+  
+  // Track mounted state to prevent state updates after unmount
+  const isMountedRef = useRef(true);
 
   /**
    * Effect to fetch content when writeup changes
-   * Key fix: Always reset and refetch when writeup changes
+   * This is the main effect that handles fetching
    */
   useEffect(() => {
-    if (writeup) {
-      // Always fetch fresh content when writeup changes
-      fetchContent(writeup);
-    } else {
-      // Reset all state when closing
+    // Set mounted flag
+    isMountedRef.current = true;
+    
+    // If no writeup, reset everything
+    if (!writeup) {
       setContent('');
-      setLoading(true);
+      setLoading(false);
       setError(null);
       setIsRendered(false);
-      setCurrentWriteupId(null);
+      currentRequestIdRef.current = null;
+      return;
     }
-  }, [writeup?.id]); // Only depend on writeup ID, not the whole object
+
+    // Generate a unique request ID for this fetch
+    const requestId = writeup.id + '-' + Date.now();
+    currentRequestIdRef.current = requestId;
+    
+    // Reset state for new writeup - IMPORTANT: This ensures fresh state
+    setContent('');
+    setLoading(true);
+    setError(null);
+    setIsRendered(false);
+
+    // Async fetch function
+    const fetchContent = async () => {
+      if (!writeup.githubUrl) {
+        if (isMountedRef.current && currentRequestIdRef.current === requestId) {
+          setError('GitHub URL not available');
+          setLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const rawUrl = githubUrlToRaw(writeup.githubUrl);
+        const apiUrl = `/api/writeups/fetch?url=${encodeURIComponent(rawUrl)}`;
+
+        const response = await fetch(apiUrl);
+        
+        // Check if this request is still current before processing
+        if (!isMountedRef.current || currentRequestIdRef.current !== requestId) {
+          return; // Ignore stale response
+        }
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Check again after parsing JSON
+        if (!isMountedRef.current || currentRequestIdRef.current !== requestId) {
+          return;
+        }
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        if (data.rendered) {
+          // GitHub API returned rendered HTML - sanitize and use directly
+          const sanitized = sanitizeMarkdownHtml(data.content);
+          setContent(sanitized);
+          setIsRendered(true);
+        } else {
+          // Fallback: render markdown ourselves
+          const html = markdownToHtml(data.content);
+          setContent(html);
+          setIsRendered(false);
+        }
+      } catch (err) {
+        // Only set error if this request is still current
+        if (isMountedRef.current && currentRequestIdRef.current === requestId) {
+          setError(err instanceof Error ? err.message : 'Failed to load content');
+        }
+      } finally {
+        // Only set loading false if this request is still current
+        if (isMountedRef.current && currentRequestIdRef.current === requestId) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchContent();
+
+    // Cleanup function
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, [writeup?.id, writeup?.githubUrl]); // Re-run when writeup ID or URL changes
 
   /**
    * Effect to handle escape key and body scroll
@@ -151,7 +176,7 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
       <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
         {/* Backdrop */}
         <motion.div
-          key="backdrop"
+          key={`backdrop-${writeup.id}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -160,7 +185,7 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
           aria-hidden="true"
         />
 
-        {/* Modal - Key by writeup.id to force remount on change */}
+        {/* Modal */}
         <motion.div
           key={`modal-${writeup.id}`}
           initial={{ opacity: 0, scale: 0.95, y: 20 }}

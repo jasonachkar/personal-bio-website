@@ -7,7 +7,7 @@ import type { Hero as HeroContent } from '@/lib/schemas';
 import { Button } from '../ui/Button';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
-import { Shield, Cloud, Lock, TrendingUp, Zap } from 'lucide-react';
+import { Shield, Cloud, Lock, TrendingUp, Zap, CheckCircle2, Award, Terminal } from 'lucide-react';
 import {
   scrollVariants,
   transitions,
@@ -26,8 +26,6 @@ import { cn } from '@/lib/cn';
 
 /**
  * Hero section props interface
- * @interface HeroProps
- * @description Props for the Hero section component
  */
 interface HeroProps {
   /** Navigation callback function */
@@ -240,79 +238,10 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
             transition={{ ...transitions.smooth, delay: 0.2 }}
             className="lg:pl-4"
           >
-            <Card
-              variant="cyber"
-              hoverEffect="glow"
-              padding="lg"
-              className={cn(
-                'glass-panel relative overflow-hidden',
-                'rounded-2xl sm:rounded-3xl'
-              )}
-            >
-              {/* Card Background Effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
-              <div className="absolute inset-0 hex-pattern opacity-20 pointer-events-none" />
-
-              <div className="relative z-10 space-y-5 sm:space-y-6">
-                {/* Card Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
-                    <span className="font-mono text-xs text-text-secondary sm:text-sm">
-                      security.profile
-                    </span>
-                  </div>
-                  <span className="flex items-center gap-2 text-xs text-primary sm:text-sm">
-                    <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                    Active
-                  </span>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                  {content.stats.map((stat, idx) => (
-                    <AnimatedStatCard
-                      key={stat.label}
-                      stat={stat}
-                      delay={idx * 0.1}
-                      prefersReducedMotion={prefersReducedMotion}
-                    />
-                  ))}
-                </div>
-
-                {/* Security Toolkit */}
-                <div className={cn(
-                  'space-y-2.5 sm:space-y-3',
-                  'rounded-xl border border-border bg-background-elevated/50',
-                  'p-3 sm:p-4'
-                )}>
-                  <div className="flex items-center gap-2">
-                    <Cloud className="h-4 w-4 text-secondary" />
-                    <span className="text-xs font-semibold text-text-primary sm:text-sm">
-                      Security Toolkit
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {['Azure', 'Sentinel', 'Entra ID', 'Defender', 'OWASP', 'KQL', 'Terraform', 'GitHub'].map((tool) => (
-                      <Badge key={tool} label={tool} size="xs" variant="default" />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Opportunity Banner */}
-                <div className={cn(
-                  'flex items-start gap-2.5 sm:gap-3',
-                  'rounded-xl border border-primary/30 bg-primary/5',
-                  'p-3 sm:p-4'
-                )}>
-                  <Lock className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary sm:h-5 sm:w-5" />
-                  <div className="text-[11px] text-text-secondary sm:text-xs">
-                    <span className="font-semibold text-primary">Open to opportunities:</span>{' '}
-                    Cloud Security Engineer, Security Consultant, DevSecOps roles in Canada or remote
-                  </div>
-                </div>
-              </div>
-            </Card>
+            <SecurityProfileCard 
+              stats={content.stats}
+              prefersReducedMotion={prefersReducedMotion}
+            />
           </motion.div>
         </div>
       </div>
@@ -321,27 +250,228 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
 };
 
 // ============================================
+// Security Profile Card Component
+// ============================================
+
+/**
+ * Security Profile Card - Premium styled profile card
+ */
+function SecurityProfileCard({
+  stats,
+  prefersReducedMotion,
+}: {
+  stats: Array<{ label: string; value: string; detail: string }>;
+  prefersReducedMotion: boolean;
+}) {
+  const isMobile = useIsMobile();
+
+  return (
+    <div className="relative group">
+      {/* Outer Glow Effect */}
+      <div className={cn(
+        'absolute -inset-1 rounded-3xl opacity-0 blur-xl transition-opacity duration-500',
+        'bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30',
+        'group-hover:opacity-100'
+      )} />
+      
+      {/* Main Card */}
+      <div className={cn(
+        'relative overflow-hidden',
+        'rounded-2xl sm:rounded-3xl',
+        'border border-primary/20',
+        'bg-gradient-to-br from-background-card via-background-card to-background-elevated',
+        'shadow-2xl shadow-primary/5'
+      )}>
+        {/* Animated Border Gradient */}
+        <div className={cn(
+          'absolute inset-0 rounded-2xl sm:rounded-3xl',
+          'bg-gradient-to-br from-primary/30 via-transparent to-accent/30',
+          'opacity-0 group-hover:opacity-100 transition-opacity duration-500',
+          'pointer-events-none'
+        )} style={{ padding: '1px' }}>
+          <div className="h-full w-full rounded-2xl sm:rounded-3xl bg-background-card" />
+        </div>
+
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+        <div className="absolute inset-0 hex-pattern opacity-10 pointer-events-none" />
+        
+        {/* Scan Line Effect */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent pointer-events-none"
+            initial={{ top: 0, opacity: 0 }}
+            animate={{ 
+              top: ['0%', '100%'],
+              opacity: [0, 1, 1, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: 'linear',
+            }}
+          />
+        )}
+
+        {/* Content */}
+        <div className="relative z-10 p-4 sm:p-6 space-y-4 sm:space-y-5">
+          
+          {/* Card Header */}
+          <div className="flex items-center justify-between">
+            <div className={cn(
+              'flex items-center gap-2.5',
+              'px-3 py-1.5 rounded-lg',
+              'bg-background-elevated/80 border border-border/50'
+            )}>
+              <Terminal className="h-4 w-4 text-primary" />
+              <span className="font-mono text-xs sm:text-sm text-text-secondary">
+                security<span className="text-primary">.</span>profile
+              </span>
+            </div>
+            <div className={cn(
+              'flex items-center gap-2 px-3 py-1.5 rounded-lg',
+              'bg-severity-low/10 border border-severity-low/30'
+            )}>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-severity-low opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-severity-low" />
+              </span>
+              <span className="text-xs font-semibold text-severity-low uppercase tracking-wide">
+                Active
+              </span>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            {stats.map((stat, idx) => (
+              <AnimatedStatCard
+                key={stat.label}
+                stat={stat}
+                delay={idx * 0.1}
+                prefersReducedMotion={prefersReducedMotion}
+                index={idx}
+              />
+            ))}
+          </div>
+
+          {/* Security Toolkit */}
+          <div className={cn(
+            'rounded-xl overflow-hidden',
+            'border border-border/50',
+            'bg-gradient-to-br from-background-elevated/80 to-background-card/50'
+          )}>
+            <div className={cn(
+              'flex items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3',
+              'border-b border-border/50',
+              'bg-background-elevated/50'
+            )}>
+              <Cloud className="h-4 w-4 text-secondary" />
+              <span className="text-xs font-semibold text-text-primary sm:text-sm">
+                Security Toolkit
+              </span>
+            </div>
+            <div className="p-3 sm:p-4">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {[
+                  { name: 'Azure', icon: '☁️' },
+                  { name: 'Sentinel', icon: '🛡️' },
+                  { name: 'Entra ID', icon: '🔐' },
+                  { name: 'Defender', icon: '🔒' },
+                  { name: 'OWASP', icon: '🌐' },
+                  { name: 'KQL', icon: '📊' },
+                  { name: 'Terraform', icon: '🏗️' },
+                  { name: 'GitHub', icon: '💻' },
+                ].map((tool, idx) => (
+                  <motion.div
+                    key={tool.name}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 + idx * 0.05, duration: 0.3 }}
+                  >
+                    <Badge
+                      label={tool.name}
+                      size="sm"
+                      variant="outline"
+                      className="hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-default"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Opportunity Banner */}
+          <motion.div
+            className={cn(
+              'relative overflow-hidden',
+              'flex items-start gap-3',
+              'rounded-xl',
+              'border border-primary/30',
+              'bg-gradient-to-r from-primary/10 via-primary/5 to-transparent',
+              'p-3 sm:p-4'
+            )}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.4 }}
+          >
+            {/* Animated Corner Accent */}
+            <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-transparent rounded-br-full pointer-events-none" />
+            
+            <div className={cn(
+              'relative z-10 flex-shrink-0',
+              'p-2 rounded-lg',
+              'bg-primary/20 border border-primary/30'
+            )}>
+              <Lock className="h-4 w-4 text-primary" />
+            </div>
+            <div className="relative z-10 flex-1">
+              <p className="text-xs font-bold text-primary mb-1">
+                Open to Opportunities
+              </p>
+              <p className="text-[11px] sm:text-xs text-text-secondary leading-relaxed">
+                Cloud Security Engineer, Security Consultant, DevSecOps roles in Canada or remote
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // Animated Stat Card Sub-component
 // ============================================
 
 /**
- * Animated stat card with counter effect
- * @description Displays a stat with animated number counting
+ * Animated stat card with counter effect and improved styling
  */
 function AnimatedStatCard({
   stat,
   delay,
   prefersReducedMotion,
+  index,
 }: {
   stat: { label: string; value: string; detail: string };
   delay: number;
   prefersReducedMotion: boolean;
+  index: number;
 }) {
   const isMobile = useIsMobile();
   const [isVisible, setIsVisible] = useState(false);
   const [displayValue, setDisplayValue] = useState('0');
   const numericValue = parseInt(stat.value.replace(/\D/g, '')) || 0;
   const hasNumber = numericValue > 0;
+
+  // Color variants for visual variety
+  const colors = [
+    { text: 'text-primary', bg: 'from-primary/10 to-primary/5', border: 'border-primary/20' },
+    { text: 'text-secondary', bg: 'from-secondary/10 to-secondary/5', border: 'border-secondary/20' },
+    { text: 'text-accent', bg: 'from-accent/10 to-accent/5', border: 'border-accent/20' },
+  ];
+  const color = colors[index % colors.length];
 
   useEffect(() => {
     if (isVisible && hasNumber && !prefersReducedMotion) {
@@ -371,28 +501,40 @@ function AnimatedStatCard({
       transition={{ delay }}
       onViewportEnter={() => setIsVisible(true)}
       className={cn(
-        'rounded-lg sm:rounded-xl',
-        'border border-border bg-background-elevated/50',
-        'p-2.5 sm:p-4',
+        'relative overflow-hidden',
+        'rounded-xl',
+        'border',
+        color.border,
+        `bg-gradient-to-br ${color.bg}`,
+        'p-3 sm:p-4',
         'transition-all duration-300',
-        'hover:border-primary/40 hover:bg-background-card'
+        'hover:scale-[1.02] hover:shadow-lg'
       )}
     >
-      {hasNumber ? (
-        <div className="text-xl font-bold text-primary sm:text-2xl">
-          {displayValue}
-          {stat.value.includes('+') && '+'}
-          {stat.value.includes('yrs') && ' yrs'}
+      {/* Decorative Corner */}
+      <div className={cn(
+        'absolute -top-6 -right-6 w-12 h-12',
+        'rounded-full opacity-20',
+        color.text.replace('text-', 'bg-')
+      )} />
+      
+      <div className="relative z-10">
+        {hasNumber ? (
+          <div className={cn('text-2xl sm:text-3xl font-bold', color.text)}>
+            {displayValue}
+            {stat.value.includes('+') && <span className="text-lg">+</span>}
+            {stat.value.includes('yrs') && <span className="text-base sm:text-lg font-medium ml-0.5">yrs</span>}
+          </div>
+        ) : (
+          <div className={cn('text-2xl sm:text-3xl font-bold', color.text)}>{stat.value}</div>
+        )}
+        <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted sm:text-xs mt-1">
+          {stat.label}
         </div>
-      ) : (
-        <div className="text-xl font-bold text-primary sm:text-2xl">{stat.value}</div>
-      )}
-      <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted sm:text-xs">
-        {stat.label}
+        <p className="mt-1 text-[10px] text-text-secondary sm:text-[11px] line-clamp-2 leading-relaxed">
+          {stat.detail}
+        </p>
       </div>
-      <p className="mt-0.5 text-[10px] text-text-secondary sm:mt-1 sm:text-[11px]">
-        {stat.detail}
-      </p>
     </motion.div>
   );
 }
