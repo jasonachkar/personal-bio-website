@@ -1,25 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/Button';
+import type { ReactNode } from 'react';
+
+// ============================================
+// ShowcaseHeader Component
+// ============================================
 
 /**
  * ShowcaseHeader - Consistent navigation header for live demo pages
- *
- * Provides a "Back to Home" navigation affordance for all showcase/demo pages.
- * Ensures accessibility, keyboard navigation, and consistent UX across demos.
- *
- * @example
- * ```tsx
- * <ShowcaseHeader
- *   title="SIEM Detection Console"
- *   description="Real-time security event monitoring"
- * />
- * ```
+ * @description Provides navigation and optional action buttons for showcase pages
  */
-
 interface ShowcaseHeaderProps {
   /** Main title of the showcase/demo */
   title: string;
@@ -27,76 +22,105 @@ interface ShowcaseHeaderProps {
   description?: string;
   /** Additional CSS classes */
   className?: string;
+  /** Optional action buttons to display on the right */
+  actions?: ReactNode;
+  /** Optional export handler */
+  onExport?: () => void;
+  /** Export button label */
+  exportLabel?: string;
 }
 
 export function ShowcaseHeader({
   title,
   description,
   className,
+  actions,
+  onExport,
+  exportLabel = 'Export',
 }: ShowcaseHeaderProps) {
   return (
     <div
       className={cn(
-        'border-b border-border bg-background-card/50 backdrop-blur-sm',
+        'sticky top-0 z-40',
+        'border-b border-border bg-background/95 backdrop-blur-xl',
         className
       )}
     >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-start justify-between gap-4">
-          {/* Left: Back to Home Navigation */}
-          <div className="flex items-start gap-4">
+      <div className="content-container py-3 sm:py-4">
+        <div className="flex items-center justify-between gap-4">
+          {/* Left: Back Navigation + Title */}
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            {/* Back Button */}
             <Link
               href="/#showcases"
               className={cn(
-                'group flex items-center gap-2 rounded-lg px-3 py-2',
-                'text-sm font-medium text-text-secondary',
+                'group flex items-center gap-1.5 sm:gap-2 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2',
+                'text-xs sm:text-sm font-medium text-text-secondary',
                 'transition-all duration-200',
                 'hover:bg-background-elevated hover:text-text-primary',
-                'focus-visible:outline focus-visible:outline-2',
-                'focus-visible:outline-offset-2 focus-visible:outline-primary',
-                'active:scale-95'
+                'focus-ring',
+                'active:scale-95',
+                'flex-shrink-0'
               )}
               aria-label="Return to interactive showcases section"
             >
               <ArrowLeft
-                className="h-4 w-4 transition-transform group-hover:-translate-x-1"
+                className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:-translate-x-1"
                 aria-hidden="true"
               />
-              <span className="hidden sm:inline">Back to Showcases</span>
-              <span className="sm:hidden">Showcases</span>
+              <span className="hidden sm:inline">Showcases</span>
             </Link>
 
-            {/* Breadcrumb Separator */}
+            {/* Separator */}
             <span
-              className="hidden text-text-muted md:inline"
+              className="hidden text-text-muted sm:inline"
               aria-hidden="true"
             >
               /
             </span>
 
-            {/* Current Page Title */}
-            <div className="hidden md:flex md:flex-col">
-              <h1 className="text-lg font-semibold text-text-primary">
+            {/* Title */}
+            <div className="min-w-0 flex-1">
+              <h1 className="text-base sm:text-lg font-semibold text-text-primary truncate">
                 {title}
               </h1>
               {description && (
-                <p className="text-sm text-text-secondary">{description}</p>
+                <p className="hidden sm:block text-xs sm:text-sm text-text-secondary truncate">
+                  {description}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Right: Optional Action Slot (for future use) */}
-          <div className="flex items-center gap-2">
-            {/* Reserved for future actions (e.g., settings, export) */}
-          </div>
-        </div>
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Custom actions */}
+            {actions}
 
-        {/* Mobile Title (below back button) */}
-        <div className="mt-3 md:hidden">
-          <h1 className="text-xl font-bold text-text-primary">{title}</h1>
-          {description && (
-            <p className="mt-1 text-sm text-text-secondary">{description}</p>
-          )}
+            {/* Export button */}
+            {onExport && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={onExport}
+                className="hidden sm:inline-flex"
+              >
+                <Download className="h-4 w-4 mr-1.5" />
+                {exportLabel}
+              </Button>
+            )}
+            {onExport && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={onExport}
+                className="sm:hidden"
+                aria-label={exportLabel}
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -105,7 +129,6 @@ export function ShowcaseHeader({
 
 /**
  * Animated variant with fade-in effect
- * Use this for pages that want a subtle entrance animation
  */
 export function AnimatedShowcaseHeader(props: ShowcaseHeaderProps) {
   return (
@@ -118,3 +141,5 @@ export function AnimatedShowcaseHeader(props: ShowcaseHeaderProps) {
     </motion.div>
   );
 }
+
+export default ShowcaseHeader;

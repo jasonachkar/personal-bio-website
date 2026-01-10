@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { Shield, Network, Loader2, AlertTriangle, Download, FileText, BarChart3, Grid, ShieldCheck } from 'lucide-react';
+import { Shield, Network, Loader2, AlertTriangle, Download, FileText, BarChart3, Grid, ShieldCheck, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Tabs } from '@/components/ui/Tabs';
+import { Button } from '@/components/ui/Button';
+import { EvidencePackGenerator } from '@/components/ui/EvidencePackGenerator';
 import { ArchitectureDiagram } from './ArchitectureDiagram';
 import { ThreatList } from './ThreatList';
 import { LiveThreatScanner } from './LiveThreatScanner';
@@ -13,6 +15,7 @@ import { ThreatIntelligencePanel } from './ThreatIntelligencePanel';
 import { ThreatMatrix } from './ThreatMatrix';
 import { CloudComplianceMapper } from './CloudComplianceMapper';
 import { ThreatDetailsViewer } from './ThreatDetailsViewer';
+import { MitreNavigatorExport } from './MitreNavigatorExport';
 import type { ThreatModelTemplate, Threat, CloudProvider } from '../types';
 import { detectCloudProvider } from '../utils/threatAnalyzer';
 
@@ -154,28 +157,60 @@ Generated on ${new Date().toLocaleDateString()}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={cn('container mx-auto px-4 py-8', className)}
+      className={cn('content-container py-6 sm:py-8', className)}
     >
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <Network className="h-8 w-8 text-primary" />
-              <h1 className="text-3xl font-bold text-text-primary">Threat Modeling Playground</h1>
+              <Network className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary">Threat Modeling Playground</h1>
             </div>
-            <p className="text-text-secondary">
+            <p className="text-sm sm:text-base text-text-secondary">
               STRIDE-based threat analysis for {template.name}
             </p>
           </div>
-          <button
-            onClick={handleExportMarkdown}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
-            aria-label="Export threat model"
-          >
-            <Download className="h-4 w-4" />
-            Export
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            {/* MITRE ATT&CK Export */}
+            <MitreNavigatorExport
+              threats={allThreats}
+              projectName={template.name}
+            />
+            
+            {/* Evidence Pack Generator */}
+            <EvidencePackGenerator
+              data={{
+                projectName: template.name,
+                executiveSummary: `This threat model identifies ${stats.totalThreats} potential threats across the ${template.name} architecture, with ${stats.criticalThreats} critical and ${stats.highThreats} high severity findings. ${stats.implementedMitigations} of ${stats.totalMitigations} mitigations have been implemented.`,
+                technicalFindings: template.description + '\n\n## Architecture\n' + template.architecture,
+                backlog: template.mitigations.filter(m => !m.implemented).map(m => ({
+                  id: m.id,
+                  title: m.title,
+                  priority: m.priority as 'critical' | 'high' | 'medium' | 'low',
+                  effort: m.effort,
+                  owner: undefined,
+                })),
+                rawData: {
+                  template,
+                  threats: allThreats,
+                  stats,
+                },
+                generatedAt: new Date().toLocaleString(),
+              }}
+            />
+            
+            {/* Markdown Export */}
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleExportMarkdown}
+            >
+              <Download className="h-4 w-4 mr-1.5" />
+              <span className="hidden sm:inline">Export MD</span>
+              <span className="sm:hidden">MD</span>
+            </Button>
+          </div>
         </div>
 
         {/* Live Threat Scanner */}

@@ -456,7 +456,12 @@
 
   /* Focus States */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .focus-ring:focus {
+    --tw-ring-color: rgba(0, 212, 255, 0.5);
+    --tw-ring-offset-color: var(--bg-primary);
   }
 
   /* Scroll Bar Styling */

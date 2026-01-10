@@ -146,8 +146,10 @@ const Writeups = ({ writeups }: WriteupsProps) => {
       </div>
       </section>
 
+      {/* Key the WriteupViewer by writeup ID to force complete remount */}
       {selectedWriteup && (
         <WriteupViewer
+          key={selectedWriteup.id}
           writeup={selectedWriteup}
           onClose={() => setSelectedWriteup(null)}
         />
