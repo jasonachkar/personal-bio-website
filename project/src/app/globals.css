@@ -440,6 +440,19 @@
     100% { left: 100%; }
   }
 
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .animate-gradient-shift {
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
   .terminal-border {
     border: 1px solid rgba(0, 212, 255, 0.25);
     box-shadow: 
