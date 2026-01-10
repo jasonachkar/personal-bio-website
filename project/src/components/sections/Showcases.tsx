@@ -1,14 +1,22 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import { Shield, Network, Cloud, GitBranch, Search, ExternalLink, ArrowRight } from 'lucide-react';
+import { Shield, Network, Cloud, GitBranch, Search, ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
-import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
+import Card from '../ui/Card';
+import { scrollVariants, staggerContainer, getViewportSettings, easings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
+// ============================================
+// Showcases Section Component
+// ============================================
+
+/**
+ * Showcase card props interface
+ */
 interface ShowcaseCardProps {
   icon: React.ElementType;
   title: string;
@@ -19,6 +27,9 @@ interface ShowcaseCardProps {
   gradient: string;
 }
 
+/**
+ * Individual showcase card component
+ */
 function ShowcaseCard({
   icon: Icon,
   title,
@@ -32,7 +43,10 @@ function ShowcaseCard({
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
-  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardSlideUp, [prefersReducedMotion]);
+  const itemVariants = useMemo(
+    () => (prefersReducedMotion ? {} : scrollVariants.cardSlideUp),
+    [prefersReducedMotion]
+  );
 
   return (
     <motion.div
@@ -40,76 +54,121 @@ function ShowcaseCard({
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
-      className="group relative"
+      className="group relative h-full"
     >
       <Link
         href={isLive ? href : '#'}
         className={cn(
-          'block h-full rounded-xl border border-border bg-background-card p-6 transition-all duration-300 relative overflow-hidden',
-          isLive
-            ? 'hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 terminal-border'
-            : 'cursor-not-allowed opacity-60'
+          'block h-full',
+          !isLive && 'cursor-not-allowed'
         )}
+        onClick={!isLive ? (e) => e.preventDefault() : undefined}
       >
-        {isLive && (
-          <div className="absolute inset-0 hex-pattern opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-        )}
-        {/* Status Badge */}
-        <div className="absolute top-4 right-4 z-10">
-          <span
+        <Card
+          variant={isLive ? 'cyber' : 'default'}
+          hoverEffect={isLive ? 'lift' : 'none'}
+          padding="lg"
+          interactive={isLive}
+          className={cn(
+            'h-full relative overflow-hidden',
+            !isLive && 'opacity-60'
+          )}
+        >
+          {/* Decorative Pattern */}
+          {isLive && (
+            <div className="absolute inset-0 hex-pattern opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          )}
+
+          {/* Status Badge */}
+          <div className="absolute top-4 right-4 z-10">
+            <span
+              className={cn(
+                'inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide',
+                isLive
+                  ? 'bg-severity-low/15 text-severity-low border border-severity-low/30'
+                  : 'bg-text-secondary/10 text-text-secondary border border-text-secondary/20'
+              )}
+            >
+              {isLive ? 'Live Demo' : 'Coming Soon'}
+            </span>
+          </div>
+
+          {/* Icon with Gradient */}
+          <div
             className={cn(
-              'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold uppercase',
-              isLive
-                ? 'bg-severity-low/20 text-severity-low border border-severity-low/30'
-                : 'bg-text-secondary/10 text-text-secondary border border-text-secondary/20'
+              'w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 relative z-10',
+              'transition-transform duration-300 group-hover:scale-110',
+              gradient
             )}
           >
-            {isLive ? 'Live Demo' : 'Coming Soon'}
-          </span>
-        </div>
-
-        {/* Icon with Gradient */}
-        <div className={cn('w-14 h-14 rounded-lg flex items-center justify-center mb-4 relative z-10', gradient)}>
-          <Icon className="h-7 w-7 text-white" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-        <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-primary transition-colors glitch-effect">
-          {title}
-        </h3>
-        <p className="text-text-secondary mb-4 leading-relaxed">{description}</p>
-
-        {/* Features */}
-        <ul className="space-y-2 mb-6">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-text-secondary">
-              <ArrowRight className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA */}
-        {isLive && (
-          <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
-            <span>Explore Demo</span>
-            <ExternalLink className="h-4 w-4" />
+            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
           </div>
-        )}
-        </div>
+
+          {/* Content */}
+          <div className="relative z-10">
+            <h3 className={cn(
+              'text-lg sm:text-xl font-bold text-text-primary mb-2',
+              'transition-colors duration-300',
+              isLive && 'group-hover:text-primary'
+            )}>
+              {title}
+            </h3>
+            
+            <p className="text-sm sm:text-base text-text-secondary mb-4 leading-relaxed">
+              {description}
+            </p>
+
+            {/* Features */}
+            <ul className="space-y-2 mb-5 sm:mb-6">
+              {features.map((feature, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2 text-xs sm:text-sm text-text-secondary"
+                >
+                  <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary flex-shrink-0 mt-0.5" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA */}
+            {isLive && (
+              <div className={cn(
+                'inline-flex items-center gap-2 text-sm font-medium text-primary',
+                'transition-all duration-300 group-hover:gap-3'
+              )}>
+                <span>Explore Demo</span>
+                <ExternalLink className="h-4 w-4" />
+              </div>
+            )}
+          </div>
+        </Card>
       </Link>
     </motion.div>
   );
 }
 
+/**
+ * Showcases section component
+ * @description Displays interactive security showcase demos
+ */
 function Showcases() {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
-  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
-  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
-  const footerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion]);
+  
+  const headerVariants = useMemo(
+    () => (prefersReducedMotion ? {} : scrollVariants.fadeUp),
+    [prefersReducedMotion]
+  );
+  const containerVariants = useMemo(
+    () => (prefersReducedMotion ? {} : staggerContainer),
+    [prefersReducedMotion]
+  );
+  const footerVariants = useMemo(
+    () => (prefersReducedMotion ? {} : scrollVariants.fade),
+    [prefersReducedMotion]
+  );
 
   const showcases: ShowcaseCardProps[] = [
     {
@@ -146,12 +205,12 @@ function Showcases() {
       icon: Network,
       title: 'Threat Modeling Playground',
       description:
-        'Interactive STRIDE-based threat modeling tool for analyzing security architectures and identifying potential vulnerabilities.',
+        'Interactive STRIDE-based threat modeling tool with DFD editor, risk scoring, and MITRE ATT&CK integration for comprehensive security analysis.',
       features: [
-        '10 STRIDE threats with MITRE ATT&CK mapping',
-        'Interactive architecture visualization',
-        'Mitigation tracking & recommendations',
-        'Export to Markdown documentation',
+        'Interactive DFD diagram builder',
+        'STRIDE threat analysis with risk scoring',
+        'MITRE ATT&CK Navigator layer export',
+        'Evidence pack generation (PDF/Markdown)',
       ],
       href: '/threat-modeling',
       status: 'live',
@@ -161,12 +220,12 @@ function Showcases() {
       icon: Cloud,
       title: 'Azure Security Blueprint',
       description:
-        'Comprehensive Azure security reference with interactive architecture diagrams, security controls, and best practices.',
+        'Azure Landing Zone simulator with management group hierarchy, policy-as-code workflows, and CIS benchmark compliance tracking.',
       features: [
-        '6 core Azure security components',
-        'Common misconfiguration fixes',
-        'CIS benchmark checklist tracker',
-        'Best practices & implementation guides',
+        'Management group hierarchy builder',
+        'Azure Policy initiative assignments',
+        'CIS/Azure Security Benchmark mapping',
+        'Misconfiguration remediation scenarios',
       ],
       href: '/azure-blueprint',
       status: 'live',
@@ -176,12 +235,12 @@ function Showcases() {
       icon: GitBranch,
       title: 'DevSecOps Pipeline Simulator',
       description:
-        'Visual pipeline flow demonstrating security gates, SAST/SCA scanning, and deployment security controls.',
+        'Supply chain security demo with SBOM generation, SLSA provenance, policy-as-code gates, and artifact signing visualization.',
       features: [
-        '5 security scan types (SAST, SCA, Secrets, IaC, Container)',
-        '50+ realistic security findings with CVE/CWE',
-        'Threshold-based security gates',
-        'What-if analysis for threshold tuning',
+        'Policy-as-Code gates with OPA/Rego',
+        'CycloneDX SBOM generation & visualization',
+        'SLSA provenance attestation viewer',
+        'OpenSSF Scorecard integration',
       ],
       href: '/devsecops',
       status: 'live',
@@ -190,31 +249,50 @@ function Showcases() {
   ];
 
   return (
-    <section id="showcases" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section id="showcases" className="section-container relative">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 bg-mesh-gradient opacity-30 pointer-events-none" />
+
+      <div className="content-container relative">
+        {/* Section Header */}
         <motion.div
           variants={headerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-          className="text-center mb-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mb-10 text-center sm:mb-12 md:mb-14"
         >
-          <h2 className="text-headline font-bold text-text-primary mb-4">
+          <motion.div
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.5, ease: easings.easeOutQuint }}
+          >
+            <Sparkles className="h-4 w-4 text-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-accent">
+              Interactive Demos
+            </span>
+          </motion.div>
+
+          <h2 className="text-headline text-text-primary">
             Interactive Security Showcases
           </h2>
-          <p className="text-lg text-text-secondary max-w-3xl mx-auto">
+          
+          <p className="mx-auto mt-4 max-w-3xl text-body-lg text-text-secondary">
             Explore fully functional cybersecurity tools and demonstrations. Each showcase
             demonstrates real detection engineering, threat modeling, and security architecture
             skills with actual working implementations.
           </p>
         </motion.div>
 
+        {/* Showcases Grid */}
         <motion.div
           variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:gap-7"
         >
           {showcases.map((showcase, index) => (
             <ShowcaseCard key={index} {...showcase} />
@@ -224,28 +302,35 @@ function Showcases() {
         {/* Technical Note */}
         <motion.div
           variants={footerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-12 p-6 rounded-lg border border-border bg-background-card/50"
+          className="mt-10 sm:mt-12"
         >
-          <div className="flex items-start gap-4">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Shield className="h-6 w-6 text-primary" />
+          <Card
+            variant="glass"
+            hoverEffect="none"
+            padding="lg"
+            interactive={false}
+          >
+            <div className="flex flex-col sm:flex-row items-start gap-4">
+              <div className="p-2.5 rounded-xl bg-primary/10 flex-shrink-0">
+                <Shield className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-text-primary mb-2">
+                  Real Implementations, Not Mockups
+                </h3>
+                <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
+                  These showcases feature fully functional implementations with real data processing,
+                  detection algorithms, and security analysis capabilities. All detection rules,
+                  query engines, and threat models are built from scratch to demonstrate deep
+                  technical understanding of security engineering principles.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-text-primary mb-2">
-                Real Implementations, Not Mockups
-              </h3>
-              <p className="text-text-secondary leading-relaxed">
-                These showcases feature fully functional implementations with real data processing,
-                detection algorithms, and security analysis capabilities. All detection rules,
-                query engines, and threat models are built from scratch to demonstrate deep
-                technical understanding of security engineering principles.
-              </p>
-            </div>
-          </div>
+          </Card>
         </motion.div>
       </div>
     </section>

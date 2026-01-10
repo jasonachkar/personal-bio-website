@@ -1,13 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Cloud, Shield, AlertTriangle, Loader2, CheckCircle2, XCircle, Download } from 'lucide-react';
+import { Cloud, Shield, AlertTriangle, Loader2, CheckCircle2, XCircle, Download, FolderTree, FileCode, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Tabs } from '@/components/ui/Tabs';
 import { ShowcaseHeader } from '@/components/layout/ShowcaseHeader';
+import { Button } from '@/components/ui/Button';
+import { EvidencePackGenerator } from '@/components/ui/EvidencePackGenerator';
+import { ManagementGroupHierarchy } from '@/features/azure/components/ManagementGroupHierarchy';
 
-type TabId = 'components' | 'misconfigurations' | 'checklist';
+type TabId = 'components' | 'misconfigurations' | 'checklist' | 'hierarchy';
 
 interface SecurityControl {
   title: string;
@@ -50,7 +53,7 @@ export default function AzureBlueprintPage() {
   const [architecture, setArchitecture] = useState<Architecture | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<TabId>('components');
+  const [activeTab, setActiveTab] = useState<TabId>('hierarchy');
   const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
 
@@ -119,17 +122,39 @@ export default function AzureBlueprintPage() {
 
   const selectedComp = architecture.components.find((c) => c.id === selectedComponent);
 
+  // Generate evidence pack data
+  const evidenceData = {
+    projectName: 'Azure Security Blueprint',
+    executiveSummary: `Azure Security Blueprint assessment covering ${architecture.components.length} components, ${architecture.components.reduce((sum, c) => sum + c.securityControls.length, 0)} security controls, and ${architecture.components.reduce((sum, c) => sum + c.commonMisconfigurations.length, 0)} identified misconfigurations.`,
+    technicalFindings: architecture.components.map(c => 
+      `## ${c.name}\n\n${c.description}\n\n### Security Controls\n${c.securityControls.map(s => `- ${s}`).join('\n')}`
+    ).join('\n\n'),
+    backlog: architecture.components.flatMap(c =>
+      c.commonMisconfigurations.map(m => ({
+        id: `${c.id}-${m.issue.slice(0, 20)}`,
+        title: `${c.name}: ${m.issue}`,
+        priority: m.risk.toLowerCase() as 'critical' | 'high' | 'medium' | 'low',
+        effort: 'medium',
+      }))
+    ),
+    rawData: { architecture, checkedItems: Array.from(checkedItems) },
+    generatedAt: new Date().toLocaleString(),
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <ShowcaseHeader
         title="Azure Security Blueprint"
         description="Comprehensive security reference for Microsoft Azure cloud infrastructure"
+        actions={
+          <EvidencePackGenerator data={evidenceData} />
+        }
       />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="container mx-auto px-4 py-8"
+        className="content-container py-6 sm:py-8"
       >
         <div className="space-y-6">
 
@@ -163,8 +188,9 @@ export default function AzureBlueprintPage() {
           <div className="rounded-lg border border-border bg-background-card p-6">
             <Tabs
               tabs={[
+                { id: 'hierarchy', label: 'Management Groups' },
                 { id: 'components', label: 'Azure Components' },
-                { id: 'misconfigurations', label: 'Common Misconfigurations' },
+                { id: 'misconfigurations', label: 'Misconfigurations' },
                 { id: 'checklist', label: 'Security Checklist' },
               ]}
               activeTab={activeTab}
@@ -172,6 +198,22 @@ export default function AzureBlueprintPage() {
               variant="underline"
               className="mb-6"
             />
+
+            {/* Management Group Hierarchy Tab */}
+            {activeTab === 'hierarchy' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary mb-2 flex items-center gap-2">
+                    <FolderTree className="h-5 w-5 text-primary" />
+                    Azure Landing Zone Hierarchy
+                  </h3>
+                  <p className="text-sm text-text-secondary mb-6">
+                    Cloud Adoption Framework aligned management group structure with policy inheritance and RBAC.
+                  </p>
+                </div>
+                <ManagementGroupHierarchy />
+              </div>
+            )}
 
             {/* Components Tab */}
             {activeTab === 'components' && (

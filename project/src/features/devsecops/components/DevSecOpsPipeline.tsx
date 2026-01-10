@@ -1,15 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GitBranch, Loader2, AlertTriangle, Download, Settings } from 'lucide-react';
+import { GitBranch, Loader2, AlertTriangle, Download, Settings, Package, Shield, FileCode } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Tabs } from '@/components/ui/Tabs';
+import { Button } from '@/components/ui/Button';
+import { EvidencePackGenerator } from '@/components/ui/EvidencePackGenerator';
 import { PipelineVisualization } from './PipelineVisualization';
 import { FindingsList } from './FindingsList';
+import { SBOMViewer } from './SBOMViewer';
+import { SLSAProvenancePanel } from './SLSAProvenancePanel';
 import type { PipelineRun, PipelineStage, SecurityThresholds } from '../types';
 
-type TabId = 'overview' | 'sast' | 'sca' | 'secrets' | 'iac' | 'container' | 'thresholds';
+type TabId = 'overview' | 'sast' | 'sca' | 'secrets' | 'iac' | 'container' | 'thresholds' | 'sbom' | 'provenance';
 
 export function DevSecOpsPipeline({ className }: { className?: string }) {
   const [pipelineRun, setPipelineRun] = useState<PipelineRun | null>(null);
@@ -90,23 +94,49 @@ export function DevSecOpsPipeline({ className }: { className?: string }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={cn('container mx-auto px-4 py-8', className)}
+      className={cn('content-container py-6 sm:py-8', className)}
     >
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <GitBranch className="h-8 w-8 text-primary" />
-              <h1 className="text-3xl font-bold text-text-primary">DevSecOps Pipeline</h1>
+              <GitBranch className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary">DevSecOps Pipeline</h1>
             </div>
-            <p className="text-text-secondary">
+            <p className="text-sm sm:text-base text-text-secondary">
               Security scanning results for {pipelineRun.branch} ({pipelineRun.commit})
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* SBOM Viewer */}
+            <SBOMViewer />
+            
+            {/* Evidence Pack */}
+            <EvidencePackGenerator
+              data={{
+                projectName: 'DevSecOps Pipeline Run',
+                executiveSummary: `Pipeline ${pipelineRun.overallStatus.toUpperCase()} with ${totalFindings} total findings. ${criticalFindings} critical and ${highFindings} high severity issues detected across ${scanStages.length} security scans.`,
+                technicalFindings: `## Security Gate Results\n\n${Object.entries(pipelineRun.securityGates).map(([gate, passed]) => `- ${gate}: ${passed ? '✅ PASS' : '❌ FAIL'}`).join('\n')}`,
+                backlog: scanStages.flatMap(s => 
+                  s.scanResult?.findings.filter(f => f.severity === 'critical' || f.severity === 'high').map(f => ({
+                    id: f.id,
+                    title: f.title,
+                    priority: f.severity as 'critical' | 'high' | 'medium' | 'low',
+                    effort: 'medium',
+                  })) || []
+                ).slice(0, 20),
+                rawData: {
+                  pipelineRun,
+                  thresholds,
+                },
+                generatedAt: new Date().toLocaleString(),
+              }}
+            />
+            
+            {/* Status Badge */}
             <span className={cn(
-              'inline-flex items-center px-3 py-1 rounded-md text-sm font-bold uppercase',
+              'inline-flex items-center px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold uppercase',
               pipelineRun.overallStatus === 'passed'
                 ? 'bg-severity-low/20 text-severity-low border border-severity-low/30'
                 : pipelineRun.overallStatus === 'failed'
@@ -161,6 +191,8 @@ export function DevSecOpsPipeline({ className }: { className?: string }) {
               { id: 'secrets', label: 'Secrets' },
               { id: 'iac', label: 'IaC' },
               { id: 'container', label: 'Container' },
+              { id: 'sbom', label: 'SBOM' },
+              { id: 'provenance', label: 'Provenance' },
               { id: 'thresholds', label: 'Thresholds' },
             ]}
             activeTab={activeTab}
@@ -281,6 +313,62 @@ export function DevSecOpsPipeline({ className }: { className?: string }) {
               findings={pipelineRun.stages.find((s) => s.scanResult?.scanType === 'container')?.scanResult?.findings || []}
               scanType="container"
             />
+          )}
+
+          {activeTab === 'sbom' && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+                  <Package className="h-5 w-5 text-secondary" />
+                  Software Bill of Materials
+                </h3>
+                <p className="text-sm text-text-secondary mb-6">
+                  CycloneDX SBOM for supply chain transparency and vulnerability tracking.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-lg bg-background-elevated border border-border text-center">
+                <Package className="h-12 w-12 text-secondary mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-text-primary mb-2">
+                  View Component Inventory
+                </h4>
+                <p className="text-sm text-text-secondary mb-4 max-w-md mx-auto">
+                  Explore all dependencies, their licenses, and known vulnerabilities in the CycloneDX format.
+                </p>
+                <SBOMViewer />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-lg bg-background-card border border-border">
+                  <p className="text-2xl font-bold text-text-primary">9</p>
+                  <p className="text-sm text-text-secondary">Total Components</p>
+                </div>
+                <div className="p-4 rounded-lg bg-severity-high/5 border border-severity-high/30">
+                  <p className="text-2xl font-bold text-severity-high">3</p>
+                  <p className="text-sm text-text-secondary">Vulnerable</p>
+                </div>
+                <div className="p-4 rounded-lg bg-background-card border border-border">
+                  <p className="text-2xl font-bold text-severity-low">MIT</p>
+                  <p className="text-sm text-text-secondary">Primary License</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'provenance' && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-accent" />
+                  SLSA Provenance
+                </h3>
+                <p className="text-sm text-text-secondary mb-6">
+                  Supply-chain Levels for Software Artifacts (SLSA) compliance and build provenance.
+                </p>
+              </div>
+              
+              <SLSAProvenancePanel />
+            </div>
           )}
 
           {activeTab === 'thresholds' && (
