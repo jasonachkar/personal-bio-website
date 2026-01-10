@@ -6,7 +6,7 @@ import type { SectionId } from '../../data/types';
 import type { Hero as HeroContent } from '@/lib/schemas';
 import { Button } from '../ui/Button';
 import Badge from '../ui/Badge';
-import { Shield, Cloud, Lock, Terminal, Cpu, Activity, Fingerprint, Wifi } from 'lucide-react';
+import { Shield, Cloud, Lock, Terminal, Cpu, Wifi } from 'lucide-react';
 import {
   scrollVariants,
   transitions,
@@ -302,25 +302,30 @@ function SecurityProfileCard({
         <div className={cn(
           'absolute -inset-[1px] rounded-2xl sm:rounded-3xl',
           'bg-gradient-to-r from-primary via-secondary to-accent',
-          'opacity-50 blur-sm group-hover:opacity-80 group-hover:blur-md',
+          'opacity-30 group-hover:opacity-60',
+          'blur-sm group-hover:blur-md',
           'transition-all duration-500',
           'animate-gradient-shift bg-[length:200%_200%]'
         )} />
         
-        {/* Main Card */}
+        {/* Main Card - Theme Aware */}
         <div className={cn(
           'relative overflow-hidden',
           'rounded-2xl sm:rounded-3xl',
-          'border border-white/10',
-          'bg-gradient-to-br from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a]',
-          'shadow-2xl'
+          'border border-border',
+          'bg-background-card',
+          'shadow-xl dark:shadow-2xl'
         )}>
-          {/* Mesh Background */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjAuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-50" />
+          {/* Subtle Grid Pattern */}
+          <div className={cn(
+            'absolute inset-0 opacity-30 dark:opacity-50',
+            'bg-[radial-gradient(circle_at_1px_1px,var(--border-default)_1px,transparent_0)]',
+            'bg-[size:24px_24px]'
+          )} />
           
           {/* Corner Decorations */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-br-full" />
-          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-accent/20 to-transparent rounded-tl-full" />
+          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-br-full" />
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-accent/10 to-transparent rounded-tl-full" />
           
           {/* Floating Particles */}
           {!prefersReducedMotion && (
@@ -352,7 +357,7 @@ function SecurityProfileCard({
                 className={cn(
                   'flex items-center gap-2',
                   'px-3 py-2 rounded-xl',
-                  'bg-gradient-to-r from-primary/10 to-transparent',
+                  'bg-primary/10 dark:bg-primary/15',
                   'border border-primary/20'
                 )}
                 initial={{ opacity: 0, x: -20 }}
@@ -379,7 +384,7 @@ function SecurityProfileCard({
               <motion.div
                 className={cn(
                   'flex items-center gap-2 px-3 py-2 rounded-xl',
-                  'bg-gradient-to-r from-severity-low/20 to-severity-low/5',
+                  'bg-severity-low/10 dark:bg-severity-low/15',
                   'border border-severity-low/30'
                 )}
                 initial={{ opacity: 0, x: 20 }}
@@ -412,8 +417,8 @@ function SecurityProfileCard({
             <motion.div
               className={cn(
                 'rounded-xl overflow-hidden',
-                'border border-white/5',
-                'bg-gradient-to-br from-white/5 to-transparent'
+                'border border-border',
+                'bg-background-elevated/50'
               )}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -421,8 +426,8 @@ function SecurityProfileCard({
             >
               <div className={cn(
                 'flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3',
-                'border-b border-white/5',
-                'bg-white/5'
+                'border-b border-border',
+                'bg-background-elevated'
               )}>
                 <div className="flex items-center gap-2">
                   <Cpu className="h-4 w-4 text-secondary" />
@@ -453,14 +458,14 @@ function SecurityProfileCard({
               <div className="p-3 sm:p-4">
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {[
-                    { name: 'Azure', color: 'from-blue-500/20 to-blue-500/5 border-blue-500/30 text-blue-400' },
-                    { name: 'Sentinel', color: 'from-cyan-500/20 to-cyan-500/5 border-cyan-500/30 text-cyan-400' },
-                    { name: 'Entra ID', color: 'from-purple-500/20 to-purple-500/5 border-purple-500/30 text-purple-400' },
-                    { name: 'Defender', color: 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/30 text-emerald-400' },
-                    { name: 'OWASP', color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30 text-orange-400' },
-                    { name: 'KQL', color: 'from-pink-500/20 to-pink-500/5 border-pink-500/30 text-pink-400' },
-                    { name: 'Terraform', color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30 text-violet-400' },
-                    { name: 'GitHub', color: 'from-gray-500/20 to-gray-500/5 border-gray-500/30 text-gray-300' },
+                    { name: 'Azure', color: 'bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400' },
+                    { name: 'Sentinel', color: 'bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/30 text-cyan-600 dark:text-cyan-400' },
+                    { name: 'Entra ID', color: 'bg-purple-500/10 dark:bg-purple-500/20 border-purple-500/30 text-purple-600 dark:text-purple-400' },
+                    { name: 'Defender', color: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' },
+                    { name: 'OWASP', color: 'bg-orange-500/10 dark:bg-orange-500/20 border-orange-500/30 text-orange-600 dark:text-orange-400' },
+                    { name: 'KQL', color: 'bg-pink-500/10 dark:bg-pink-500/20 border-pink-500/30 text-pink-600 dark:text-pink-400' },
+                    { name: 'Terraform', color: 'bg-violet-500/10 dark:bg-violet-500/20 border-violet-500/30 text-violet-600 dark:text-violet-400' },
+                    { name: 'GitHub', color: 'bg-gray-500/10 dark:bg-gray-500/20 border-gray-500/30 text-gray-600 dark:text-gray-300' },
                   ].map((tool, idx) => (
                     <motion.span
                       key={tool.name}
@@ -469,7 +474,7 @@ function SecurityProfileCard({
                       transition={{ delay: 0.6 + idx * 0.05, duration: 0.3 }}
                       className={cn(
                         'px-2.5 py-1 rounded-lg text-xs font-medium',
-                        'bg-gradient-to-r border',
+                        'border',
                         'hover:scale-105 transition-transform cursor-default',
                         tool.color
                       )}
@@ -487,7 +492,7 @@ function SecurityProfileCard({
                 'relative overflow-hidden',
                 'rounded-xl',
                 'border border-primary/30',
-                'bg-gradient-to-r from-primary/15 via-primary/5 to-transparent'
+                'bg-primary/5 dark:bg-primary/10'
               )}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -496,7 +501,7 @@ function SecurityProfileCard({
               {/* Animated Background Pulse */}
               {!prefersReducedMotion && (
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent"
+                  className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent dark:from-primary/10"
                   animate={{ opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 />
@@ -505,7 +510,7 @@ function SecurityProfileCard({
               <div className="relative z-10 flex items-start gap-3 p-3 sm:p-4">
                 <div className={cn(
                   'flex-shrink-0 p-2.5 rounded-xl',
-                  'bg-gradient-to-br from-primary/30 to-primary/10',
+                  'bg-primary/10 dark:bg-primary/20',
                   'border border-primary/30'
                 )}>
                   <Lock className="h-5 w-5 text-primary" />
@@ -547,28 +552,28 @@ function StatCard({
   const numericValue = parseInt(stat.value.replace(/\D/g, '')) || 0;
   const hasNumber = numericValue > 0;
 
-  // Different gradients for each card
-  const gradients = [
+  // Different styles for each card - theme aware
+  const styles = [
     { 
-      bg: 'from-primary/20 via-primary/10 to-transparent',
-      border: 'border-primary/30',
+      bg: 'bg-primary/5 dark:bg-primary/10',
+      border: 'border-primary/20 dark:border-primary/30',
       text: 'text-primary',
-      glow: 'shadow-primary/20'
+      glow: 'group-hover:shadow-primary/10'
     },
     { 
-      bg: 'from-secondary/20 via-secondary/10 to-transparent',
-      border: 'border-secondary/30',
+      bg: 'bg-secondary/5 dark:bg-secondary/10',
+      border: 'border-secondary/20 dark:border-secondary/30',
       text: 'text-secondary',
-      glow: 'shadow-secondary/20'
+      glow: 'group-hover:shadow-secondary/10'
     },
     { 
-      bg: 'from-accent/20 via-accent/10 to-transparent',
-      border: 'border-accent/30',
+      bg: 'bg-accent/5 dark:bg-accent/10',
+      border: 'border-accent/20 dark:border-accent/30',
       text: 'text-accent',
-      glow: 'shadow-accent/20'
+      glow: 'group-hover:shadow-accent/10'
     },
   ];
-  const gradient = gradients[index % gradients.length];
+  const style = styles[index % styles.length];
 
   useEffect(() => {
     if (isVisible && hasNumber && !prefersReducedMotion) {
@@ -599,19 +604,18 @@ function StatCard({
         'relative overflow-hidden',
         'rounded-xl',
         'border',
-        gradient.border,
-        'bg-gradient-to-br',
-        gradient.bg,
+        style.border,
+        style.bg,
         'p-3 sm:p-4',
         'group',
-        'hover:shadow-lg transition-shadow duration-300',
-        gradient.glow
+        'hover:shadow-lg transition-all duration-300',
+        style.glow
       )}
     >
       {/* Shine Effect */}
       {!prefersReducedMotion && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 dark:via-white/10 to-transparent -skew-x-12"
           initial={{ x: '-100%' }}
           whileHover={{ x: '100%' }}
           transition={{ duration: 0.6 }}
@@ -620,18 +624,18 @@ function StatCard({
       
       <div className="relative z-10">
         {hasNumber ? (
-          <div className={cn('text-2xl sm:text-3xl font-black', gradient.text)}>
+          <div className={cn('text-2xl sm:text-3xl font-black', style.text)}>
             {displayValue}
             {stat.value.includes('+') && <span className="text-lg">+</span>}
             {stat.value.includes('yrs') && <span className="text-sm sm:text-base font-semibold ml-1">yrs</span>}
           </div>
         ) : (
-          <div className={cn('text-2xl sm:text-3xl font-black', gradient.text)}>{stat.value}</div>
+          <div className={cn('text-2xl sm:text-3xl font-black', style.text)}>{stat.value}</div>
         )}
         <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-text-muted mt-1">
           {stat.label}
         </div>
-        <p className="mt-1.5 text-[10px] sm:text-[11px] text-text-secondary/80 leading-relaxed line-clamp-2">
+        <p className="mt-1.5 text-[10px] sm:text-[11px] text-text-secondary leading-relaxed line-clamp-2">
           {stat.detail}
         </p>
       </div>

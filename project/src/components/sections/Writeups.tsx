@@ -1,5 +1,5 @@
-import { memo, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { memo, useMemo, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Clock, Tag, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
@@ -25,7 +25,21 @@ const Writeups = ({ writeups }: WriteupsProps) => {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
+  
+  // Track both the writeup and a unique key to force remount
   const [selectedWriteup, setSelectedWriteup] = useState<Writeup | null>(null);
+  const [viewerKey, setViewerKey] = useState(0);
+
+  // Handler to open a writeup - increments key to force complete remount
+  const handleOpenWriteup = useCallback((writeup: Writeup) => {
+    setViewerKey(prev => prev + 1);
+    setSelectedWriteup(writeup);
+  }, []);
+
+  // Handler to close - resets everything
+  const handleCloseWriteup = useCallback(() => {
+    setSelectedWriteup(null);
+  }, []);
   const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
   const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
   const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
@@ -107,7 +121,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
                   </div>
 
                   <button
-                    onClick={() => setSelectedWriteup(writeup)}
+                    onClick={() => handleOpenWriteup(writeup)}
                     className="relative z-10 inline-flex items-center gap-2 text-sm font-medium text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-card rounded"
                     aria-label={`Read more about ${writeup.title}`}
                   >
@@ -146,14 +160,16 @@ const Writeups = ({ writeups }: WriteupsProps) => {
       </div>
       </section>
 
-      {/* Key the WriteupViewer by writeup ID to force complete remount */}
-      {selectedWriteup && (
-        <WriteupViewer
-          key={selectedWriteup.id}
-          writeup={selectedWriteup}
-          onClose={() => setSelectedWriteup(null)}
-        />
-      )}
+      {/* AnimatePresence ensures proper unmount/mount animation */}
+      <AnimatePresence mode="wait">
+        {selectedWriteup && (
+          <WriteupViewer
+            key={`writeup-viewer-${viewerKey}`}
+            writeup={selectedWriteup}
+            onClose={handleCloseWriteup}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
