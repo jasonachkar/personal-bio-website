@@ -1,6 +1,6 @@
 import { memo, useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Clock, Tag, ArrowRight } from 'lucide-react';
+import { FileText, Clock, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 import type { Writeup } from '@/lib/schemas';
@@ -8,18 +8,11 @@ import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/a
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { WriteupViewer } from './WriteupViewer';
+import { writeupCategoryColors } from '@/utils/categoryColors';
 
 interface WriteupsProps {
   writeups: Writeup[];
 }
-
-const categoryColors = {
-  tutorial: 'text-blue-400 bg-blue-400/10 border-blue-400/20',
-  research: 'text-purple-400 bg-purple-400/10 border-purple-400/20',
-  'certification-notes': 'text-green-400 bg-green-400/10 border-green-400/20',
-  'lab-report': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
-  analysis: 'text-pink-400 bg-pink-400/10 border-pink-400/20',
-};
 
 const Writeups = ({ writeups }: WriteupsProps) => {
   const prefersReducedMotion = useReducedMotion();
@@ -86,7 +79,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
                     </div>
                     <span
                       className={`rounded-full border px-2 py-1 text-xs font-medium ${
-                        categoryColors[writeup.category]
+                        writeupCategoryColors[writeup.category]
                       }`}
                     >
                       {writeup.category.replace('-', ' ')}
@@ -164,7 +157,7 @@ const Writeups = ({ writeups }: WriteupsProps) => {
       <AnimatePresence mode="wait">
         {selectedWriteup && (
           <WriteupViewer
-            key={`writeup-viewer-${viewerKey}`}
+            key={`writeup-${selectedWriteup.id}-${viewerKey}`}
             writeup={selectedWriteup}
             onClose={handleCloseWriteup}
           />
