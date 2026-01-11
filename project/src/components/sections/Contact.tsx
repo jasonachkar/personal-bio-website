@@ -80,6 +80,12 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
     [prefersReducedMotion]
   );
 
+  // Check if EmailJS is properly configured
+  const emailjsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const emailjsTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const emailjsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  const isEmailJSConfigured = Boolean(emailjsServiceId && emailjsTemplateId && emailjsPublicKey);
+
   // Form submission handler
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,12 +106,7 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
 
     setStatus('loading');
 
-    // Check if EmailJS is configured
-    const emailjsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const emailjsTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const emailjsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+    if (isEmailJSConfigured && emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
       try {
         const currentTime = new Date().toLocaleString('en-US', {
           dateStyle: 'full',
@@ -156,19 +157,25 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
         setStatus('error');
       }
     } else {
-      // Fallback: open mailto link
-      const subject = encodeURIComponent('Contact from Portfolio Website');
-      const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+      // EmailJS not configured - show error with mailto fallback option
+      console.warn(
+        'EmailJS is not configured. Please set NEXT_PUBLIC_EMAILJS_SERVICE_ID, ' +
+        'NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY environment variables.'
       );
-      const mailtoLink = `mailto:jason.achkar@example.com?subject=${subject}&body=${body}`;
-      window.location.href = mailtoLink;
-
-      setTimeout(() => {
-        setStatus('success');
-        setForm(initialForm);
-      }, 500);
+      setError('Email service is not configured. Please use the email link below to contact me directly.');
+      setStatus('error');
     }
+  };
+
+  // Generate mailto link for fallback
+  const getMailtoLink = () => {
+    const emailLink = socialLinks.find(link => link.type === 'email');
+    const email = emailLink?.href?.replace('mailto:', '') || 'contact@example.com';
+    const subject = encodeURIComponent('Contact from Portfolio Website');
+    const body = form.name || form.email || form.message
+      ? encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`)
+      : '';
+    return `mailto:${email}?subject=${subject}${body ? `&body=${body}` : ''}`;
   };
 
   // Input field classes
@@ -306,10 +313,26 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
                   <motion.div
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 text-sm text-severity-high"
+                    className="rounded-lg border border-severity-high/30 bg-severity-high/10 p-3"
                   >
-                    <AlertCircle className="h-4 w-4" />
-                    <span>{error}</span>
+                    <div className="flex items-start gap-2 text-sm text-severity-high">
+                      <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1">
+                        <span>{error}</span>
+                        {!isEmailJSConfigured && (
+                          <a
+                            href={getMailtoLink()}
+                            className={cn(
+                              'mt-2 inline-flex items-center gap-2',
+                              'text-primary hover:text-primary-hover underline'
+                            )}
+                          >
+                            <Mail className="h-3.5 w-3.5" />
+                            Send via email client instead
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </motion.div>
                 )}
 
