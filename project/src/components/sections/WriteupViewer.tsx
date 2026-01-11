@@ -22,24 +22,47 @@ interface WriteupViewerProps {
 }
 
 /**
+ * State for tracking fetch status
+ */
+interface FetchState {
+  content: string | null;
+  loading: boolean;
+  error: string | null;
+  isRendered: boolean;
+  fetchedWriteupId: string | null; // Track which writeup the content belongs to
+}
+
+const initialFetchState: FetchState = {
+  content: null,
+  loading: true,
+  error: null,
+  isRendered: false,
+  fetchedWriteupId: null,
+};
+
+/**
  * WriteupViewer Component
- * Shows loading state immediately and only displays content when fully loaded
+ * Shows loading state immediately and only displays content when fully loaded.
+ * NEVER shows cached/stale content - always fetches fresh from GitHub API.
  */
 export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
   const prefersReducedMotion = useReducedMotion();
   
-  // Content state - starts empty, only populated when fetch completes
-  const [content, setContent] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isRendered, setIsRendered] = useState(false);
+  // Single state object to ensure atomic updates
+  const [fetchState, setFetchState] = useState<FetchState>(initialFetchState);
   
   // Abort controller for canceling requests
   const abortControllerRef = useRef<AbortController | null>(null);
+  
+  // Track the current writeup ID to prevent showing stale content
+  const currentWriteupIdRef = useRef<string>(writeup.id);
 
   // Fetch content on mount - runs once per writeup
   useEffect(() => {
-    // Cancel any previous request
+    // Update the current writeup ID ref
+    currentWriteupIdRef.current = writeup.id;
+    
+    // Cancel any previous request immediately
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -48,29 +71,46 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
     const abortController = new AbortController();
     abortControllerRef.current = abortController;
     
-    // Reset state for fresh load
-    setContent(null);
-    setLoading(true);
-    setError(null);
-    setIsRendered(false);
+    // CRITICAL: Reset to initial loading state - never show previous content
+    setFetchState({
+      content: null,
+      loading: true,
+      error: null,
+      isRendered: false,
+      fetchedWriteupId: null,
+    });
 
     const fetchContent = async () => {
       if (!writeup.githubUrl) {
-        setError('GitHub URL not available');
-        setLoading(false);
+        setFetchState({
+          content: null,
+          loading: false,
+          error: 'GitHub URL not available',
+          isRendered: false,
+          fetchedWriteupId: writeup.id,
+        });
         return;
       }
 
       try {
         const rawUrl = githubUrlToRaw(writeup.githubUrl);
-        const apiUrl = `/api/writeups/fetch?url=${encodeURIComponent(rawUrl)}`;
+        
+        // Add cache-busting timestamp to URL to prevent any caching
+        const cacheBuster = Date.now();
+        const apiUrl = `/api/writeups/fetch?url=${encodeURIComponent(rawUrl)}&_t=${cacheBuster}`;
 
         const response = await fetch(apiUrl, { 
-          signal: abortController.signal 
+          signal: abortController.signal,
+          // Prevent browser from caching the response
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+          },
         });
         
-        // Check if aborted
-        if (abortController.signal.aborted) {
+        // Check if aborted or if we're fetching for a different writeup now
+        if (abortController.signal.aborted || currentWriteupIdRef.current !== writeup.id) {
           return;
         }
 
@@ -81,7 +121,7 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
         const data = await response.json();
 
         // Check again after JSON parsing
-        if (abortController.signal.aborted) {
+        if (abortController.signal.aborted || currentWriteupIdRef.current !== writeup.id) {
           return;
         }
 
@@ -105,15 +145,19 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
           processedContent = markdownToHtml(data.content);
         }
 
-        // Final abort check before setting state
-        if (abortController.signal.aborted) {
+        // Final check before setting state - ensure we're still showing this writeup
+        if (abortController.signal.aborted || currentWriteupIdRef.current !== writeup.id) {
           return;
         }
 
-        // Set all state at once
-        setContent(processedContent);
-        setIsRendered(rendered);
-        setLoading(false);
+        // Set state atomically with the writeup ID to verify it matches
+        setFetchState({
+          content: processedContent,
+          loading: false,
+          error: null,
+          isRendered: rendered,
+          fetchedWriteupId: writeup.id,
+        });
         
       } catch (err) {
         // Ignore abort errors
@@ -121,16 +165,22 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
           return;
         }
         
-        if (!abortController.signal.aborted) {
-          setError(err instanceof Error ? err.message : 'Failed to load content');
-          setLoading(false);
+        // Only set error if this is still the current writeup
+        if (!abortController.signal.aborted && currentWriteupIdRef.current === writeup.id) {
+          setFetchState({
+            content: null,
+            loading: false,
+            error: err instanceof Error ? err.message : 'Failed to load content',
+            isRendered: false,
+            fetchedWriteupId: writeup.id,
+          });
         }
       }
     };
 
     fetchContent();
 
-    // Cleanup: abort on unmount
+    // Cleanup: abort on unmount and reset state
     return () => {
       abortController.abort();
     };
@@ -157,6 +207,16 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
   const handleBackdropClick = useCallback(() => {
     onClose();
   }, [onClose]);
+
+  // Destructure state for easier access
+  const { content, loading, error, isRendered, fetchedWriteupId } = fetchState;
+  
+  // CRITICAL SAFEGUARD: Only show content if it belongs to the current writeup
+  // If the fetched content is for a different writeup, show loading instead
+  const isContentValid = fetchedWriteupId === writeup.id;
+  const shouldShowLoading = loading || (!isContentValid && !error);
+  const shouldShowError = !loading && error && isContentValid;
+  const shouldShowContent = !loading && !error && content && isContentValid;
 
   return (
     <motion.div
@@ -248,8 +308,8 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
 
         {/* Content Area */}
         <div className="overflow-y-auto flex-1 p-4 sm:p-6 custom-scrollbar">
-          {/* Loading State - Always show when loading */}
-          {loading && (
+          {/* Loading State - Show when loading OR when content doesn't match current writeup */}
+          {shouldShowLoading && (
             <div className="flex flex-col items-center justify-center py-16">
               <div className="relative">
                 <Loader2 className="h-12 w-12 text-primary animate-spin" />
@@ -260,8 +320,8 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
             </div>
           )}
 
-          {/* Error State */}
-          {!loading && error && (
+          {/* Error State - Only show if error belongs to current writeup */}
+          {shouldShowError && (
             <div className="flex flex-col items-center justify-center py-16">
               <AlertCircle className="h-12 w-12 text-severity-medium mb-4" />
               <p className="text-text-primary font-medium mb-2">Failed to load content</p>
@@ -285,8 +345,8 @@ export function WriteupViewer({ writeup, onClose }: WriteupViewerProps) {
             </div>
           )}
 
-          {/* Content - Only show when NOT loading AND content exists */}
-          {!loading && !error && content && (
+          {/* Content - Only show when content is valid and matches current writeup */}
+          {shouldShowContent && (
             <div
               className={cn(
                 'markdown-body',

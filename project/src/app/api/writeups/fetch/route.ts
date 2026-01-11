@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Disable Next.js caching for this route - always fetch fresh content
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 /**
  * GET /api/writeups/fetch
  * 
@@ -10,6 +14,14 @@ import { NextRequest, NextResponse } from 'next/server';
  * - url: The raw GitHub URL to fetch (required)
  */
 export async function GET(request: NextRequest) {
+  // Response headers to prevent any caching
+  const noCacheHeaders = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  };
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const url = searchParams.get('url');
@@ -17,7 +29,7 @@ export async function GET(request: NextRequest) {
     if (!url) {
       return NextResponse.json(
         { error: 'URL parameter is required' },
-        { status: 400 }
+        { status: 400, headers: noCacheHeaders }
       );
     }
 
@@ -25,22 +37,23 @@ export async function GET(request: NextRequest) {
     if (!url.startsWith('https://raw.githubusercontent.com/')) {
       return NextResponse.json(
         { error: 'Invalid URL. Only raw.githubusercontent.com URLs are allowed' },
-        { status: 400 }
+        { status: 400, headers: noCacheHeaders }
       );
     }
 
-    // Fetch the raw markdown content from GitHub
+    // Fetch the raw markdown content from GitHub - disable caching
     const markdownResponse = await fetch(url, {
       headers: {
         'Accept': 'text/plain',
         'User-Agent': 'Mozilla/5.0 (compatible; Portfolio/1.0)',
       },
+      cache: 'no-store',
     });
 
     if (!markdownResponse.ok) {
       return NextResponse.json(
         { error: `Failed to fetch: ${markdownResponse.statusText}` },
-        { status: markdownResponse.status }
+        { status: markdownResponse.status, headers: noCacheHeaders }
       );
     }
 
@@ -59,6 +72,7 @@ export async function GET(request: NextRequest) {
           text: markdown,
           mode: 'gfm', // GitHub Flavored Markdown
         }),
+        cache: 'no-store',
       });
 
       if (!renderResponse.ok) {
@@ -69,31 +83,21 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json(
         { content: html, rendered: true },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-          },
-        }
+        { headers: noCacheHeaders }
       );
     } catch (apiError) {
       // Fallback: return raw markdown if GitHub API fails
       console.warn('GitHub Markdown API failed, falling back to raw markdown:', apiError);
       return NextResponse.json(
         { content: markdown, rendered: false },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-          },
-        }
+        { headers: noCacheHeaders }
       );
     }
   } catch (error) {
     console.error('Error fetching writeup content:', error);
     return NextResponse.json(
       { error: 'Failed to fetch content' },
-      { status: 500 }
+      { status: 500, headers: noCacheHeaders }
     );
   }
 }
