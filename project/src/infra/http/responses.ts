@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { securityHeaders } from '../security/headers';
+import { logger } from '@/lib/logger';
 
 /**
  * HTTP response utilities for Next.js API routes
@@ -62,7 +63,7 @@ export function errorResponse(
 ): NextResponse<ApiErrorResponse> {
   // Log detailed error server-side
   if (options.logError) {
-    console.error('[API Error]', {
+    logger.error('API Error', {
       message,
       code: options.code,
       error: options.logError,
@@ -89,6 +90,7 @@ export function errorResponse(
     headers: securityHeaders,
   });
 }
+
 
 /**
  * Common error responses
