@@ -92,7 +92,7 @@ export const projectSchema = z.object({
 
 export const projectsSchema = z.array(projectSchema);
 
-// SecureObs (flagship) Schema
+// SecureObs Schema
 export const secureObsStatSchema = z.object({
   value: z.string().min(1),
   label: z.string().min(1),
@@ -115,7 +115,7 @@ export const secureObsSchema = z.object({
   tagline: z.string().min(1),
   summary: z.string().min(1),
   liveUrl: z.string().url(),
-  sourceUrl: z.string().url(),
+  sourceUrl: z.string().url().optional(),
   status: z.string().min(1),
   stats: z.array(secureObsStatSchema).min(1),
   pillars: z.array(secureObsPillarSchema).min(1),
@@ -171,122 +171,6 @@ export const socialLinkSchema = z.object({
 
 export const socialSchema = z.array(socialLinkSchema);
 
-// SIEM Schemas
-export const eventSourceSchema = z.object({
-  type: z.enum(['endpoint', 'network', 'application', 'cloud']),
-  name: z.string().min(1),
-  agent: z.string().optional(),
-});
-
-export const actorSchema = z.object({
-  username: z.string().optional(),
-  userId: z.string().optional(),
-  ipAddress: z.string().optional(),
-  hostname: z.string().optional(),
-  processName: z.string().optional(),
-  processId: z.number().optional(),
-});
-
-export const targetSchema = z.object({
-  resource: z.string().optional(),
-  hostname: z.string().optional(),
-  ipAddress: z.string().optional(),
-  port: z.number().optional(),
-  protocol: z.string().optional(),
-});
-
-export const eventDetailsSchema = z.object({
-  action: z.string().min(1),
-  result: z.enum(['success', 'failure', 'blocked']),
-  reason: z.string().optional(),
-}).catchall(z.any()); // Allow additional fields
-
-export const eventEnrichmentSchema = z.object({
-  mitreTactics: z.array(z.string()).optional(),
-  mitreTechniques: z.array(z.string()).optional(),
-  riskScore: z.number().min(0).max(100).optional(),
-  tags: z.array(z.string()).optional(),
-});
-
-export const securityEventSchema = z.object({
-  id: z.string().min(1),
-  timestamp: z.string().datetime(),
-  eventType: z.string().min(1),
-  severity: z.enum(['low', 'medium', 'high', 'critical']),
-  source: eventSourceSchema,
-  actor: actorSchema,
-  target: targetSchema.optional(),
-  details: eventDetailsSchema,
-  enrichment: eventEnrichmentSchema.optional(),
-  rawLog: z.string().optional(),
-});
-
-export const detectionRuleSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  description: z.string().min(1),
-  severity: z.enum(['low', 'medium', 'high', 'critical']),
-  enabled: z.boolean(),
-  mitre: z.object({
-    tactics: z.array(z.string()).min(1),
-    techniques: z.array(z.string()).min(1),
-  }),
-  query: z.string().min(1),
-  timeWindow: z.object({
-    duration: z.number().positive(),
-    threshold: z.number().positive(),
-    groupBy: z.array(z.string()).optional(),
-  }).optional(),
-  author: z.string().min(1),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  tags: z.array(z.string()),
-  alertTemplate: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    recommendations: z.array(z.string()).min(1),
-  }).optional(),
-});
-
-export const siemEventsSchema = z.array(securityEventSchema);
-export const detectionRulesSchema = z.array(detectionRuleSchema);
-
-// Azure Architecture Schemas
-export const azureMisconfigurationSchema = z.object({
-  issue: z.string().min(1),
-  risk: z.enum(['Low', 'Medium', 'High', 'Critical']),
-  fix: z.string().min(1),
-});
-
-export const azureComponentSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  category: z.string().min(1),
-  description: z.string().min(1),
-  securityControls: z.array(z.string()).min(1),
-  commonMisconfigurations: z.array(azureMisconfigurationSchema),
-  bestPractices: z.array(z.string()).min(1),
-});
-
-export const azureCisControlSchema = z.object({
-  id: z.string().min(1),
-  title: z.string().min(1),
-  implementation: z.string().min(1),
-});
-
-export const azureArchitectureSchema = z.object({
-  components: z.array(azureComponentSchema),
-  cisControls: z.array(azureCisControlSchema).optional(),
-  architecturePatterns: z.any().optional(),
-}).passthrough();
-
-// Threat Modeling Schemas
-// Using very permissive schema - complex nested structure causes Zod issues
-export const threatModelComponentSchema = z.any();
-export const threatModelDataFlowSchema = z.any();
-export const threatModelThreatSchema = z.any();
-export const threatModelTemplateSchema = z.any();
-
 // Type exports for TypeScript
 export type Hero = z.infer<typeof heroSchema>;
 export type About = z.infer<typeof aboutSchema>;
@@ -301,10 +185,3 @@ export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Writeup = z.infer<typeof writeupSchema>;
 export type Contact = z.infer<typeof contactSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
-export type SecurityEvent = z.infer<typeof securityEventSchema>;
-export type DetectionRule = z.infer<typeof detectionRuleSchema>;
-export type AzureComponent = z.infer<typeof azureComponentSchema>;
-export type AzureArchitecture = z.infer<typeof azureArchitectureSchema>;
-export type ThreatModelComponent = z.infer<typeof threatModelComponentSchema>;
-export type ThreatModelThreat = z.infer<typeof threatModelThreatSchema>;
-export type ThreatModelTemplate = z.infer<typeof threatModelTemplateSchema>;

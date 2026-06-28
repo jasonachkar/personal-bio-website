@@ -1,11 +1,10 @@
 'use client';
 
 import Hero from '@/components/sections/Hero';
-import Flagship from '@/components/sections/Flagship';
+import SecureObsSection from '@/components/sections/SecureObs';
 import Experience from '@/components/sections/Experience';
 import Skills from '@/components/sections/Skills';
 import Certifications from '@/components/sections/Certifications';
-import Showcases from '@/components/sections/Showcases';
 import Writeups from '@/components/sections/Writeups';
 import Contact from '@/components/sections/Contact';
 import type {
@@ -56,11 +55,10 @@ export default function ClientHome({
   return (
     <main className="relative">
       <Hero onNavigate={scrollTo} content={heroContent} />
-      <Flagship content={secureObs} secondaryProjects={projects} />
+      <SecureObsSection content={secureObs} secondaryProjects={projects} />
       <Experience experience={experience} />
       <Skills content={skills} />
       <Certifications certifications={certifications} education={education} />
-      <Showcases />
       <Writeups writeups={writeups} />
       <Contact content={contactContent} socialLinks={socialLinks} />
     </main>

@@ -517,11 +517,11 @@ function SecurityProfileCard({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-primary mb-1 flex items-center gap-2">
-                    Open to Opportunities
+                    DevSecOps / Cloud Security Roles
                     <Wifi className="h-3.5 w-3.5 animate-pulse" />
                   </p>
                   <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                    DevSecOps &amp; cloud security engineering roles — Montreal or remote
+                    Canada or remote · platform security, CI/CD security, and Azure
                   </p>
                 </div>
               </div>

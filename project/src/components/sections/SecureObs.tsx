@@ -33,10 +33,10 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { cn } from '@/lib/cn';
 
 // ============================================
-// Flagship (SecureObs) Section
+// SecureObs Section
 // ============================================
 
-interface FlagshipProps {
+interface SecureObsSectionProps {
   content: SecureObs;
   secondaryProjects: Project[];
 }
@@ -94,63 +94,231 @@ function CountUpStat({
       onViewportEnter={() => setStarted(true)}
       transition={{ duration: 0.5, delay: index * 0.08, ease: easings.easeOutQuint }}
       className={cn(
-        'rounded-xl border border-border bg-background-elevated/40',
-        'p-3.5 sm:p-4 text-center'
+        'flex h-full min-w-0 flex-col rounded-lg border border-border bg-background-elevated/40',
+        'p-3.5 text-center sm:p-4'
       )}
     >
       <div className="text-2xl font-black text-gradient sm:text-3xl">
         {display}
         {suffix && <span className="text-xl sm:text-2xl">{suffix}</span>}
       </div>
-      <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-text-primary sm:text-xs">
+      <div className="mt-1 break-words text-[10px] font-bold uppercase tracking-widest text-text-primary sm:text-xs">
         {label}
       </div>
-      <p className="mt-1 text-[10px] leading-snug text-text-muted sm:text-[11px]">{detail}</p>
+      <p className="mt-2 min-w-0 break-words text-[10px] leading-relaxed text-text-muted sm:text-[11px]">
+        {detail}
+      </p>
     </motion.div>
   );
 }
 
-/** Slim styled architecture flow */
-function ArchitectureFlow() {
-  const requestFlow = [
-    { icon: MonitorSmartphone, label: 'Angular SPA', sub: 'PKCE / JWT' },
-    { icon: Server, label: '.NET 8 API', sub: 'Clean Architecture' },
-    { icon: Database, label: 'PostgreSQL 16', sub: 'FORCE RLS' },
-  ];
-  const pipelineFlow = [
-    { icon: GitBranch, label: 'Pipeline push', sub: 'GitHub / Azure DevOps' },
-    { icon: Boxes, label: 'Scanner image', sub: '7 scanners' },
-    { icon: ShieldCheck, label: 'Build gate', sub: 'fail on blockers' },
-  ];
+type ArchitectureNode = {
+  icon: LucideIcon;
+  title: string;
+  detail: string;
+  tags: string[];
+};
 
-  const Row = ({ steps }: { steps: typeof requestFlow }) => (
-    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-      {steps.map((step, i) => (
-        <div key={step.label} className="flex items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-2.5 rounded-lg border border-border bg-background-card px-3 py-2">
-            <step.icon className="h-4 w-4 flex-shrink-0 text-primary" />
-            <div className="leading-tight">
-              <div className="text-xs font-semibold text-text-primary">{step.label}</div>
-              <div className="font-mono text-[10px] text-text-muted">{step.sub}</div>
+type ArchitectureLane = {
+  phase: string;
+  title: string;
+  description: string;
+  nodes: ArchitectureNode[];
+};
+
+const architectureLanes: ArchitectureLane[] = [
+  {
+    phase: '01',
+    title: 'Entry & identity',
+    description: 'Users and repositories enter through separate trust paths before anything reaches the API.',
+    nodes: [
+      {
+        icon: MonitorSmartphone,
+        title: 'Angular SPA',
+        detail: 'Browser client uses Entra ID PKCE and tenant-aware API calls for the dashboard experience.',
+        tags: ['Angular 21', 'PKCE', 'JWT'],
+      },
+      {
+        icon: GitBranch,
+        title: 'Repo and CI entry',
+        detail: 'GitHub App installs, pipeline events, and scoped project API keys start scan jobs without long-lived secrets.',
+        tags: ['GitHub App', 'short-lived tokens'],
+      },
+    ],
+  },
+  {
+    phase: '02',
+    title: 'Control plane',
+    description: 'The API owns tenancy, authorization, project state, and the rules that decide whether a build can pass.',
+    nodes: [
+      {
+        icon: Server,
+        title: '.NET 8 API',
+        detail: 'Clean Architecture services normalize incoming scanner output and apply project, tenant, and rate-limit checks.',
+        tags: ['.NET 8', 'EF Core', 'rate limits'],
+      },
+      {
+        icon: Database,
+        title: 'PostgreSQL boundary',
+        detail: 'FORCE row-level security runs under a restricted non-owner role so tenant isolation is enforced in the database.',
+        tags: ['PostgreSQL 16', 'FORCE RLS'],
+      },
+    ],
+  },
+  {
+    phase: '03',
+    title: 'Scan execution',
+    description: 'Scans run away from the web app, using ephemeral compute and versioned worker artifacts.',
+    nodes: [
+      {
+        icon: Boxes,
+        title: 'Scanner container',
+        detail: 'A single Docker image bundles seven scanners and emits a stable finding contract regardless of tool format.',
+        tags: ['Semgrep', 'Trivy', 'Gitleaks'],
+      },
+      {
+        icon: Network,
+        title: 'IaC graph engine',
+        detail: 'Terraform is parsed without a cloud login, converted into an Azure resource graph, then evaluated for attack paths.',
+        tags: ['Terraform', 'Azure graph'],
+      },
+    ],
+  },
+  {
+    phase: '04',
+    title: 'Governance loop',
+    description: 'Findings are deduplicated, triaged, and fed back into delivery as a release-quality signal.',
+    nodes: [
+      {
+        icon: Layers,
+        title: 'Finding pipeline',
+        detail: 'Cross-tool canonical hashing merges duplicate issues and keeps the dashboard focused on what still needs action.',
+        tags: ['deduplication', 'triage'],
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Build gate & canaries',
+        detail: 'Blocking findings fail CI, while Go canaries verify scan ingestion and gate behavior after production changes.',
+        tags: ['CI gate', 'Go verifier'],
+      },
+    ],
+  },
+];
+
+const architecturePaths = [
+  ['User request', 'Angular SPA', 'Entra ID', '.NET API', 'FORCE RLS', 'Tenant dashboard'],
+  ['Scan request', 'CI pipeline', 'Scanner image', 'Normalizer', 'Dedup engine', 'Build decision'],
+  ['IaC analysis', 'Terraform root', 'Resource graph', 'Attack-path rules', 'Risk ranking', 'Evidence view'],
+];
+
+function ArchitectureDeepDive() {
+  return (
+    <motion.div
+      variants={scrollVariants.fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      className="mt-8 sm:mt-10"
+    >
+      <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="mb-2 flex items-center gap-2">
+            <Network className="h-4 w-4 text-secondary" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+              Architecture deep dive
+            </span>
+          </div>
+          <h3 className="text-xl font-bold text-text-primary sm:text-2xl">
+            How SecureObs moves from code to governed security findings
+          </h3>
+        </div>
+        <p className="max-w-xl text-sm leading-relaxed text-text-secondary">
+          The system is split between a tenant-aware SaaS control plane and isolated scan workers,
+          with database-enforced tenancy and CI/CD feedback loops tying the two together.
+        </p>
+      </div>
+
+      <div className="grid min-w-0 gap-5 lg:grid-cols-4">
+        {architectureLanes.map((lane, laneIndex) => (
+          <div key={lane.title} className="relative min-w-0">
+            {laneIndex < architectureLanes.length - 1 && (
+              <ArrowRight
+                className="absolute -right-3 top-28 z-10 hidden h-5 w-5 rounded-full border border-border bg-background-card p-0.5 text-primary/60 lg:block"
+                aria-hidden="true"
+              />
+            )}
+
+            <div className="mb-3 flex items-center gap-2">
+              <span className="font-mono text-xs font-semibold text-primary">{lane.phase}</span>
+              <span className="h-px flex-1 bg-border" />
+            </div>
+            <h4 className="text-base font-semibold text-text-primary">{lane.title}</h4>
+            <p className="mt-1 min-w-0 text-sm leading-relaxed text-text-muted">
+              {lane.description}
+            </p>
+
+            <div className="mt-4 space-y-3">
+              {lane.nodes.map((node) => (
+                <div
+                  key={node.title}
+                  className="min-w-0 rounded-lg border border-border bg-background-card/80 p-3.5"
+                >
+                  <div className="flex min-w-0 items-start gap-3">
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <node.icon className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h5 className="break-words text-sm font-semibold text-text-primary">
+                        {node.title}
+                      </h5>
+                      <p className="mt-1 break-words text-xs leading-relaxed text-text-secondary">
+                        {node.detail}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex min-w-0 flex-wrap gap-1.5">
+                    {node.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="min-w-0 break-words rounded-md border border-border bg-background-elevated px-2 py-1 font-mono text-[10px] text-text-muted"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          {i < steps.length - 1 && (
-            <ArrowRight className="h-4 w-4 flex-shrink-0 text-primary/50" />
-          )}
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
 
-  return (
-    <div className="space-y-3">
-      <Row steps={requestFlow} />
-      <Row steps={pipelineFlow} />
-    </div>
+      <div className="mt-6 grid gap-3 lg:grid-cols-3">
+        {architecturePaths.map((path) => (
+          <div key={path[0]} className="min-w-0 rounded-lg border border-border bg-background-elevated/40 p-3">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
+              {path[0]}
+            </p>
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+              {path.slice(1).map((step, index, steps) => (
+                <span key={`${path[0]}-${step}`} className="flex min-w-0 items-center gap-1.5">
+                  <span className="min-w-0 break-words rounded-md bg-background-card px-2 py-1 font-mono text-[10px] text-text-secondary">
+                    {step}
+                  </span>
+                  {index < steps.length - 1 && (
+                    <ArrowRight className="h-3 w-3 flex-shrink-0 text-primary/50" />
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
-const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
+const SecureObsSection = ({ content, secondaryProjects }: SecureObsSectionProps) => {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
@@ -190,7 +358,7 @@ const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
           >
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Flagship Project
+              Featured Project
             </span>
           </motion.div>
 
@@ -202,7 +370,7 @@ const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
           </p>
         </motion.div>
 
-        {/* Main flagship card with animated gradient border */}
+        {/* Main SecureObs card with animated gradient border */}
         <motion.div
           variants={prefersReducedMotion ? {} : scrollVariants.scaleFade}
           initial="hidden"
@@ -262,20 +430,22 @@ const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
                     <ExternalLink className="h-4 w-4" />
                     Live Site
                   </a>
-                  <a
-                    href={content.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      'inline-flex items-center gap-2 rounded-full px-4 py-2',
-                      'text-sm font-semibold',
-                      'border border-border bg-background-elevated text-text-primary',
-                      'transition-all duration-200 hover:border-primary/40 hover:text-primary'
-                    )}
-                  >
-                    <Github className="h-4 w-4" />
-                    Source
-                  </a>
+                  {content.sourceUrl && (
+                    <a
+                      href={content.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        'inline-flex items-center gap-2 rounded-full px-4 py-2',
+                        'text-sm font-semibold',
+                        'border border-border bg-background-elevated text-text-primary',
+                        'transition-all duration-200 hover:border-primary/40 hover:text-primary'
+                      )}
+                    >
+                      <Github className="h-4 w-4" />
+                      Source
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -296,19 +466,11 @@ const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
                 ))}
               </div>
 
-              {/* Architecture flow */}
-              <div className="mt-7 rounded-2xl border border-border bg-background-elevated/30 p-4 sm:p-5">
-                <div className="mb-3 flex items-center gap-2">
-                  <Network className="h-4 w-4 text-secondary" />
-                  <span className="text-xs font-semibold uppercase tracking-wide text-text-muted">
-                    Architecture at a glance
-                  </span>
-                </div>
-                <ArchitectureFlow />
-              </div>
             </div>
           </div>
         </motion.div>
+
+        <ArchitectureDeepDive />
 
         {/* Capability pillars */}
         <motion.div
@@ -430,4 +592,4 @@ const Flagship = ({ content, secondaryProjects }: FlagshipProps) => {
   );
 };
 
-export default memo(Flagship);
+export default memo(SecureObsSection);

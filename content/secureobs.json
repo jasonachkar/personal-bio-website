@@ -3,28 +3,27 @@
   "tagline": "DevSecOps Security Observatory",
   "summary": "A production-deployed, multi-tenant security SaaS — solo-designed and built — that unifies seven open-source scanners into one triage dashboard with cross-tool deduplication, CI/CD build gating, and credential-free Infrastructure-as-Code attack-path analysis. Built on a .NET 8 Clean-Architecture backend, an Angular 21 SPA, and PostgreSQL with row-level security, all running on Azure.",
   "liveUrl": "https://www.secureobs.com",
-  "sourceUrl": "https://github.com/jasonachkar",
   "status": "Production · MVP deployed",
   "stats": [
     {
       "value": "7",
-      "label": "Scanners unified",
-      "detail": "Semgrep, Gitleaks, Trivy, Bandit, ESLint-security, OSV-Scanner, Checkov"
+      "label": "Security scanners",
+      "detail": "One scanner image runs code, secrets, dependency, container, IaC, Python, and JavaScript checks, then normalizes every result into one review queue."
     },
     {
       "value": "56",
       "label": "Backend test files",
-      "detail": "xUnit unit + Testcontainers integration"
+      "detail": "Unit and Testcontainers integration tests cover tenant isolation, ingestion, deduplication, build gates, and scanner contracts."
     },
     {
       "value": "12",
       "label": "CI/CD workflows",
-      "detail": "deploy, scanner image, self-scan, canaries"
+      "detail": "Automation builds scanner images, scans the platform itself, deploys services, and runs production canaries after release."
     },
     {
       "value": "3",
-      "label": "Shipped artifacts",
-      "detail": "scanner image, Terraform runner, Go canary CLI"
+      "label": "Release artifacts",
+      "detail": "A scanner container, Terraform attack-path runner, and Go canary verifier ship as versioned components outside the web app."
     }
   ],
   "pillars": [

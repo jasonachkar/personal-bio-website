@@ -20,15 +20,15 @@ const customJestConfig = {
 
   // Coverage configuration
   collectCoverageFrom: [
-    'src/features/siem/lib/**/*.{ts,tsx}',
-    'src/features/threat-modeling/lib/**/*.{ts,tsx}',
+    'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/**/*.stories.{ts,tsx}',
     '!src/**/*.test.{ts,tsx}',
+    '!src/app/**/*',
   ],
 
   // Coverage thresholds
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
       branches: 70,
       functions: 75,
@@ -39,6 +39,7 @@ const customJestConfig = {
 
   // Test match patterns
   testMatch: ['**/__tests__/**/*.test.{ts,tsx}', '**/*.test.{ts,tsx}'],
+  passWithNoTests: true,
 
   // Transform ignore patterns
   transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],

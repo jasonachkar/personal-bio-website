@@ -4,7 +4,6 @@ export type SectionId =
   | 'experience'
   | 'skills'
   | 'certifications'
-  | 'showcases'
   | 'writeups'
   | 'contact';
 
