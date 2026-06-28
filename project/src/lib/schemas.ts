@@ -13,11 +13,17 @@ export const heroCtaSchema = z.object({
   kind: z.enum(['primary', 'ghost']),
 });
 
+export const heroQuickSignalSchema = z.object({
+  label: z.string().min(1),
+  value: z.string().min(1),
+});
+
 export const heroSchema = z.object({
   name: z.string().min(1),
   title: z.string().min(1),
   tagline: z.string().min(1),
   blurb: z.string().min(1),
+  quickSignals: z.array(heroQuickSignalSchema).optional(),
   currentFocus: z.array(z.string().min(1)).min(1),
   stats: z.array(heroStatsSchema).min(1),
   ctas: z.array(heroCtaSchema).min(1),
@@ -88,6 +94,15 @@ export const projectSchema = z.object({
   repoUrl: z.string().url(),
   demoUrl: z.string().url().optional(),
   thumbnail: z.string().optional(),
+  highlights: z.array(z.string().min(1)).optional(),
+  metrics: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        value: z.string().min(1),
+      })
+    )
+    .optional(),
 });
 
 export const projectsSchema = z.array(projectSchema);

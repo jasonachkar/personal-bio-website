@@ -1,34 +1,48 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "Full-Stack Developer → Cybersecurity (Cloud & AppSec)",
-  "tagline": "Azure Fundamentals (AZ-900) | Security+ | MSc Cybersecurity (UoL, in progress)",
-  "blurb": "Full-stack developer transitioning into cybersecurity with a secure-by-design mindset. Focused on Azure security, identity, detection engineering, and application security—bringing hands-on engineering experience into security work.",
+  "title": "DevSecOps | Cloud Security | Application Security",
+  "tagline": "DevSecOps, Cloud Security, and Application Security Engineer",
+  "blurb": "Software engineer focused on building security into cloud systems, CI/CD pipelines, and multi-tenant applications. Currently working on platform engineering and developer tooling at Genetec, with SecureObs as my flagship security SaaS project.",
+  "quickSignals": [
+    {
+      "label": "Current role",
+      "value": "Platform Engineer, SCM & Tools at Genetec"
+    },
+    {
+      "label": "Target work",
+      "value": "DevSecOps, Cloud Security, and AppSec engineering"
+    },
+    {
+      "label": "Proof point",
+      "value": "Solo-built SecureObs: 7 scanners, IaC attack paths, CI/CD gates"
+    }
+  ],
   "currentFocus": [
-    "Azure identity & access (Entra ID, Conditional Access concepts)",
-    "Microsoft Sentinel fundamentals (KQL, detections, alert tuning)",
-    "Secure SDLC: threat modeling + OWASP-style mitigations",
-    "Cloud security foundations: logging, posture, governance basics"
+    "Secure CI/CD build gates and policy-driven promotion",
+    "Azure security: Managed Identity, Key Vault, Entra ID, private networking",
+    "Application security: SAST, DAST, secrets, SCA, IaC scanning",
+    "Multi-tenant SaaS isolation with PostgreSQL row-level security"
   ],
   "stats": [
     {
-      "label": "Certifications",
-      "value": "3",
-      "detail": "Security+, AZ-900, Google Cybersecurity"
+      "label": "Flagship SaaS",
+      "value": "7",
+      "detail": "security scanners unified in SecureObs"
     },
     {
-      "label": "Engineering Experience",
-      "value": "3+ yrs",
-      "detail": "full-stack + secure-by-design practices"
+      "label": "Cloud Stack",
+      "value": "Azure",
+      "detail": "Key Vault, Managed Identity, App Service, PostgreSQL"
     },
     {
-      "label": "Security Projects",
-      "value": "6",
-      "detail": "labs, detections, and secure patterns"
+      "label": "Graduate Study",
+      "value": "GT MS",
+      "detail": "Cybersecurity, Information Security specialization"
     }
   ],
   "ctas": [
     {
-      "label": "View Projects",
+      "label": "View SecureObs",
       "href": "#projects",
       "kind": "primary"
     },

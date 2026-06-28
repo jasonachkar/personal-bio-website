@@ -1,48 +1,43 @@
 [
   {
-    "id": "msc-cyber",
-    "degree": "Master of Science in Cybersecurity",
-    "institution": "University of London",
+    "id": "gt-ms-cybersecurity",
+    "degree": "Master of Science in Cybersecurity, Information Security Specialization",
+    "institution": "Georgia Institute of Technology",
     "location": "Online",
-    "period": "2025 - Present",
+    "period": "2026 - 2028",
     "status": "in-progress",
     "highlights": [
-      "Graduate-level study of cybersecurity principles, risk management, and security governance",
-      "Focus on secure systems design, software security, and network security concepts",
-      "Academic grounding in cryptography, cybercrime, and information security management",
-      "Developing analytical and research skills applicable to cybersecurity consulting and engineering roles"
+      "Graduate study focused on information security, secure software development, identity and access management, and intrusion detection.",
+      "Developing deeper technical grounding in applied cryptography, network security, and software vulnerability analysis.",
+      "Aligns directly with DevSecOps, cloud security, and application security engineering goals."
     ],
     "relevantCourses": [
-      "Cyber Security Foundations",
-      "Security Management and Governance",
-      "Network and Infrastructure Security",
-      "Software and Application Security",
+      "Secure Software Development",
+      "Identity and Access Management",
+      "Network Security and Intrusion Detection",
       "Applied Cryptography",
-      "Cybercrime"
+      "Software Vulnerability Analysis"
     ]
   },
   {
-    "id": "bsc-cs",
-    "degree": "Bachelor of Science in Computer Science",
+    "id": "concordia-bcs",
+    "degree": "Bachelor of Computer Science",
     "institution": "Concordia University",
     "location": "Montreal, QC",
-    "period": "2022 - 2025",
+    "period": "Completed Apr 2025",
     "status": "completed",
     "highlights": [
-      "Strong foundation in computer science, software engineering, and systems programming",
-      "Hands-on experience designing and implementing web applications and backend services",
-      "Studied core networking and operating systems concepts relevant to cybersecurity",
-      "Developed analytical problem-solving skills through algorithms and data structures coursework"
+      "Built a foundation in software architecture, backend systems, databases, networks, operating systems, and secure software development.",
+      "Applied full-stack engineering skills across APIs, web applications, and systems coursework.",
+      "Coursework supports current work in secure cloud applications, DevSecOps, and platform engineering."
     ],
     "relevantCourses": [
-      "COMP 248 – Object-Oriented Programming I",
-      "COMP 249 – Object-Oriented Programming II",
-      "COMP 352 – Data Structures and Algorithms",
-      "COMP 445 – Data Communications and Computer Networks",
-      "COMP 346 – Operating Systems",
-      "COMP 353 – Databases",
-      "COMP 348 – Principles of Programming Languages",
-      "SOEN 341 – Software Process"
+      "Software Architecture",
+      "Computer Networks",
+      "Database Systems",
+      "Operating Systems",
+      "Secure Software Development",
+      "Data Structures and Algorithms"
     ]
   }
 ]

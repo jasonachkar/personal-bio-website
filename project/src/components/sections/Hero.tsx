@@ -5,8 +5,19 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'fram
 import type { SectionId } from '../../data/types';
 import type { Hero as HeroContent } from '@/lib/schemas';
 import { Button } from '../ui/Button';
-import Badge from '../ui/Badge';
-import { Shield, Cloud, Lock, Terminal, Cpu, Wifi } from 'lucide-react';
+import {
+  ArrowRight,
+  Building2,
+  Cpu,
+  Download,
+  Lock,
+  Mail,
+  Rocket,
+  Shield,
+  Target,
+  Terminal,
+  Wifi,
+} from 'lucide-react';
 import {
   scrollVariants,
   transitions,
@@ -75,6 +86,13 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
     window.open(href, '_blank', 'noreferrer');
   };
 
+  const getCtaIcon = (label: string) =>
+    label.toLowerCase().includes('resume') ? (
+      <Download className="h-4 w-4" />
+    ) : (
+      <ArrowRight className="h-4 w-4" />
+    );
+
   // Memoized variants
   const leftVariants = useMemo(
     () => (prefersReducedMotion ? {} : scrollVariants.fadeIn),
@@ -114,7 +132,7 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
         'md:pt-36 md:pb-24',
         'lg:pt-40 lg:pb-28'
       )}>
-        <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+        <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
           
           {/* Left Column - Text Content */}
           <motion.div
@@ -131,7 +149,7 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               transition={{ duration: 0.5, delay: 0.1, ease: easings.easeOutQuint }}
               className={cn(
                 'inline-flex w-fit items-center gap-2',
-                'rounded-full border border-primary/40 bg-primary/10',
+                'liquid-glass-pill rounded-full border border-primary/40 bg-primary/10',
                 'px-3.5 py-1.5 sm:px-4 sm:py-2',
                 'font-mono text-[10px] sm:text-xs uppercase tracking-[0.15em] text-primary'
               )}
@@ -145,10 +163,7 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               <motion.h1
                 className={cn(
                   'text-text-primary',
-                  'text-3xl font-bold leading-tight',
-                  'sm:text-4xl',
-                  'md:text-5xl',
-                  'lg:text-6xl'
+                  'text-display'
                 )}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -181,23 +196,65 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               </motion.p>
             </div>
 
+            {/* Recruiter Snapshot */}
+            {content.quickSignals && content.quickSignals.length > 0 && (
+              <motion.div
+                className="grid gap-2.5 sm:grid-cols-3"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.28, ease: easings.easeOutQuint }}
+              >
+                {content.quickSignals.map((signal, index) => {
+                  const SignalIcon = [Building2, Target, Rocket][index % 3];
+
+                  return (
+                    <motion.div
+                      key={signal.label}
+                      className={cn(
+                        'liquid-glass group rounded-xl border border-white/15',
+                        'px-3.5 py-3 sm:px-4',
+                        'shadow-glass dark:shadow-glass-dark'
+                      )}
+                      whileHover={prefersReducedMotion ? {} : { y: -3 }}
+                      transition={{ duration: 0.25, ease: easings.easeOutCubic }}
+                    >
+                      <div className="mb-2 flex items-center gap-2 text-primary">
+                        <SignalIcon className="h-4 w-4" />
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.16em]">
+                          {signal.label}
+                        </span>
+                      </div>
+                      <p className="text-sm font-medium leading-snug text-text-primary">
+                        {signal.value}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
+
             {/* CTA Buttons */}
             <motion.div
               className="flex flex-wrap items-center gap-2.5 sm:gap-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: easings.easeOutQuint }}
+              transition={{ duration: 0.6, delay: 0.33, ease: easings.easeOutQuint }}
             >
               {content.ctas.map((cta) => (
                 <Button
                   key={cta.label}
                   variant={cta.kind === 'primary' ? 'primary' : 'ghost'}
                   onClick={() => handleCta(cta.href, cta.label)}
+                  icon={getCtaIcon(cta.label)}
                 >
                   {cta.label}
                 </Button>
               ))}
-              <Button variant="secondary" onClick={() => onNavigate('contact')}>
+              <Button
+                variant="secondary"
+                onClick={() => onNavigate('contact')}
+                icon={<Mail className="h-4 w-4" />}
+              >
                 Contact Me
               </Button>
             </motion.div>
@@ -207,7 +264,7 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               className="space-y-2.5 sm:space-y-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35, ease: easings.easeOutQuint }}
+              transition={{ duration: 0.6, delay: 0.38, ease: easings.easeOutQuint }}
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-text-muted sm:text-sm">
                 Current Focus
@@ -301,8 +358,8 @@ function SecurityProfileCard({
         {/* Animated Gradient Border */}
         <div className={cn(
           'absolute -inset-[1px] rounded-2xl sm:rounded-3xl',
-          'bg-gradient-to-r from-primary via-secondary to-accent',
-          'opacity-30 group-hover:opacity-60',
+          'bg-gradient-to-r from-white/30 via-primary/40 to-accent/30',
+          'opacity-25 group-hover:opacity-55',
           'blur-sm group-hover:blur-md',
           'transition-all duration-500',
           'animate-gradient-shift bg-[length:200%_200%]'
@@ -310,10 +367,10 @@ function SecurityProfileCard({
         
         {/* Main Card - Theme Aware */}
         <div className={cn(
+          'liquid-glass-strong',
           'relative overflow-hidden',
           'rounded-2xl sm:rounded-3xl',
-          'border border-border',
-          'bg-background-card',
+          'border border-white/15 dark:border-primary/20',
           'shadow-xl dark:shadow-2xl'
         )}>
           {/* Subtle Grid Pattern */}
@@ -327,27 +384,6 @@ function SecurityProfileCard({
           <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-br-full" />
           <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-accent/10 to-transparent rounded-tl-full" />
           
-          {/* Floating Particles */}
-          {!prefersReducedMotion && (
-            <>
-              <motion.div
-                className="absolute top-10 right-10 w-1 h-1 bg-primary rounded-full"
-                animate={{ y: [0, -10, 0], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-              <motion.div
-                className="absolute top-20 left-8 w-1.5 h-1.5 bg-secondary rounded-full"
-                animate={{ y: [0, 10, 0], opacity: [0.3, 0.8, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-              />
-              <motion.div
-                className="absolute bottom-24 right-16 w-1 h-1 bg-accent rounded-full"
-                animate={{ y: [0, -8, 0], opacity: [0.4, 0.9, 0.4] }}
-                transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
-              />
-            </>
-          )}
-
           {/* Content */}
           <div className="relative z-10 p-4 sm:p-6 space-y-4 sm:space-y-5">
             
@@ -459,13 +495,15 @@ function SecurityProfileCard({
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {[
                     { name: 'Azure', color: 'bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400' },
-                    { name: 'Sentinel', color: 'bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/30 text-cyan-600 dark:text-cyan-400' },
-                    { name: 'Entra ID', color: 'bg-purple-500/10 dark:bg-purple-500/20 border-purple-500/30 text-purple-600 dark:text-purple-400' },
-                    { name: 'Defender', color: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' },
-                    { name: 'OWASP', color: 'bg-orange-500/10 dark:bg-orange-500/20 border-orange-500/30 text-orange-600 dark:text-orange-400' },
-                    { name: 'KQL', color: 'bg-pink-500/10 dark:bg-pink-500/20 border-pink-500/30 text-pink-600 dark:text-pink-400' },
+                    { name: 'Entra ID', color: 'bg-indigo-500/10 dark:bg-indigo-500/20 border-indigo-500/30 text-indigo-600 dark:text-indigo-300' },
+                    { name: 'Key Vault', color: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' },
                     { name: 'Terraform', color: 'bg-violet-500/10 dark:bg-violet-500/20 border-violet-500/30 text-violet-600 dark:text-violet-400' },
-                    { name: 'GitHub', color: 'bg-gray-500/10 dark:bg-gray-500/20 border-gray-500/30 text-gray-600 dark:text-gray-300' },
+                    { name: 'Semgrep', color: 'bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/30 text-cyan-600 dark:text-cyan-400' },
+                    { name: 'Gitleaks', color: 'bg-rose-500/10 dark:bg-rose-500/20 border-rose-500/30 text-rose-600 dark:text-rose-300' },
+                    { name: 'Trivy', color: 'bg-sky-500/10 dark:bg-sky-500/20 border-sky-500/30 text-sky-600 dark:text-sky-300' },
+                    { name: 'Checkov', color: 'bg-orange-500/10 dark:bg-orange-500/20 border-orange-500/30 text-orange-600 dark:text-orange-400' },
+                    { name: 'PostgreSQL RLS', color: 'bg-teal-500/10 dark:bg-teal-500/20 border-teal-500/30 text-teal-600 dark:text-teal-300' },
+                    { name: 'GitHub Apps', color: 'bg-gray-500/10 dark:bg-gray-500/20 border-gray-500/30 text-gray-600 dark:text-gray-300' },
                   ].map((tool, idx) => (
                     <motion.span
                       key={tool.name}
@@ -521,7 +559,7 @@ function SecurityProfileCard({
                     <Wifi className="h-3.5 w-3.5 animate-pulse" />
                   </p>
                   <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                    Cloud Security Engineer, Security Consultant, DevSecOps roles in Canada or remote
+                    DevSecOps, Cloud Security, Application Security, or Security Engineering roles in Canada or remote
                   </p>
                 </div>
               </div>

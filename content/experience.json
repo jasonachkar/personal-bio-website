@@ -1,65 +1,111 @@
 [
   {
-    "id": "ses-fullstack-dev",
-    "role": "Full-Stack Web Developer",
-    "company": "SES & Technologies Ltd.",
-    "location": "Laval, QC",
-    "period": "Jun 2025 - Present",
+    "id": "genetec-platform-engineer",
+    "role": "Platform Engineer, Software Configuration Management & Tools",
+    "company": "Genetec Inc.",
+    "location": "Montreal, QC (Hybrid)",
+    "period": "May 2026 - Present",
     "type": "full-time",
     "achievements": [
-      "Built and maintained Angular (v17+) and ASP.NET Core applications with clean, scalable patterns",
-      "Implemented APIs with strong validation and reliable error handling",
-      "Improved delivery quality through CI/CD automation in Azure DevOps"
+      "Administer and support R&D lifecycle platforms including Azure DevOps Server, Azure DevOps Services, and GitHub for engineering teams.",
+      "Build internal tooling and libraries in C#, Go, and PowerShell to automate configuration, governance, reporting, and developer workflows.",
+      "Design and maintain build and release pipelines with conditional gates, environment promotion logic, and Terraform-provisioned Azure infrastructure."
     ],
     "securityHighlights": [
-      "Applied secure-by-design patterns (RBAC mindset, least privilege, secure defaults)",
-      "Contributed to quality gates and automated checks in CI/CD",
-      "Strengthened observability practices that support incident triage and auditability"
+      "Enforce secure source-control and build-system configurations, branch policies, pipeline policies, and access governance.",
+      "Surface configuration, compliance, and pipeline health signals so teams can make better governance decisions.",
+      "Standardize secure-by-default settings across shared developer applications and engineering platforms."
     ],
     "technologies": [
-      "Angular",
-      "TypeScript",
-      ".NET",
-      "SQL Server",
-      "Azure DevOps"
+      "Azure DevOps Server",
+      "Azure DevOps Services",
+      "GitHub",
+      "C#",
+      "Go",
+      "PowerShell",
+      "Terraform",
+      "Azure"
     ]
   },
   {
-    "id": "genetec-intern",
-    "role": "Full-Stack Software Developer Intern",
+    "id": "ses-fullstack-devsecops",
+    "role": "Full-Stack Developer, DevSecOps",
+    "company": "SES & Technologies Ltd.",
+    "location": "Laval, QC",
+    "period": "Jun 2025 - May 2026",
+    "type": "full-time",
+    "achievements": [
+      "Delivered .NET backend services and REST APIs using Clean Architecture, domain-driven design, CQRS, and Repository patterns.",
+      "Built Angular and NgRx administration interfaces across enterprise application workflows.",
+      "Engineered pipeline-as-code build, test, and release stages across multi-repository Azure DevOps codebases."
+    ],
+    "securityHighlights": [
+      "Integrated Semgrep, OWASP ZAP, Gitleaks, and Dockerized security tooling into Azure DevOps pipelines.",
+      "Implemented gates that block promotion on high-severity findings.",
+      "Designed RBAC and IAM from scratch, including authentication flows, role and permission scoping, and access-group management."
+    ],
+    "technologies": [
+      "Angular",
+      "NgRx",
+      ".NET",
+      "C#",
+      "Azure DevOps",
+      "Docker",
+      "Semgrep",
+      "OWASP ZAP",
+      "Gitleaks"
+    ]
+  },
+  {
+    "id": "genetec-autovu-intern",
+    "role": "Software Developer Intern, AutoVu",
     "company": "Genetec Inc.",
     "location": "Montreal, QC",
     "period": "Dec 2023 - May 2024",
     "type": "internship",
     "achievements": [
-      "Improved platform features with scalable .NET services and real-time updates",
-      "Contributed tests and pipeline improvements in Azure DevOps"
+      "Delivered backend services in .NET and C# for the AutoVu platform.",
+      "Integrated REST and SignalR APIs for real-time communication in a microservices ecosystem.",
+      "Wrote unit and integration tests to reduce regression risk ahead of releases."
     ],
     "securityHighlights": [
-      "Worked with HTTPS enforcement and secure service practices in backend work",
-      "Built habits around logging, testing, and reliability that translate directly to security engineering"
+      "Worked in a security-critical product environment serving law-enforcement use cases and sensitive data.",
+      "Built reliability habits around testing, service boundaries, logging, and release quality.",
+      "Contributed bug fixes and feature work across the product lifecycle."
     ],
     "technologies": [
       ".NET",
+      "C#",
+      "REST APIs",
+      "SignalR",
+      "Microservices",
       "Azure DevOps"
     ]
   },
   {
-    "id": "matrox-intern",
+    "id": "matrox-applications-engineer",
     "role": "Applications Engineer Intern",
     "company": "Matrox Graphics Inc.",
     "location": "Dorval, QC",
     "period": "May 2023 - Sep 2023",
     "type": "internship",
     "achievements": [
-      "Built internal tools that automated troubleshooting and support workflows"
+      "Built diagnostic automation tooling in Python and C# for enterprise support workflows.",
+      "Improved time-to-resolution by 55 to 65% for customer deployment troubleshooting.",
+      "Authored standardized triage documentation and hardening recommendations for support teams."
     ],
     "securityHighlights": [
-      "Built tooling with reliability in mind: structured troubleshooting flows and safer operational outcomes"
+      "Surfaced misconfigurations, insecure defaults, and overly permissive access settings in customer deployments.",
+      "Performed configuration audits and log analysis to identify root causes and security gaps.",
+      "Translated operational findings into repeatable remediation guidance."
     ],
     "technologies": [
+      "Python",
       "C#",
-      ".NET"
+      ".NET",
+      "Automation",
+      "Log Analysis",
+      "Configuration Auditing"
     ]
   }
 ]

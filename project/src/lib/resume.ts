@@ -25,7 +25,7 @@ export async function downloadResume(): Promise<void> {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'resume.pdf';
+    a.download = 'Jason_Achkar_Diab_Resume_DevSecOps_CloudSec.pdf';
     document.body.appendChild(a);
     a.click();
     
@@ -38,4 +38,3 @@ export async function downloadResume(): Promise<void> {
     window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
   }
 }
-

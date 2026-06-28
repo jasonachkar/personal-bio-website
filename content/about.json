@@ -1,42 +1,42 @@
 {
-  "title": "Developer transitioning to cybersecurity with a secure-by-design mindset.",
+  "title": "DevSecOps and cloud security engineer with a software engineering foundation.",
   "paragraphs": [
-    "I'm a software developer actively transitioning into cybersecurity, with a focus on cloud security (Azure), application security, and security operations. My background in full-stack development gives me a practical understanding of how to build secure systems from the ground up.",
-    "Currently pursuing a Master's in Cybersecurity at University of London while holding Security+ and AZ-900 certifications. I combine hands-on development experience with structured security learning to approach problems from both builder and defender perspectives.",
-    "My goal is to work in cloud security consulting, security engineering, or DevSecOps roles where I can help organizations design and implement secure cloud architectures, establish security automation, and build security into the development lifecycle."
+    "I build security into the software delivery path: source control, CI/CD, cloud infrastructure, application architecture, and operational visibility. My background is full-stack and platform engineering, which helps me understand how engineering teams actually ship software and where security controls need to fit.",
+    "My strongest proof point is SecureObs, a production-deployed security SaaS I solo-designed and built. It brings together open-source scanners, cross-tool deduplication, CI/CD build gates, tenant isolation, and credential-free Terraform attack-path analysis into one platform.",
+    "I am targeting DevSecOps, cloud security, application security, and security engineering roles where I can combine hands-on development with secure-by-design architecture, automation, least-privilege access, and pragmatic risk reduction."
   ],
   "focusAreas": [
-    "Cloud Security (Azure focus)",
-    "Secure Software Development",
-    "Threat Modeling & Risk Assessment",
-    "Identity & Access Management",
-    "SIEM & Detection Engineering",
-    "Security Automation & DevSecOps"
+    "DevSecOps and CI/CD security gates",
+    "Azure cloud security and identity",
+    "Application security and secure SDLC",
+    "Infrastructure-as-Code security analysis",
+    "Multi-tenant SaaS security architecture",
+    "Security automation and engineering tooling"
   ],
   "coreStrengths": [
     {
-      "title": "Secure SDLC",
-      "description": "Integrating security throughout the development lifecycle"
+      "title": "Builder Mindset",
+      "description": "Security work grounded in production software, APIs, pipelines, and cloud systems."
     },
     {
-      "title": "Cloud Fundamentals",
-      "description": "Azure architecture, services, and security controls"
+      "title": "Cloud Security",
+      "description": "Azure security patterns including Managed Identity, Key Vault, private networking, and observability."
     },
     {
-      "title": "Identity & Access",
-      "description": "Authentication, authorization, and privilege management"
+      "title": "DevSecOps",
+      "description": "Pipeline-as-code, scanner orchestration, build gates, SARIF, and release automation."
     },
     {
-      "title": "Risk Awareness",
-      "description": "Identifying and mitigating security risks proactively"
+      "title": "Tenant Isolation",
+      "description": "Defense-in-depth authorization with PostgreSQL row-level security and restricted application roles."
+    },
+    {
+      "title": "AppSec Coverage",
+      "description": "SAST, DAST, secrets detection, SCA, IaC scanning, OWASP, CWE, and threat modeling."
     },
     {
       "title": "Communication",
-      "description": "Translating technical security concepts for diverse audiences"
-    },
-    {
-      "title": "Continuous Learning",
-      "description": "Staying current with evolving threats and technologies"
+      "description": "Clear security findings, governance reporting, hardening guidance, and technical documentation."
     }
   ]
 }
