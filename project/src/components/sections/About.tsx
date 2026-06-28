@@ -74,12 +74,12 @@ const About = ({ content }: AboutProps) => {
           >
             <Sparkles className="h-4 w-4 text-accent" />
             <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-              About Me
+              Profile
             </span>
           </motion.div>
 
           <h2 className="text-headline text-text-primary">
-            About Me
+            About
           </h2>
           
           <p className="mx-auto mt-4 max-w-3xl text-subtitle text-text-secondary">
@@ -103,7 +103,7 @@ const About = ({ content }: AboutProps) => {
               </motion.div>
             ))}
 
-            {/* Focus Areas */}
+            {/* Value Areas */}
             <motion.div
               variants={paragraphVariants}
               initial="hidden"
@@ -113,7 +113,7 @@ const About = ({ content }: AboutProps) => {
             >
               <div className="flex items-center gap-2 mb-4">
                 <Target className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold text-text-primary">Focus Areas</h3>
+                <h3 className="text-lg font-semibold text-text-primary">Where I Add Value</h3>
               </div>
               
               <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">

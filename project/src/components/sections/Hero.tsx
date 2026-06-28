@@ -14,7 +14,6 @@ import {
   Database,
   Download,
   GitBranch,
-  KeyRound,
   Layers3,
   Lock,
   Mail,
@@ -265,28 +264,6 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               </Button>
             </motion.div>
 
-            {/* Current Focus */}
-            <motion.div
-              className="space-y-2.5 sm:space-y-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.38, ease: easings.easeOutQuint }}
-            >
-              <p className="text-xs font-semibold uppercase tracking-wide text-text-muted sm:text-sm">
-                Current Focus
-              </p>
-              <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 sm:gap-2">
-                {content.currentFocus.map((focus, idx) => (
-                  <div
-                    key={idx}
-                    className="flex min-h-9 items-center gap-2 rounded-lg border border-border bg-background-card px-3 py-2 text-sm text-text-secondary"
-                  >
-                    <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-primary" />
-                    <span className="font-medium leading-snug">{focus}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Right Column - Profile Card */}
@@ -328,15 +305,15 @@ function SecurityProfileCard({
     },
     {
       label: 'Flagship',
-      value: 'SecureObs',
-      detail: '7 scanners, SARIF, build gates, IaC attack paths',
+      value: '7-Scanner Platform',
+      detail: 'SARIF, build gates, IaC attack paths',
       icon: Shield,
     },
     {
-      label: 'Cloud',
-      value: 'Azure Security',
-      detail: 'Managed Identity, Key Vault, Entra ID, private runtime',
-      icon: KeyRound,
+      label: 'Delivery',
+      value: 'Policy Gates',
+      detail: 'Branch rules, build controls, release promotion',
+      icon: GitBranch,
     },
     {
       label: 'Architecture',
@@ -348,17 +325,17 @@ function SecurityProfileCard({
 
   const stackGroups = [
     {
-      label: 'Cloud & Identity',
+      label: 'Platform',
       icon: Layers3,
-      tools: ['Azure', 'Entra ID', 'Managed Identity', 'Key Vault'],
+      tools: ['Azure', 'Entra ID', 'Key Vault', 'PostgreSQL'],
     },
     {
-      label: 'DevSecOps',
+      label: 'Delivery',
       icon: GitBranch,
       tools: ['Azure DevOps', 'GitHub Apps', 'Terraform', 'SARIF'],
     },
     {
-      label: 'AppSec Tooling',
+      label: 'Scanners',
       icon: Code2,
       tools: ['Semgrep', 'Gitleaks', 'Trivy', 'Checkov'],
     },
@@ -483,8 +460,8 @@ function SecurityProfileCard({
 
             <div className="rounded-xl border border-border bg-background-elevated/45 p-4">
               <p className="text-sm font-semibold leading-relaxed text-text-primary">
-                I build secure delivery platforms across cloud runtime, source control,
-                pipelines, tenant isolation, and AppSec automation.
+                I turn delivery workflows into controlled, observable systems:
+                source control, build gates, tenant boundaries, and scanner automation.
               </p>
             </div>
 
@@ -601,7 +578,7 @@ function SecurityProfileCard({
                     <Wifi className="h-3.5 w-3.5 animate-pulse" />
                   </p>
                   <div className="flex flex-wrap gap-1.5">
-                    {['DevSecOps', 'Cloud Security', 'AppSec', 'Security Engineering'].map((role) => (
+                    {['Platform Engineering', 'DevSecOps', 'Developer Tooling'].map((role) => (
                       <span
                         key={role}
                         className="inline-flex items-center gap-1 rounded-full bg-background-elevated px-2.5 py-1 text-xs font-medium text-text-secondary"

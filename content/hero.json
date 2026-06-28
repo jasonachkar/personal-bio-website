@@ -1,8 +1,8 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "DevSecOps | Cloud Security | Application Security",
-  "tagline": "DevSecOps, Cloud Security, and Application Security Engineer",
-  "blurb": "Software engineer focused on building security into cloud systems, CI/CD pipelines, and multi-tenant applications. Currently working on platform engineering and developer tooling at Genetec, with SecureObs as my flagship security SaaS project.",
+  "title": "Platform Engineering | DevSecOps",
+  "tagline": "Secure delivery systems for engineering teams",
+  "blurb": "I work on developer platforms, source-control governance, CI/CD controls, and security automation. My work combines production software engineering with practical controls that help teams ship with fewer risks.",
   "quickSignals": [
     {
       "label": "Current role",
@@ -10,34 +10,11 @@
     },
     {
       "label": "Target work",
-      "value": "DevSecOps, Cloud Security, and AppSec engineering"
+      "value": "Developer tooling, CI/CD, and governance"
     },
     {
       "label": "Proof point",
-      "value": "Solo-built SecureObs: 7 scanners, IaC attack paths, CI/CD gates"
-    }
-  ],
-  "currentFocus": [
-    "CI/CD build gates",
-    "Azure identity + Key Vault",
-    "SAST / DAST / SCA automation",
-    "Tenant isolation + PostgreSQL RLS"
-  ],
-  "stats": [
-    {
-      "label": "Flagship SaaS",
-      "value": "7",
-      "detail": "security scanners unified in SecureObs"
-    },
-    {
-      "label": "Cloud Stack",
-      "value": "Azure",
-      "detail": "Key Vault, Managed Identity, App Service, PostgreSQL"
-    },
-    {
-      "label": "Graduate Study",
-      "value": "GT MS",
-      "detail": "Cybersecurity, Information Security specialization"
+      "value": "Built a 7-scanner security platform with build gates"
     }
   ],
   "ctas": [

@@ -1,9 +1,9 @@
 [
   {
     "id": "secureobs",
-    "title": "SecureObs - DevSecOps Security Observatory Platform",
+    "title": "SecureObs - Security Observatory Platform",
     "category": "cyber",
-    "description": "Production-deployed, multi-tenant security SaaS that unifies seven open-source scanners into one triage dashboard with cross-tool deduplication, SARIF export, CI/CD build gates, and credential-free Terraform attack-path analysis.",
+    "description": "Production-deployed, multi-tenant SaaS that unifies seven open-source scanners into one triage dashboard with cross-tool deduplication, SARIF export, CI/CD build gates, and credential-free Terraform attack-path analysis.",
     "tech": [
       ".NET 8",
       "Clean Architecture",
@@ -41,92 +41,5 @@
       "Enforces tenant isolation with app-layer authorization plus PostgreSQL FORCE row-level security under a restricted role.",
       "Runs scans in ephemeral sandboxed Azure Container Instances with short-lived tokens and project-scoped API keys."
     ]
-  },
-  {
-    "id": "security-tooling-portfolio",
-    "title": "Security Tooling Portfolio - Python Microservices",
-    "category": "cyber",
-    "description": "Three independent security microservices covering vulnerability scanning, security assessment orchestration, and network traffic analysis with async processing, validated APIs, and Kubernetes deployment objects.",
-    "tech": [
-      "Python 3.12",
-      "FastAPI",
-      "PostgreSQL",
-      "Celery",
-      "Redis",
-      "Docker",
-      "Kubernetes",
-      "Terraform"
-    ],
-    "role": "Security tooling and microservice implementation",
-    "repoUrl": "https://github.com/jasonachkar/security-tooling-portfolio",
-    "thumbnail": "/thumbnails/security-tooling.jpg"
-  },
-  {
-    "id": "cloud-security-labs",
-    "title": "Cloud Security Labs & Write-ups",
-    "category": "cyber",
-    "description": "Hands-on Azure Firewall, Terraform, and network-isolation labs documenting secure landing-zone patterns, cloud hardening decisions, and practical security tradeoffs.",
-    "tech": [
-      "Azure",
-      "Terraform",
-      "Azure Firewall",
-      "Network Isolation",
-      "Technical Writing"
-    ],
-    "role": "Cloud security lab author",
-    "repoUrl": "https://github.com/jasonachkar/cybersecurity-writeups",
-    "thumbnail": "/thumbnails/cloud-security-labs.jpg"
-  },
-  {
-    "id": "devsecops-pipeline",
-    "title": "DevSecOps CI/CD Security Gates",
-    "category": "cyber",
-    "description": "Reference CI/CD pipeline integrating SAST, dependency vulnerability checks, container scanning, infrastructure-as-code security validation, and automated security testing gates.",
-    "tech": [
-      "GitHub Actions",
-      "SonarQube",
-      "Trivy",
-      "OWASP Dependency-Check",
-      "Terraform"
-    ],
-    "role": "DevSecOps implementation and automation",
-    "repoUrl": "https://github.com/jasonachkar/devsecops-ci-gates",
-    "demoUrl": "https://devsecops-ci-cd-gates-dashboard.vercel.app/",
-    "thumbnail": "/thumbnails/devsecops.jpg"
-  },
-  {
-    "id": "sentinel-detection-pack",
-    "title": "SIEM Detection Pack (Microsoft Sentinel)",
-    "category": "cyber",
-    "description": "KQL-based detection rules for Microsoft Sentinel targeting suspicious authentication, privilege escalation, lateral movement, and data exfiltration with MITRE ATT&CK mapping.",
-    "tech": [
-      "Microsoft Sentinel",
-      "KQL",
-      "Azure Monitor",
-      "Logic Apps",
-      "MITRE ATT&CK"
-    ],
-    "role": "Detection engineering and threat hunting",
-    "repoUrl": "https://github.com/jasonachkar/microsoft-sentinel-siem-detection",
-    "demoUrl": "https://microsoft-sentinel-siem-detection.vercel.app/",
-    "thumbnail": "/thumbnails/sentinel.jpg"
-  },
-  {
-    "id": "secure-api-gateway",
-    "title": "Secure API Gateway Pattern",
-    "category": "cyber",
-    "description": "API gateway pattern implementing JWT authentication, rate limiting, request validation, SQL injection prevention, XSS protection, and structured logging for OWASP API Top 10 mitigations.",
-    "tech": [
-      "Node.js",
-      "Express",
-      "Redis",
-      "JWT",
-      "Helmet",
-      "Express-validator"
-    ],
-    "role": "Secure architecture and implementation",
-    "repoUrl": "https://github.com/jasonachkar/secure-api-gateway",
-    "demoUrl": "https://secure-api-gateway-gold.vercel.app/",
-    "thumbnail": "/thumbnails/api-gateway.jpg"
   }
 ]

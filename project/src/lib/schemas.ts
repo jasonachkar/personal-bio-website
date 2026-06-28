@@ -1,12 +1,5 @@
 import { z } from 'zod';
 
-// Hero Schema
-export const heroStatsSchema = z.object({
-  label: z.string().min(1),
-  value: z.string().min(1),
-  detail: z.string().min(1),
-});
-
 export const heroCtaSchema = z.object({
   label: z.string().min(1),
   href: z.string().min(1),
@@ -24,8 +17,6 @@ export const heroSchema = z.object({
   tagline: z.string().min(1),
   blurb: z.string().min(1),
   quickSignals: z.array(heroQuickSignalSchema).optional(),
-  currentFocus: z.array(z.string().min(1)).min(1),
-  stats: z.array(heroStatsSchema).min(1),
   ctas: z.array(heroCtaSchema).min(1),
 });
 

@@ -17,28 +17,26 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Jason Achkar Diab | DevSecOps & Cloud Security Engineer',
+  title: 'Jason Achkar Diab | Platform Engineer & DevSecOps Builder',
   description:
-    'DevSecOps, cloud security, and application security portfolio for Jason Achkar Diab, featuring SecureObs, Azure security engineering, CI/CD security gates, and secure software work.',
+    'Platform engineering and DevSecOps portfolio for Jason Achkar Diab, featuring SecureObs, CI/CD controls, developer tooling, and secure delivery systems.',
   keywords: [
     'Jason Achkar Diab',
+    'platform engineer',
     'DevSecOps',
     'cybersecurity',
-    'cloud security',
-    'application security',
-    'Azure security',
+    'developer tooling',
     'SecureObs',
     'CI/CD security',
     'secure software development',
     'Terraform security',
-    'AppSec',
   ],
   authors: [{ name: 'Jason Achkar Diab' }],
   openGraph: {
     type: 'website',
-    title: 'Jason Achkar Diab | DevSecOps & Cloud Security Engineer',
+    title: 'Jason Achkar Diab | Platform Engineer & DevSecOps Builder',
     description:
-      'SecureObs-focused portfolio covering DevSecOps, Azure security, application security, and secure-by-design engineering.',
+      'Portfolio covering platform engineering, SecureObs, CI/CD controls, developer tooling, and secure delivery systems.',
   },
 };
 

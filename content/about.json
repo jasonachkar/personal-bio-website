@@ -1,17 +1,17 @@
 {
-  "title": "DevSecOps and cloud security engineer with a software engineering foundation.",
+  "title": "Platform engineer with a security-first software background.",
   "paragraphs": [
-    "I build security into the software delivery path: source control, CI/CD, cloud infrastructure, application architecture, and operational visibility. My background is full-stack and platform engineering, which helps me understand how engineering teams actually ship software and where security controls need to fit.",
-    "My strongest proof point is SecureObs, a production-deployed security SaaS I solo-designed and built. It brings together open-source scanners, cross-tool deduplication, CI/CD build gates, tenant isolation, and credential-free Terraform attack-path analysis into one platform.",
-    "I am targeting DevSecOps, cloud security, application security, and security engineering roles where I can combine hands-on development with secure-by-design architecture, automation, least-privilege access, and pragmatic risk reduction."
+    "I build the systems around software delivery: source-control governance, CI/CD workflows, internal tooling, release controls, and operational visibility. Because my foundation is full-stack engineering, I understand how teams actually ship software and where controls need to fit.",
+    "My strongest independent project is SecureObs, a production-deployed SaaS I designed and built end to end. It brings scanner orchestration, cross-tool deduplication, build gates, tenant isolation, and Terraform attack-path analysis into one workflow.",
+    "I am looking for platform engineering and DevSecOps roles where I can combine product-minded engineering with secure defaults, automation, least-privilege access, and practical risk reduction."
   ],
   "focusAreas": [
-    "CI/CD security gates",
-    "Azure identity and cloud security",
-    "Application security testing",
-    "Terraform and IaC attack paths",
-    "Multi-tenant SaaS isolation",
-    "Security automation tooling"
+    "Source-control governance",
+    "CI/CD quality gates",
+    "Internal developer tooling",
+    "Terraform analysis",
+    "Tenant isolation",
+    "Observability and reporting"
   ],
   "coreStrengths": [
     {
@@ -19,11 +19,11 @@
       "description": "Security work grounded in production software, APIs, pipelines, and cloud systems."
     },
     {
-      "title": "Azure Cloud Security",
+      "title": "Azure Platform Work",
       "description": "Azure security patterns including Managed Identity, Key Vault, private networking, and observability."
     },
     {
-      "title": "DevSecOps Automation",
+      "title": "Pipeline Automation",
       "description": "Pipeline-as-code, scanner orchestration, build gates, SARIF, and release automation."
     },
     {
@@ -31,7 +31,7 @@
       "description": "Defense-in-depth authorization with PostgreSQL row-level security and restricted application roles."
     },
     {
-      "title": "AppSec Testing",
+      "title": "Scanner Orchestration",
       "description": "SAST, DAST, secrets detection, SCA, IaC scanning, OWASP, CWE, and threat modeling."
     },
     {
