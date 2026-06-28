@@ -1,0 +1,79 @@
+<svg width="840" height="720" viewBox="0 0 840 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">SecureObs architecture diagram</title>
+  <desc id="desc">Diagram showing source code and Terraform flowing through scanner workers, deduplication, gates, tenant isolation, PostgreSQL row-level security, and Azure hosting.</desc>
+  <rect width="840" height="720" rx="8" fill="#F8FAFC"/>
+  <rect x="32" y="32" width="776" height="656" rx="8" fill="#FFFFFF" stroke="#DBE4E8"/>
+  <text x="64" y="80" fill="#102027" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">SecureObs</text>
+  <text x="64" y="110" fill="#425466" font-family="Inter, Arial, sans-serif" font-size="15">Multi-tenant scanner orchestration, triage, gates, and IaC attack paths</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="64" y="150" width="180" height="94" rx="8" fill="#EEF6F6" stroke="#0F766E"/>
+    <text x="88" y="184" fill="#102027" font-size="16" font-weight="700">Inputs</text>
+    <text x="88" y="211" fill="#425466" font-size="13">Source repos</text>
+    <text x="88" y="232" fill="#425466" font-size="13">Terraform plans</text>
+
+    <rect x="330" y="132" width="216" height="130" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="354" y="166" fill="#102027" font-size="16" font-weight="700">Ephemeral scanner workers</text>
+    <text x="354" y="194" fill="#425466" font-size="13">Semgrep · Gitleaks · Trivy</text>
+    <text x="354" y="216" fill="#425466" font-size="13">Bandit · ESLint-security</text>
+    <text x="354" y="238" fill="#425466" font-size="13">OSV-Scanner · Checkov</text>
+
+    <rect x="622" y="150" width="154" height="94" rx="8" fill="#EEF6F6" stroke="#0F766E"/>
+    <text x="646" y="184" fill="#102027" font-size="16" font-weight="700">Triage</text>
+    <text x="646" y="211" fill="#425466" font-size="13">Canonical dedup</text>
+    <text x="646" y="232" fill="#425466" font-size="13">Severity policy</text>
+
+    <rect x="64" y="324" width="224" height="118" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="88" y="358" fill="#102027" font-size="16" font-weight="700">IaC attack-path engine</text>
+    <text x="88" y="386" fill="#425466" font-size="13">Typed Azure graph</text>
+    <text x="88" y="408" fill="#425466" font-size="13">Ranked credential-free paths</text>
+
+    <rect x="356" y="324" width="178" height="118" rx="8" fill="#EEF6F6" stroke="#0F766E"/>
+    <text x="380" y="358" fill="#102027" font-size="16" font-weight="700">CI/CD gate</text>
+    <text x="380" y="386" fill="#425466" font-size="13">Pass or exit 3</text>
+    <text x="380" y="408" fill="#425466" font-size="13">Blocks unresolved issues</text>
+
+    <rect x="602" y="324" width="174" height="118" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="626" y="358" fill="#102027" font-size="16" font-weight="700">Tenant isolation</text>
+    <text x="626" y="386" fill="#425466" font-size="13">App authorization</text>
+    <text x="626" y="408" fill="#425466" font-size="13">PostgreSQL FORCE RLS</text>
+
+    <rect x="64" y="520" width="224" height="90" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="88" y="554" fill="#102027" font-size="16" font-weight="700">Identity & secrets</text>
+    <text x="88" y="582" fill="#425466" font-size="13">Entra ID PKCE · Key Vault</text>
+
+    <rect x="356" y="520" width="178" height="90" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="380" y="554" fill="#102027" font-size="16" font-weight="700">Azure runtime</text>
+    <text x="380" y="582" fill="#425466" font-size="13">App Service · SWA · ACI</text>
+
+    <rect x="602" y="520" width="174" height="90" rx="8" fill="#F8FAFC" stroke="#DBE4E8"/>
+    <text x="626" y="554" fill="#102027" font-size="16" font-weight="700">Database</text>
+    <text x="626" y="582" fill="#425466" font-size="13">VNet-private PostgreSQL</text>
+  </g>
+
+  <g stroke="#0F766E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M244 197H330"/>
+    <path d="M546 197H622"/>
+    <path d="M699 244V324"/>
+    <path d="M622 383H534"/>
+    <path d="M356 383H288"/>
+    <path d="M176 442V520"/>
+    <path d="M445 442V520"/>
+    <path d="M689 442V520"/>
+    <path d="M288 565H356"/>
+    <path d="M534 565H602"/>
+  </g>
+
+  <g fill="#0F766E">
+    <path d="M326 191L338 197L326 203V191Z"/>
+    <path d="M618 191L630 197L618 203V191Z"/>
+    <path d="M693 320L699 332L705 320H693Z"/>
+    <path d="M538 377L526 383L538 389V377Z"/>
+    <path d="M292 377L280 383L292 389V377Z"/>
+    <path d="M170 516L176 528L182 516H170Z"/>
+    <path d="M439 516L445 528L451 516H439Z"/>
+    <path d="M683 516L689 528L695 516H683Z"/>
+    <path d="M352 559L364 565L352 571V559Z"/>
+    <path d="M598 559L610 565L598 571V559Z"/>
+  </g>
+</svg>

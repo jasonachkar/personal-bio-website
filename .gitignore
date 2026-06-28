@@ -1,9 +1,6 @@
 # Local Netlify folder
 .netlify
 
-# Google Cloud credentials
-project/google-cloud-credentials.json
-
 # Node/Next build artifacts
 node_modules
 .next
@@ -36,6 +33,8 @@ lerna-debug.log*
 .DS_Store
 Thumbs.db
 .idea
+.vscode/*
+!.vscode/extensions.json
 .vs
 *.suo
 *.ntvs*
@@ -46,3 +45,4 @@ Thumbs.db
 # Tooling directories
 .cursor
 .claude
+.bolt

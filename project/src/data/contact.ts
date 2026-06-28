@@ -1,7 +1,0 @@
-export const contactCopy = {
-  title: 'Get In Touch',
-  subtitle:
-    'Interested in cloud security, cybersecurity consulting, or DevSecOps roles? Let\'s connect. Open to opportunities in Canada and remote positions.',
-  success: "Message sent! I'll respond via email shortly.",
-  error: 'Please complete all fields with a valid email address.',
-};

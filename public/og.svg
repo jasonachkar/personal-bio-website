@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#080C0F"/>
+  <rect x="70" y="70" width="1060" height="490" rx="8" fill="#0F1519" stroke="#26343A"/>
+  <text x="110" y="170" fill="#2DD4BF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="2">DEVSECOPS &amp; CLOUD SECURITY</text>
+  <text x="110" y="260" fill="#EDF7F6" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="700">Jason Achkar Diab</text>
+  <text x="110" y="330" fill="#B7C8C6" font-family="Inter, Arial, sans-serif" font-size="30">Secure CI/CD · IaC attack paths · Multi-tenant Azure systems</text>
+  <rect x="110" y="410" width="250" height="64" rx="8" fill="#2DD4BF"/>
+  <text x="142" y="451" fill="#061312" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">SecureObs</text>
+  <rect x="386" y="410" width="342" height="64" rx="8" fill="#172125" stroke="#2DD4BF"/>
+  <text x="418" y="451" fill="#EDF7F6" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Interactive security labs</text>
+</svg>
