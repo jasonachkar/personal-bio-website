@@ -1,27 +1,25 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Cloud, GitBranch, Radar } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Cloud, GitBranch, Radar } from 'lucide-react';
 import Card from '@/components/ui/Card';
-import { CloudAttackSurfaceDemo } from '@/components/demos/cloud-attack-surface/CloudAttackSurfaceDemo';
-import { SecureSdlcDemo } from '@/components/demos/secure-sdlc/SecureSdlcDemo';
-import { ThreatDetectionDemo } from '@/components/demos/threat-detection/ThreatDetectionDemo';
 
 const demoCards = [
   {
-    id: 'demo-cloud',
+    href: '/demos/cloud-attack-surface',
     icon: Cloud,
     title: 'Azure Cloud Attack Surface',
     text: 'Typed Azure graph, animated attack path, CIS/ASB findings, and mitigation state.',
   },
   {
-    id: 'demo-sdlc',
+    href: '/demos/secure-sdlc',
     icon: GitBranch,
     title: 'Secure SDLC Pipeline Command Center',
     text: 'Multi-scanner replay, canonical deduplication, CVSS/OWASP/CWE triage, and gate verdict.',
   },
   {
-    id: 'demo-threat',
+    href: '/demos/threat-to-detection',
     icon: Radar,
     title: 'Threat to Detection',
     text: 'STRIDE threats connected to KQL-like detections and MITRE ATT&CK mappings.',
@@ -47,26 +45,28 @@ export function MegaDemos() {
             </p>
           </motion.div>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid items-stretch gap-8 md:grid-cols-3">
             {demoCards.map((demo) => {
               const Icon = demo.icon;
               return (
-                <a key={demo.id} href={`#${demo.id}`} className="block h-full">
+                <Link key={demo.href} href={demo.href} className="block h-full">
                   <Card variant="glass" padding="lg" className="h-full">
-                    <Icon className="relative z-10 h-6 w-6 text-primary" aria-hidden="true" />
-                    <h3 className="relative z-10 mt-4 text-lg font-semibold text-text-primary">{demo.title}</h3>
-                    <p className="relative z-10 mt-2 text-sm leading-6 text-text-secondary">{demo.text}</p>
+                    <div className="relative z-10 flex h-full flex-col">
+                      <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                      <h3 className="mt-4 text-lg font-semibold leading-snug text-text-primary">{demo.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-text-secondary">{demo.text}</p>
+                      <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                        Open demo
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                    </div>
                   </Card>
-                </a>
+                </Link>
               );
             })}
           </div>
         </div>
       </div>
-
-      <CloudAttackSurfaceDemo />
-      <SecureSdlcDemo />
-      <ThreatDetectionDemo />
     </section>
   );
 }

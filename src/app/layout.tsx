@@ -47,7 +47,7 @@ export default function RootLayout({
       <body className="font-sans bg-background text-text-primary antialiased">
         <SmoothScrollProvider />
         <Navbar />
-        <main className="pt-16">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

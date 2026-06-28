@@ -86,7 +86,7 @@ const ProjectCard = memo(function ProjectCard({
         )}
 
         {/* Card Content */}
-        <div className="relative z-10 flex h-full flex-col p-5 sm:p-6">
+        <div className="relative z-10 flex h-full flex-col p-6 md:p-8">
           {/* Header Section */}
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex-1">
@@ -278,7 +278,7 @@ const Projects = ({ projects }: ProjectsProps) => {
           whileInView="visible"
           viewport={viewport}
           className={cn(
-            'grid gap-5 sm:gap-6 md:gap-7',
+            'grid gap-8',
             'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
           )}
           style={{ contain: 'layout style paint' }}

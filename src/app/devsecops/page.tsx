@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function DevSecOpsRedirect() {
-  redirect('/#demo-sdlc');
+  redirect('/demos/secure-sdlc');
 }

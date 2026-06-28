@@ -1,35 +1,25 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Activity, ExternalLink, GitBranch, Radio } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/cn';
 import { detectionEvents, dfdNodes, strideThreats } from '../../../../content/demos/threat-detection';
 import { SeverityBadge, WhatThisProves } from '../demoUtils';
-import { useStoryProgress } from '../useStoryProgress';
-
-const beats = ['Model', 'Threat', 'Signal', 'Detection'];
 
 export function ThreatDetectionDemo() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const visualRef = useRef<HTMLDivElement | null>(null);
-  const { activeStep } = useStoryProgress(sectionRef, visualRef, beats.length);
   const [selectedThreatId, setSelectedThreatId] = useState(strideThreats[0].id);
 
   const selectedThreat = strideThreats.find((threat) => threat.id === selectedThreatId) ?? strideThreats[0];
-  const linkedEvents = useMemo(
-    () => detectionEvents.filter((event) => event.linkedThreatId === selectedThreat.id),
-    [selectedThreat.id],
-  );
-  const visibleEvents = activeStep >= 2 ? detectionEvents : linkedEvents;
+  const visibleEvents = detectionEvents;
 
   return (
-    <section ref={sectionRef} id="demo-threat" className="relative min-h-[180vh] py-16">
+    <section id="demo-threat" className="py-8 md:py-10">
       <div className="content-container">
-        <div ref={visualRef} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-          <Card variant="glass" hoverEffect="none" interactive={false} padding="none" className="min-h-[680px]">
-            <div className="relative z-10 border-b border-white/10 p-5">
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+          <Card variant="glass" hoverEffect="none" interactive={false} padding="none">
+            <div className="relative z-10 border-b border-white/10 p-5 md:p-6">
               <p className="text-xs font-semibold uppercase text-accent">Mega-demo 3 / AppSec + Detection</p>
               <h3 className="mt-2 text-2xl font-semibold text-text-primary">Threat to Detection</h3>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
@@ -37,7 +27,7 @@ export function ThreatDetectionDemo() {
               </p>
             </div>
 
-            <div className="relative z-10 grid gap-5 p-5 xl:grid-cols-[1fr_420px]">
+            <div className="relative z-10 grid gap-6 p-5 md:p-6 xl:grid-cols-[1fr_420px]">
               <div className="grid gap-5">
                 <div className="rounded-3xl border border-white/10 bg-slate-950/70 p-5">
                   <div className="mb-4 flex items-center justify-between">
@@ -140,7 +130,7 @@ export function ThreatDetectionDemo() {
             </div>
           </Card>
 
-          <aside className="grid gap-4 lg:sticky lg:top-24">
+          <aside className="grid gap-4 xl:sticky xl:top-24">
             <WhatThisProves
               items={[
                 'STRIDE threat modeling tied to system components and trust boundaries',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle2, ExternalLink, GitBranch, Play, ShieldAlert, XCircle } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -8,9 +8,7 @@ import { cn } from '@/lib/cn';
 import { pipelineRuns } from '../../../../content/demos/secure-sdlc';
 import type { PipelineFinding, PipelineRun, Severity } from '../../../../content/demos/types';
 import { SeverityBadge, WhatThisProves } from '../demoUtils';
-import { useStoryProgress } from '../useStoryProgress';
 
-const beats = ['Run', 'Stream', 'Dedup', 'Gate'];
 const severityOrder: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
 
 function groupFindings(findings: PipelineFinding[]) {
@@ -33,16 +31,13 @@ function getRun(id: string): PipelineRun {
 }
 
 export function SecureSdlcDemo() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const visualRef = useRef<HTMLDivElement | null>(null);
-  const { progress, activeStep } = useStoryProgress(sectionRef, visualRef, beats.length);
   const [runId, setRunId] = useState('vulnerable-run');
   const [activeStageIndex, setActiveStageIndex] = useState(0);
   const [running, setRunning] = useState(true);
   const [blockingSeverities, setBlockingSeverities] = useState<Severity[]>(['critical', 'high']);
 
   const run = getRun(runId);
-  const storyStageIndex = Math.min(run.stages.length - 1, Math.max(activeStageIndex, Math.floor(progress * run.stages.length)));
+  const storyStageIndex = Math.min(run.stages.length - 1, activeStageIndex);
   const visibleStageCount = running ? storyStageIndex + 1 : run.stages.length;
   const visibleStages = run.stages.slice(0, visibleStageCount);
   const visibleFindingIds = new Set(visibleStages.flatMap((stage) => stage.findingIds));
@@ -84,11 +79,11 @@ export function SecureSdlcDemo() {
   }
 
   return (
-    <section ref={sectionRef} id="demo-sdlc" className="relative min-h-[220vh] py-16">
+    <section id="demo-sdlc" className="py-8 md:py-10">
       <div className="content-container">
-        <div ref={visualRef} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-          <Card variant="glass" hoverEffect="none" interactive={false} padding="none" className="min-h-[720px]">
-            <div className="relative z-10 border-b border-white/10 p-5">
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+          <Card variant="glass" hoverEffect="none" interactive={false} padding="none">
+            <div className="relative z-10 border-b border-white/10 p-5 md:p-6">
               <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase text-secondary">Mega-demo 2 / DevSecOps</p>
@@ -123,7 +118,7 @@ export function SecureSdlcDemo() {
               </div>
             </div>
 
-            <div className="relative z-10 grid gap-5 p-5">
+            <div className="relative z-10 grid gap-6 p-5 md:p-6">
               <div className="grid gap-3 md:grid-cols-7">
                 {run.stages.map((stage, index) => {
                   const reached = index < visibleStageCount;
@@ -259,7 +254,7 @@ export function SecureSdlcDemo() {
             </div>
           </Card>
 
-          <aside className="grid gap-4 lg:sticky lg:top-24">
+          <aside className="grid gap-4 xl:sticky xl:top-24">
             <WhatThisProves
               items={[
                 'Secure CI/CD gates with severity policy and exit-code behavior',

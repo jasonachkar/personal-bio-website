@@ -37,7 +37,12 @@ export function Navbar() {
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    if (!element) return;
+    if (!element) {
+      const target = id === 'hero' ? '/' : id === 'demos' ? '/demos' : `/#${id}`;
+      window.location.href = target;
+      setIsMobileMenuOpen(false);
+      return;
+    }
 
     const headerOffset = isScrolled ? 64 : 84;
     const offsetPosition = element.getBoundingClientRect().top + window.scrollY - headerOffset;
@@ -51,7 +56,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="nav-liquid fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out">
+      <nav className="nav-liquid sticky inset-x-0 top-0 z-50 transition-all duration-300 ease-out">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div
             className={cn(

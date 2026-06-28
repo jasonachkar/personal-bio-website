@@ -102,7 +102,7 @@ const Experience = ({ experience }: ExperienceProps) => {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="space-y-8 sm:space-y-10 md:space-y-12"
+            className="space-y-10 md:space-y-16"
           >
             {experience.map((exp, index) => (
               <motion.div
@@ -123,7 +123,7 @@ const Experience = ({ experience }: ExperienceProps) => {
                 <div className="md:ml-20">
                   <motion.div
                     className={cn(
-                      'group rounded-2xl border border-border bg-background-card',
+                      'group rounded-3xl border border-border bg-background-card',
                       'p-5 sm:p-6 md:p-8',
                       'transition-all duration-300',
                       'hover:border-primary/40 hover:shadow-card-hover'
