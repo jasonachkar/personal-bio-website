@@ -1,21 +1,21 @@
 'use client';
 
 import Hero from '@/components/sections/Hero';
-import About from '@/components/sections/About';
-import Certifications from '@/components/sections/Certifications';
+import Flagship from '@/components/sections/Flagship';
 import Experience from '@/components/sections/Experience';
-import Projects from '@/components/sections/Projects';
+import Skills from '@/components/sections/Skills';
+import Certifications from '@/components/sections/Certifications';
 import Showcases from '@/components/sections/Showcases';
-import { CaseStudies } from '@/components/sections/CaseStudies';
 import Writeups from '@/components/sections/Writeups';
 import Contact from '@/components/sections/Contact';
 import type {
   Hero as HeroContent,
-  About as AboutContent,
   Certification,
   Education,
   Experience as ExperienceItem,
   Project,
+  SecureObs,
+  Skills as SkillsContent,
   Writeup,
   Contact as ContactContent,
   SocialLink,
@@ -23,7 +23,8 @@ import type {
 
 type ClientHomeProps = {
   heroContent: HeroContent;
-  aboutContent: AboutContent;
+  secureObs: SecureObs;
+  skills: SkillsContent;
   certifications: Certification[];
   education: Education[];
   experience: ExperienceItem[];
@@ -35,7 +36,8 @@ type ClientHomeProps = {
 
 export default function ClientHome({
   heroContent,
-  aboutContent,
+  secureObs,
+  skills,
   certifications,
   education,
   experience,
@@ -54,12 +56,11 @@ export default function ClientHome({
   return (
     <main className="relative">
       <Hero onNavigate={scrollTo} content={heroContent} />
-      <About content={aboutContent} />
-      <Certifications certifications={certifications} education={education} />
+      <Flagship content={secureObs} secondaryProjects={projects} />
       <Experience experience={experience} />
-      <Projects projects={projects} />
+      <Skills content={skills} />
+      <Certifications certifications={certifications} education={education} />
       <Showcases />
-      <CaseStudies />
       <Writeups writeups={writeups} />
       <Contact content={contactContent} socialLinks={socialLinks} />
     </main>

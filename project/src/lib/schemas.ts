@@ -92,6 +92,54 @@ export const projectSchema = z.object({
 
 export const projectsSchema = z.array(projectSchema);
 
+// SecureObs (flagship) Schema
+export const secureObsStatSchema = z.object({
+  value: z.string().min(1),
+  label: z.string().min(1),
+  detail: z.string().min(1),
+});
+
+export const secureObsPillarSchema = z.object({
+  icon: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+});
+
+export const secureObsTechGroupSchema = z.object({
+  group: z.string().min(1),
+  items: z.array(z.string().min(1)).min(1),
+});
+
+export const secureObsSchema = z.object({
+  name: z.string().min(1),
+  tagline: z.string().min(1),
+  summary: z.string().min(1),
+  liveUrl: z.string().url(),
+  sourceUrl: z.string().url(),
+  status: z.string().min(1),
+  stats: z.array(secureObsStatSchema).min(1),
+  pillars: z.array(secureObsPillarSchema).min(1),
+  techStack: z.array(secureObsTechGroupSchema).min(1),
+});
+
+// Skills Schema
+export const skillGroupSchema = z.object({
+  title: z.string().min(1),
+  icon: z.string().min(1),
+  items: z.array(z.string().min(1)).min(1),
+});
+
+export const skillPrincipleSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+});
+
+export const skillsSchema = z.object({
+  intro: z.string().min(1),
+  groups: z.array(skillGroupSchema).min(1),
+  principles: z.array(skillPrincipleSchema).min(1),
+});
+
 // Writeups Schema
 export const writeupSchema = z.object({
   id: z.string().min(1),
@@ -246,6 +294,10 @@ export type Certification = z.infer<typeof certificationSchema>;
 export type Education = z.infer<typeof educationItemSchema>;
 export type Experience = z.infer<typeof experienceItemSchema>;
 export type Project = z.infer<typeof projectSchema>;
+export type SecureObs = z.infer<typeof secureObsSchema>;
+export type SecureObsPillar = z.infer<typeof secureObsPillarSchema>;
+export type Skills = z.infer<typeof skillsSchema>;
+export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Writeup = z.infer<typeof writeupSchema>;
 export type Contact = z.infer<typeof contactSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;

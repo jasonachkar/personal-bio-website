@@ -1,9 +1,10 @@
 export type SectionId =
   | 'hero'
-  | 'about'
-  | 'certifications'
+  | 'secureobs'
   | 'experience'
-  | 'projects'
+  | 'skills'
+  | 'certifications'
+  | 'showcases'
   | 'writeups'
   | 'contact';
 

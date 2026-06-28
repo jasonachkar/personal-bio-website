@@ -12,7 +12,22 @@
       "Cryptography",
       "Identity & Access Management"
     ],
-    "description": "Industry-standard certification covering core cybersecurity principles, threat analysis, risk management, and security controls across networks, applications, and cloud environments."
+    "description": "Industry-standard certification covering core security principles, threat analysis, risk management, and security controls across networks, applications, and cloud environments."
+  },
+  {
+    "id": "sc-500",
+    "name": "SC-500: Microsoft Cloud & AI Security Engineer",
+    "issuer": "Microsoft",
+    "date": "In Progress",
+    "skills": [
+      "Cloud Security Posture",
+      "Threat Protection",
+      "Data & Application Security",
+      "Identity & Access",
+      "Microsoft Defender",
+      "Security Operations"
+    ],
+    "description": "Microsoft certification focused on designing and operating security controls across cloud and AI workloads — posture management, threat protection, and identity-centric defense."
   },
   {
     "id": "az-900",
@@ -42,6 +57,6 @@
       "Network Security",
       "Security Automation"
     ],
-    "description": "Comprehensive program covering security fundamentals, network security, Linux, Python automation, threat detection with SIEM tools, and incident response procedures."
+    "description": "Comprehensive program covering security fundamentals, network security, Linux, Python automation, threat detection with SIEM tools, and incident response."
   }
 ]

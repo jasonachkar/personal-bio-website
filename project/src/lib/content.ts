@@ -7,6 +7,8 @@ import {
   educationSchema,
   experienceSchema,
   projectsSchema,
+  secureObsSchema,
+  skillsSchema,
   writeupsSchema,
   contactSchema,
   socialSchema,
@@ -16,6 +18,8 @@ import {
   type Education,
   type Experience,
   type Project,
+  type SecureObs,
+  type Skills,
   type Writeup,
   type Contact,
   type SocialLink,
@@ -57,6 +61,14 @@ export function getExperience(): Experience[] {
 
 export function getProjects(): Project[] {
   return readJsonFile<Project[]>('projects.json', projectsSchema);
+}
+
+export function getSecureObs(): SecureObs {
+  return readJsonFile<SecureObs>('secureobs.json', secureObsSchema);
+}
+
+export function getSkills(): Skills {
+  return readJsonFile<Skills>('skills.json', skillsSchema);
 }
 
 export function getWriteups(): Writeup[] {

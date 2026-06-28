@@ -1,47 +1,78 @@
 [
   {
-    "id": "ses-fullstack-dev",
-    "role": "Full-Stack Web Developer",
-    "company": "SES & Technologies Ltd.",
-    "location": "Laval, QC",
-    "period": "Jun 2025 - Present",
+    "id": "genetec-platform-engineer",
+    "role": "Platform Engineer — Software Configuration Management & Tools",
+    "company": "Genetec Inc.",
+    "location": "Montreal, QC (Hybrid)",
+    "period": "May 2026 - Present",
     "type": "full-time",
     "achievements": [
-      "Built and maintained Angular (v17+) and ASP.NET Core applications with clean, scalable patterns",
-      "Implemented APIs with strong validation and reliable error handling",
-      "Improved delivery quality through CI/CD automation in Azure DevOps"
+      "Build and maintain internal tooling and libraries in C#, Go, and PowerShell that automate configuration, governance, and reporting across shared developer applications, reducing manual toil",
+      "Design and maintain build and release pipelines with conditional gates and environment-promotion logic, provisioning supporting infrastructure as code with Terraform on Azure",
+      "Develop data-export and reporting tooling that surfaces configuration, compliance, and pipeline health across teams to support governance decisions"
     ],
     "securityHighlights": [
-      "Applied secure-by-design patterns (RBAC mindset, least privilege, secure defaults)",
-      "Contributed to quality gates and automated checks in CI/CD",
-      "Strengthened observability practices that support incident triage and auditability"
+      "Administer and secure the R&D application lifecycle platform (Azure DevOps Server / Services and GitHub) across engineering teams",
+      "Enforce secure configurations, branch and pipeline policies, and access governance across shared source-control and build systems",
+      "Standardize secure-by-default settings across shared developer applications"
     ],
     "technologies": [
-      "Angular",
-      "TypeScript",
-      ".NET",
-      "SQL Server",
-      "Azure DevOps"
+      "Azure DevOps",
+      "GitHub",
+      "C#",
+      "Go",
+      "PowerShell",
+      "Terraform",
+      "Azure"
     ]
   },
   {
-    "id": "genetec-intern",
-    "role": "Full-Stack Software Developer Intern",
+    "id": "ses-devsecops",
+    "role": "Full-Stack Developer, DevSecOps",
+    "company": "SES & Technologies Ltd.",
+    "location": "Laval, QC",
+    "period": "Jun 2025 - May 2026",
+    "type": "full-time",
+    "achievements": [
+      "Architected and delivered .NET backend services and REST APIs following Clean Architecture, DDD, CQRS, and Repository patterns, plus Angular frontends across the full SDLC",
+      "Engineered pipeline-as-code (YAML) build, test, and release stages with conditional gates and environment promotion across multi-repository codebases"
+    ],
+    "securityHighlights": [
+      "Built and integrated a security toolchain into Azure DevOps pipelines (Semgrep for SAST, OWASP ZAP for DAST, Gitleaks for secrets) with gates that block promotion on high-severity findings",
+      "Designed and implemented RBAC / IAM from scratch across enterprise applications: authentication flows, role and permission scoping, and access-group management",
+      "Delivered the access-control administration surface through an Angular and NgRx panel"
+    ],
+    "technologies": [
+      "Azure DevOps",
+      ".NET",
+      "Angular",
+      "NgRx",
+      "Docker",
+      "Semgrep",
+      "OWASP ZAP",
+      "Gitleaks"
+    ]
+  },
+  {
+    "id": "genetec-autovu-intern",
+    "role": "Software Developer Intern, AutoVu",
     "company": "Genetec Inc.",
     "location": "Montreal, QC",
     "period": "Dec 2023 - May 2024",
     "type": "internship",
     "achievements": [
-      "Improved platform features with scalable .NET services and real-time updates",
-      "Contributed tests and pipeline improvements in Azure DevOps"
+      "Delivered backend services in .NET and C# for the AutoVu platform — a system serving law-enforcement agencies handling sensitive data — contributing bug fixes and feature work across the product lifecycle",
+      "Integrated REST and SignalR APIs for real-time communication in a microservices ecosystem"
     ],
     "securityHighlights": [
-      "Worked with HTTPS enforcement and secure service practices in backend work",
-      "Built habits around logging, testing, and reliability that translate directly to security engineering"
+      "Wrote unit and integration tests to reduce regression risk ahead of releases in a security-critical environment",
+      "Worked within secure service practices for a platform handling sensitive law-enforcement data"
     ],
     "technologies": [
       ".NET",
-      "Azure DevOps"
+      "C#",
+      "REST",
+      "SignalR"
     ]
   },
   {
@@ -52,14 +83,15 @@
     "period": "May 2023 - Sep 2023",
     "type": "internship",
     "achievements": [
-      "Built internal tools that automated troubleshooting and support workflows"
+      "Built diagnostic automation tooling in Python and C# to surface misconfigurations, insecure defaults, and overly permissive access settings in customer deployments, improving time-to-resolution by 55–65% for enterprise support cases"
     ],
     "securityHighlights": [
-      "Built tooling with reliability in mind: structured troubleshooting flows and safer operational outcomes"
+      "Performed configuration audits and log analysis to identify root causes and security gaps",
+      "Authored hardening recommendations and standardized triage documentation across support teams"
     ],
     "technologies": [
-      "C#",
-      ".NET"
+      "Python",
+      "C#"
     ]
   }
 ]

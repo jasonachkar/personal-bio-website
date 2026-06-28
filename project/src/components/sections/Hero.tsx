@@ -459,13 +459,13 @@ function SecurityProfileCard({
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {[
                     { name: 'Azure', color: 'bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400' },
-                    { name: 'Sentinel', color: 'bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/30 text-cyan-600 dark:text-cyan-400' },
-                    { name: 'Entra ID', color: 'bg-purple-500/10 dark:bg-purple-500/20 border-purple-500/30 text-purple-600 dark:text-purple-400' },
-                    { name: 'Defender', color: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' },
-                    { name: 'OWASP', color: 'bg-orange-500/10 dark:bg-orange-500/20 border-orange-500/30 text-orange-600 dark:text-orange-400' },
-                    { name: 'KQL', color: 'bg-pink-500/10 dark:bg-pink-500/20 border-pink-500/30 text-pink-600 dark:text-pink-400' },
                     { name: 'Terraform', color: 'bg-violet-500/10 dark:bg-violet-500/20 border-violet-500/30 text-violet-600 dark:text-violet-400' },
-                    { name: 'GitHub', color: 'bg-gray-500/10 dark:bg-gray-500/20 border-gray-500/30 text-gray-600 dark:text-gray-300' },
+                    { name: 'Entra ID', color: 'bg-purple-500/10 dark:bg-purple-500/20 border-purple-500/30 text-purple-600 dark:text-purple-400' },
+                    { name: '.NET', color: 'bg-indigo-500/10 dark:bg-indigo-500/20 border-indigo-500/30 text-indigo-600 dark:text-indigo-400' },
+                    { name: 'GitHub Actions', color: 'bg-gray-500/10 dark:bg-gray-500/20 border-gray-500/30 text-gray-600 dark:text-gray-300' },
+                    { name: 'Semgrep', color: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' },
+                    { name: 'Trivy', color: 'bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/30 text-cyan-600 dark:text-cyan-400' },
+                    { name: 'PostgreSQL', color: 'bg-pink-500/10 dark:bg-pink-500/20 border-pink-500/30 text-pink-600 dark:text-pink-400' },
                   ].map((tool, idx) => (
                     <motion.span
                       key={tool.name}
@@ -521,7 +521,7 @@ function SecurityProfileCard({
                     <Wifi className="h-3.5 w-3.5 animate-pulse" />
                   </p>
                   <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                    Cloud Security Engineer, Security Consultant, DevSecOps roles in Canada or remote
+                    DevSecOps &amp; cloud security engineering roles — Montreal or remote
                   </p>
                 </div>
               </div>

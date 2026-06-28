@@ -1,35 +1,35 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "Full-Stack Developer → Cybersecurity (Cloud & AppSec)",
-  "tagline": "Azure Fundamentals (AZ-900) | Security+ | MSc Cybersecurity (UoL, in progress)",
-  "blurb": "Full-stack developer transitioning into cybersecurity with a secure-by-design mindset. Focused on Azure security, identity, detection engineering, and application security—bringing hands-on engineering experience into security work.",
+  "title": "DevSecOps · Cloud Security · Application Security",
+  "tagline": "I build security into the SDLC — and ship it to production.",
+  "blurb": "Platform engineer at Genetec with a software-engineering foundation and production cloud experience on Azure. I solo-built and deployed SecureObs, a multi-tenant security SaaS, and I'm pursuing an MS in Cybersecurity at Georgia Tech.",
   "currentFocus": [
-    "Azure identity & access (Entra ID, Conditional Access concepts)",
-    "Microsoft Sentinel fundamentals (KQL, detections, alert tuning)",
-    "Secure SDLC: threat modeling + OWASP-style mitigations",
-    "Cloud security foundations: logging, posture, governance basics"
+    "Secure CI/CD with policy-driven build gates",
+    "Cloud security on Azure (Entra ID, Key Vault, RLS)",
+    "Infrastructure-as-Code security & attack-path analysis",
+    "Application security: SAST, DAST, SCA & secrets scanning"
   ],
   "stats": [
     {
-      "label": "Certifications",
-      "value": "3",
-      "detail": "Security+, AZ-900, Google Cybersecurity"
+      "label": "Production SaaS",
+      "value": "1",
+      "detail": "SecureObs — solo-built & deployed on Azure"
     },
     {
-      "label": "Engineering Experience",
+      "label": "Scanners Unified",
+      "value": "7",
+      "detail": "into one triage pipeline with build gating"
+    },
+    {
+      "label": "Engineering",
       "value": "3+ yrs",
-      "detail": "full-stack + secure-by-design practices"
-    },
-    {
-      "label": "Security Projects",
-      "value": "6",
-      "detail": "labs, detections, and secure patterns"
+      "detail": "secure-by-design across the full SDLC"
     }
   ],
   "ctas": [
     {
-      "label": "View Projects",
-      "href": "#projects",
+      "label": "Explore SecureObs",
+      "href": "#secureobs",
       "kind": "primary"
     },
     {

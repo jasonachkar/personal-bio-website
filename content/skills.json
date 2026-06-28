@@ -1,0 +1,93 @@
+{
+  "intro": "I bring a software-engineering foundation to security work: building secure CI/CD pipelines, infrastructure-as-code, and multi-tenant cloud systems on Azure, with security designed in behind policy gates rather than bolted on.",
+  "groups": [
+    {
+      "title": "Cloud & Cloud Security",
+      "icon": "Cloud",
+      "items": [
+        "Microsoft Azure (App Service, Static Web Apps, Container Instances)",
+        "Key Vault, Managed Identities, Entra ID",
+        "Entra ID OAuth 2.1 / PKCE",
+        "VNet & private networking",
+        "PostgreSQL Flexible Server & row-level security",
+        "Log Analytics / App Insights",
+        "Defense-in-depth network design"
+      ]
+    },
+    {
+      "title": "IaC & Automation",
+      "icon": "Boxes",
+      "items": [
+        "Terraform (cloud-agnostic IaC)",
+        "HCL static analysis",
+        "Pipeline-as-code (YAML)",
+        "GitHub Apps",
+        "Ephemeral sandboxed runners",
+        "Configuration governance"
+      ]
+    },
+    {
+      "title": "DevSecOps & CI/CD",
+      "icon": "GitBranch",
+      "items": [
+        "Azure DevOps (Server & Services)",
+        "GitHub Actions",
+        "Docker & Kubernetes",
+        "Secure CI/CD with build gates",
+        "SARIF & OpenTelemetry",
+        "Automated release & artifact management"
+      ]
+    },
+    {
+      "title": "Application Security",
+      "icon": "Bug",
+      "items": [
+        "SAST: Semgrep, Bandit, ESLint-security",
+        "DAST: OWASP ZAP",
+        "Secrets detection: Gitleaks",
+        "SCA: Trivy, OSV-Scanner",
+        "IaC scanning: Checkov, Trivy",
+        "Secure SDLC · RBAC / IAM · threat modeling · OWASP / CWE"
+      ]
+    },
+    {
+      "title": "Languages",
+      "icon": "Code2",
+      "items": [
+        "C# / .NET",
+        "Python",
+        "Go",
+        "PowerShell",
+        "TypeScript / JavaScript",
+        "Bash",
+        "SQL"
+      ]
+    },
+    {
+      "title": "Architecture & Practices",
+      "icon": "Layers",
+      "items": [
+        "Clean Architecture",
+        "Domain-driven design",
+        "REST API design",
+        "Multi-tenancy & tenant isolation",
+        "Least privilege",
+        "Secure-by-design"
+      ]
+    }
+  ],
+  "principles": [
+    {
+      "title": "Secure by design",
+      "description": "Security built into the SDLC behind policy gates — not bolted on after the fact."
+    },
+    {
+      "title": "Least privilege",
+      "description": "Scoped access, short-lived tokens, managed identities, and no standing secrets."
+    },
+    {
+      "title": "Defense in depth",
+      "description": "Layered controls — app-layer authorization plus database-enforced isolation."
+    }
+  ]
+}

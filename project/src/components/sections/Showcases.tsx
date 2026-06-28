@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import { Shield, Network, Cloud, GitBranch, Search, ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
+import { Shield, Network, ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
@@ -172,25 +172,10 @@ function Showcases() {
 
   const showcases: ShowcaseCardProps[] = [
     {
-      icon: Search,
-      title: 'Vulnerability Scanner',
-      description:
-        'Interactive security scanner demonstrating OWASP Top 10 vulnerabilities with CVSS scoring, remediation guidance, and code examples.',
-      features: [
-        'OWASP Top 10 (2021) vulnerability showcase',
-        'CVSS v3.1 scoring with visual indicators',
-        'Detailed remediation guides with code examples',
-        'CWE/CVE reference mapping',
-      ],
-      href: '/vulnerability-scanner',
-      status: 'live',
-      gradient: 'bg-gradient-to-br from-severity-critical to-severity-high',
-    },
-    {
       icon: Shield,
       title: 'SIEM Detection Console',
       description:
-        'Real-time security event monitoring and threat detection powered by custom detection rules and MITRE ATT&CK framework integration.',
+        'Security event monitoring and threat detection powered by a custom query engine, detection rules, and MITRE ATT&CK mapping — built from scratch.',
       features: [
         'Query engine with KQL-like syntax',
         'Time-window threat detection algorithms',
@@ -205,7 +190,7 @@ function Showcases() {
       icon: Network,
       title: 'Threat Modeling Playground',
       description:
-        'Interactive STRIDE-based threat modeling tool with DFD editor, risk scoring, and MITRE ATT&CK integration for comprehensive security analysis.',
+        'Interactive STRIDE-based threat modeling with a DFD editor, risk scoring, and MITRE ATT&CK integration for end-to-end security analysis.',
       features: [
         'Interactive DFD diagram builder',
         'STRIDE threat analysis with risk scoring',
@@ -215,36 +200,6 @@ function Showcases() {
       href: '/threat-modeling',
       status: 'live',
       gradient: 'bg-gradient-to-br from-secondary to-accent',
-    },
-    {
-      icon: Cloud,
-      title: 'Azure Security Blueprint',
-      description:
-        'Azure Landing Zone simulator with management group hierarchy, policy-as-code workflows, and CIS benchmark compliance tracking.',
-      features: [
-        'Management group hierarchy builder',
-        'Azure Policy initiative assignments',
-        'CIS/Azure Security Benchmark mapping',
-        'Misconfiguration remediation scenarios',
-      ],
-      href: '/azure-blueprint',
-      status: 'live',
-      gradient: 'bg-gradient-to-br from-accent to-primary',
-    },
-    {
-      icon: GitBranch,
-      title: 'DevSecOps Pipeline Simulator',
-      description:
-        'Supply chain security demo with SBOM generation, SLSA provenance, policy-as-code gates, and artifact signing visualization.',
-      features: [
-        'Policy-as-Code gates with OPA/Rego',
-        'CycloneDX SBOM generation & visualization',
-        'SLSA provenance attestation viewer',
-        'OpenSSF Scorecard integration',
-      ],
-      href: '/devsecops',
-      status: 'live',
-      gradient: 'bg-gradient-to-br from-severity-high to-severity-medium',
     },
   ];
 
@@ -280,9 +235,8 @@ function Showcases() {
           </h2>
           
           <p className="mx-auto mt-4 max-w-3xl text-body-lg text-text-secondary">
-            Explore fully functional cybersecurity tools and demonstrations. Each showcase
-            demonstrates real detection engineering, threat modeling, and security architecture
-            skills with actual working implementations.
+            Two fully functional tools built from scratch — a detection engine and a threat-modeling
+            workbench — with real query parsing, detection logic, and risk analysis (no mockups).
           </p>
         </motion.div>
 

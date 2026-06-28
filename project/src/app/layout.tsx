@@ -17,25 +17,27 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Cybersecurity Portfolio | Full-Stack Developer & Security Researcher',
+  title: 'Jason Achkar Diab — DevSecOps & Cloud Security Engineer',
   description:
-    'Personal portfolio showcasing software development, cybersecurity research, and game development projects. Featuring SIEM simulator, PlayCanvas games, and security tools.',
+    'DevSecOps and cloud security engineer building secure CI/CD pipelines, infrastructure-as-code, and multi-tenant cloud systems on Azure. Creator of SecureObs, a production security SaaS unifying seven scanners with CI/CD build gating and IaC attack-path analysis.',
   keywords: [
-    'cybersecurity',
-    'full-stack developer',
-    'security researcher',
-    'game developer',
-    'SIEM',
-    'penetration testing',
-    'React',
-    'TypeScript',
-    'Next.js',
+    'DevSecOps',
+    'cloud security',
+    'application security',
+    'Azure security',
+    'CI/CD security',
+    'infrastructure as code',
+    'Terraform',
+    'SecureObs',
+    'secure SDLC',
+    'Jason Achkar Diab',
   ],
-  authors: [{ name: 'Your Name' }],
+  authors: [{ name: 'Jason Achkar Diab' }],
   openGraph: {
     type: 'website',
-    title: 'Cybersecurity Portfolio',
-    description: 'Full-Stack Developer " Cybersecurity Analyst " Game Developer',
+    title: 'Jason Achkar Diab — DevSecOps & Cloud Security Engineer',
+    description:
+      'Building security into the SDLC and shipping it to production. Creator of SecureObs, a multi-tenant security SaaS on Azure.',
   },
 };
 

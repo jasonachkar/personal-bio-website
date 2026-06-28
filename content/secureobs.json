@@ -1,0 +1,80 @@
+{
+  "name": "SecureObs",
+  "tagline": "DevSecOps Security Observatory",
+  "summary": "A production-deployed, multi-tenant security SaaS — solo-designed and built — that unifies seven open-source scanners into one triage dashboard with cross-tool deduplication, CI/CD build gating, and credential-free Infrastructure-as-Code attack-path analysis. Built on a .NET 8 Clean-Architecture backend, an Angular 21 SPA, and PostgreSQL with row-level security, all running on Azure.",
+  "liveUrl": "https://www.secureobs.com",
+  "sourceUrl": "https://github.com/jasonachkar",
+  "status": "Production · MVP deployed",
+  "stats": [
+    {
+      "value": "7",
+      "label": "Scanners unified",
+      "detail": "Semgrep, Gitleaks, Trivy, Bandit, ESLint-security, OSV-Scanner, Checkov"
+    },
+    {
+      "value": "56",
+      "label": "Backend test files",
+      "detail": "xUnit unit + Testcontainers integration"
+    },
+    {
+      "value": "12",
+      "label": "CI/CD workflows",
+      "detail": "deploy, scanner image, self-scan, canaries"
+    },
+    {
+      "value": "3",
+      "label": "Shipped artifacts",
+      "detail": "scanner image, Terraform runner, Go canary CLI"
+    }
+  ],
+  "pillars": [
+    {
+      "icon": "Layers",
+      "title": "Multi-scanner aggregation & build gate",
+      "description": "Bundles seven scanners in one versioned image, normalizes every output into one finding shape, and merges the same issue across tools via facet-priority canonical hashing. A build gate exits non-zero on unresolved blocking findings to fail the pipeline."
+    },
+    {
+      "icon": "Network",
+      "title": "Credential-free IaC attack-path engine",
+      "description": "Statically parses Terraform with no terraform plan and no cloud credentials, builds a typed Azure resource graph, and chains misconfigurations into ranked attack paths via a pluggable rule engine — visualized in-app with Cytoscape."
+    },
+    {
+      "icon": "ShieldCheck",
+      "title": "Defense-in-depth multi-tenancy",
+      "description": "Application-layer authorization combined with PostgreSQL FORCE row-level security under a restricted non-owner role, so other tenants' rows stay invisible even if an app-layer filter were ever dropped — validated by Testcontainers regression tests."
+    },
+    {
+      "icon": "Boxes",
+      "title": "Zero-config managed integrations",
+      "description": "GitHub App connectors, Terraform-root discovery, and auto-generated pipeline PRs run scans in ephemeral, sandboxed Azure Container Instances using short-lived tokens and auto-provisioned, project-scoped API keys — no pipeline YAML required."
+    },
+    {
+      "icon": "KeyRound",
+      "title": "Identity, secrets & observability",
+      "description": "Entra ID OAuth 2.1 (PKCE) and SHA-256-hashed API keys, with all secrets in Azure Key Vault via Managed Identity. Instrumented with OpenTelemetry, security headers, and layered rate limiting."
+    },
+    {
+      "icon": "GitBranch",
+      "title": "Self-verifying release train",
+      "description": "A push to the scanner image auto-bumps the version, publishes multi-tag Docker images, and updates live App Service config — backed by end-to-end canaries against OWASP WebGoat and a Go meta-verifier that asserts the ingest-and-gate contract."
+    }
+  ],
+  "techStack": [
+    {
+      "group": "Backend",
+      "items": [".NET 8 (Clean Architecture)", "EF Core 8", "PostgreSQL 16 (RLS)"]
+    },
+    {
+      "group": "Frontend",
+      "items": ["Angular 21", "TypeScript", "Cytoscape"]
+    },
+    {
+      "group": "Cloud",
+      "items": ["Azure App Service", "Container Instances", "Key Vault", "Entra ID"]
+    },
+    {
+      "group": "IaC & Tooling",
+      "items": ["Terraform", "Docker", "Python", "Go"]
+    }
+  ]
+}

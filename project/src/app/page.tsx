@@ -1,11 +1,12 @@
 import ClientHome from '@/components/ClientHome';
 import {
   getHero,
-  getAbout,
   getCertifications,
   getEducation,
   getExperience,
   getProjects,
+  getSecureObs,
+  getSkills,
   getWriteups,
   getContact,
   getSocial,
@@ -13,7 +14,8 @@ import {
 
 export default function Home() {
   const heroContent = getHero();
-  const aboutContent = getAbout();
+  const secureObs = getSecureObs();
+  const skills = getSkills();
   const certifications = getCertifications();
   const education = getEducation();
   const experience = getExperience();
@@ -25,7 +27,8 @@ export default function Home() {
   return (
     <ClientHome
       heroContent={heroContent}
-      aboutContent={aboutContent}
+      secureObs={secureObs}
+      skills={skills}
       certifications={certifications}
       education={education}
       experience={experience}

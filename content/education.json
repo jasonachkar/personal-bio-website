@@ -1,48 +1,46 @@
 [
   {
-    "id": "msc-cyber",
+    "id": "msc-cyber-gatech",
     "degree": "Master of Science in Cybersecurity",
-    "institution": "University of London",
+    "institution": "Georgia Institute of Technology",
     "location": "Online",
-    "period": "2025 - Present",
+    "period": "2026 - 2028",
     "status": "in-progress",
     "highlights": [
-      "Graduate-level study of cybersecurity principles, risk management, and security governance",
-      "Focus on secure systems design, software security, and network security concepts",
-      "Academic grounding in cryptography, cybercrime, and information security management",
-      "Developing analytical and research skills applicable to cybersecurity consulting and engineering roles"
+      "Information Security specialization with a focus on secure software development and applied cryptography",
+      "Graduate study of identity and access management, network security, and intrusion detection",
+      "Software vulnerability analysis and secure systems design",
+      "Research and analytical depth applicable to cloud security and security engineering roles"
     ],
     "relevantCourses": [
-      "Cyber Security Foundations",
-      "Security Management and Governance",
-      "Network and Infrastructure Security",
-      "Software and Application Security",
+      "Secure Software Development",
+      "Identity & Access Management",
+      "Network Security & Intrusion Detection",
       "Applied Cryptography",
-      "Cybercrime"
+      "Software Vulnerability Analysis",
+      "Information Security"
     ]
   },
   {
     "id": "bsc-cs",
-    "degree": "Bachelor of Science in Computer Science",
+    "degree": "Bachelor of Computer Science",
     "institution": "Concordia University",
     "location": "Montreal, QC",
-    "period": "2022 - 2025",
+    "period": "2021 - 2025",
     "status": "completed",
     "highlights": [
-      "Strong foundation in computer science, software engineering, and systems programming",
+      "Strong foundation in software architecture, systems programming, and computer science fundamentals",
       "Hands-on experience designing and implementing web applications and backend services",
-      "Studied core networking and operating systems concepts relevant to cybersecurity",
-      "Developed analytical problem-solving skills through algorithms and data structures coursework"
+      "Studied computer networks, operating systems, and database systems",
+      "Coursework in secure software development"
     ],
     "relevantCourses": [
-      "COMP 248 – Object-Oriented Programming I",
-      "COMP 249 – Object-Oriented Programming II",
-      "COMP 352 – Data Structures and Algorithms",
-      "COMP 445 – Data Communications and Computer Networks",
-      "COMP 346 – Operating Systems",
-      "COMP 353 – Databases",
-      "COMP 348 – Principles of Programming Languages",
-      "SOEN 341 – Software Process"
+      "Software Architecture",
+      "Computer Networks",
+      "Database Systems",
+      "Operating Systems",
+      "Secure Software Development",
+      "Data Structures & Algorithms"
     ]
   }
 ]
