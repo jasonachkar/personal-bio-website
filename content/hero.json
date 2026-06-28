@@ -1,35 +1,35 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "Full-Stack Developer → Cybersecurity (Cloud & AppSec)",
-  "tagline": "Azure Fundamentals (AZ-900) | Security+ | MSc Cybersecurity (UoL, in progress)",
-  "blurb": "Full-stack developer transitioning into cybersecurity with a secure-by-design mindset. Focused on Azure security, identity, detection engineering, and application security—bringing hands-on engineering experience into security work.",
+  "title": "DevSecOps & Cloud Security Engineer",
+  "tagline": "Production secure CI/CD, IaC attack-path analysis, and Azure SaaS security",
+  "blurb": "Platform engineer and SecureObs founder focused on secure CI/CD, Infrastructure as Code, identity, and multi-tenant cloud systems on Azure.",
   "currentFocus": [
-    "Azure identity & access (Entra ID, Conditional Access concepts)",
-    "Microsoft Sentinel fundamentals (KQL, detections, alert tuning)",
-    "Secure SDLC: threat modeling + OWASP-style mitigations",
-    "Cloud security foundations: logging, posture, governance basics"
+    "Azure DevOps and GitHub administration for engineering efficiency",
+    "Credential-free Terraform attack-path analysis for Azure environments",
+    "Secure SDLC gates with SAST, secrets, SCA, container, and IaC scanning",
+    "Multi-tenant SaaS isolation with RBAC/IAM, PostgreSQL RLS, and managed identity"
   ],
   "stats": [
     {
-      "label": "Certifications",
-      "value": "3",
-      "detail": "Security+, AZ-900, Google Cybersecurity"
+      "label": "Flagship",
+      "value": "SecureObs",
+      "detail": "solo-built production security SaaS"
     },
     {
-      "label": "Engineering Experience",
-      "value": "3+ yrs",
-      "detail": "full-stack + secure-by-design practices"
+      "label": "Scanners",
+      "value": "7",
+      "detail": "deduped into one triage and gate flow"
     },
     {
-      "label": "Security Projects",
-      "value": "6",
-      "detail": "labs, detections, and secure patterns"
+      "label": "Cloud",
+      "value": "Azure",
+      "detail": "IaC, identity, pipelines, and SaaS deployment"
     }
   ],
   "ctas": [
     {
-      "label": "View Projects",
-      "href": "#projects",
+      "label": "See SecureObs",
+      "href": "#secureobs",
       "kind": "primary"
     },
     {

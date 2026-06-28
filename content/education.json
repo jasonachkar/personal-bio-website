@@ -1,24 +1,21 @@
 [
   {
-    "id": "msc-cyber",
-    "degree": "Master of Science in Cybersecurity",
-    "institution": "University of London",
-    "location": "Online",
-    "period": "2025 - Present",
+    "id": "oms-cybersecurity",
+    "degree": "M.S. Cybersecurity, Information Security specialization",
+    "institution": "Georgia Institute of Technology",
+    "location": "Online (OMS Cybersecurity)",
+    "period": "In progress, 2026 - 2028",
     "status": "in-progress",
     "highlights": [
-      "Graduate-level study of cybersecurity principles, risk management, and security governance",
-      "Focus on secure systems design, software security, and network security concepts",
-      "Academic grounding in cryptography, cybercrime, and information security management",
-      "Developing analytical and research skills applicable to cybersecurity consulting and engineering roles"
+      "Graduate study focused on information security, secure systems, and applied cybersecurity engineering",
+      "Academic work aligned with cloud security, secure software, and defensive engineering practice"
     ],
     "relevantCourses": [
-      "Cyber Security Foundations",
-      "Security Management and Governance",
-      "Network and Infrastructure Security",
-      "Software and Application Security",
+      "Information Security",
+      "Secure Computer Systems",
       "Applied Cryptography",
-      "Cybercrime"
+      "Network Security",
+      "Software Security"
     ]
   },
   {
@@ -29,20 +26,15 @@
     "period": "2022 - 2025",
     "status": "completed",
     "highlights": [
-      "Strong foundation in computer science, software engineering, and systems programming",
-      "Hands-on experience designing and implementing web applications and backend services",
-      "Studied core networking and operating systems concepts relevant to cybersecurity",
-      "Developed analytical problem-solving skills through algorithms and data structures coursework"
+      "Computer science foundation across software engineering, systems, networking, databases, and algorithms",
+      "Hands-on experience designing and implementing web applications and backend services"
     ],
     "relevantCourses": [
-      "COMP 248 – Object-Oriented Programming I",
-      "COMP 249 – Object-Oriented Programming II",
-      "COMP 352 – Data Structures and Algorithms",
-      "COMP 445 – Data Communications and Computer Networks",
-      "COMP 346 – Operating Systems",
-      "COMP 353 – Databases",
-      "COMP 348 – Principles of Programming Languages",
-      "SOEN 341 – Software Process"
+      "Data Structures and Algorithms",
+      "Data Communications and Computer Networks",
+      "Operating Systems",
+      "Databases",
+      "Software Process"
     ]
   }
 ]

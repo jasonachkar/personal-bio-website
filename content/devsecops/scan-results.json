@@ -90,7 +90,7 @@
               "file": "src/crypto/encryption.ts",
               "line": 12,
               "code": "const SECRET_KEY = 'my-super-secret-key-123';",
-              "recommendation": "Store secrets in environment variables or a secure vault like AWS Secrets Manager.",
+              "recommendation": "Store secrets in environment variables or a secure vault like Azure Key Vault.",
               "cwe": "CWE-798",
               "cvss": 7.5
             },
@@ -242,7 +242,7 @@
               "severity": "medium",
               "file": "terraform/security-groups.tf",
               "line": 28,
-              "recommendation": "Restrict SSH access to specific IP ranges or use AWS Systems Manager Session Manager."
+              "recommendation": "Restrict SSH access to specific IP ranges or use Azure Bastion or private management access."
             }
           ]
         }

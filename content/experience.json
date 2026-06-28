@@ -1,46 +1,78 @@
 [
   {
-    "id": "ses-fullstack-dev",
-    "role": "Full-Stack Web Developer",
-    "company": "SES & Technologies Ltd.",
-    "location": "Laval, QC",
-    "period": "Jun 2025 - Present",
+    "id": "genetec-platform-engineer",
+    "role": "Platform Engineer, Software Configuration Management & Tools",
+    "company": "Genetec Inc.",
+    "location": "Montreal, QC",
+    "period": "May 2026 - Present",
     "type": "full-time",
     "achievements": [
-      "Built and maintained Angular (v17+) and ASP.NET Core applications with clean, scalable patterns",
-      "Implemented APIs with strong validation and reliable error handling",
-      "Improved delivery quality through CI/CD automation in Azure DevOps"
+      "Administer Azure DevOps and GitHub workflows for engineering efficiency, secure configuration, and platform governance",
+      "Build internal tooling and automation in C#, Go, and PowerShell for build/release and reporting workflows",
+      "Work with Terraform on Azure infrastructure patterns used by engineering teams"
     ],
     "securityHighlights": [
-      "Applied secure-by-design patterns (RBAC mindset, least privilege, secure defaults)",
-      "Contributed to quality gates and automated checks in CI/CD",
-      "Strengthened observability practices that support incident triage and auditability"
+      "Apply least-privilege and secure-configuration thinking across developer platforms",
+      "Support governance and reporting patterns that improve release visibility and operational control",
+      "Connect platform automation work with practical cloud and DevSecOps security controls"
+    ],
+    "technologies": [
+      "Azure DevOps",
+      "GitHub",
+      "C#",
+      "Go",
+      "PowerShell",
+      "Terraform",
+      "Azure"
+    ]
+  },
+  {
+    "id": "ses-devsecops",
+    "role": "Full-Stack Developer, DevSecOps",
+    "company": "SES & Technologies Ltd.",
+    "location": "Laval, QC",
+    "period": "Jun 2025 - May 2026",
+    "type": "full-time",
+    "achievements": [
+      "Built and maintained Angular and ASP.NET Core applications with clean architecture patterns",
+      "Integrated DevSecOps scanning into Azure DevOps pipelines, including Semgrep, OWASP ZAP, and Gitleaks",
+      "Built RBAC/IAM capabilities into application workflows and SDLC practices"
+    ],
+    "securityHighlights": [
+      "Implemented secure SDLC gates and automated checks in CI/CD",
+      "Applied least privilege, input validation, and secure defaults in full-stack delivery",
+      "Strengthened observability and auditability practices that support security triage"
     ],
     "technologies": [
       "Angular",
       "TypeScript",
       ".NET",
-      "SQL Server",
-      "Azure DevOps"
+      "Azure DevOps",
+      "Semgrep",
+      "OWASP ZAP",
+      "Gitleaks"
     ]
   },
   {
     "id": "genetec-intern",
-    "role": "Full-Stack Software Developer Intern",
+    "role": "Software Developer Intern, AutoVu",
     "company": "Genetec Inc.",
     "location": "Montreal, QC",
     "period": "Dec 2023 - May 2024",
     "type": "internship",
     "achievements": [
-      "Improved platform features with scalable .NET services and real-time updates",
-      "Contributed tests and pipeline improvements in Azure DevOps"
+      "Contributed to .NET/C# backend services, REST APIs, SignalR workflows, and automated tests",
+      "Supported delivery quality through testing and Azure DevOps pipeline work"
     ],
     "securityHighlights": [
-      "Worked with HTTPS enforcement and secure service practices in backend work",
-      "Built habits around logging, testing, and reliability that translate directly to security engineering"
+      "Built reliability and testability habits that translate directly to defensive engineering",
+      "Worked with backend service practices where logging, validation, and predictable behavior matter"
     ],
     "technologies": [
       ".NET",
+      "C#",
+      "REST",
+      "SignalR",
       "Azure DevOps"
     ]
   },
@@ -52,14 +84,18 @@
     "period": "May 2023 - Sep 2023",
     "type": "internship",
     "achievements": [
-      "Built internal tools that automated troubleshooting and support workflows"
+      "Built Python and C# diagnostic automation for customer deployment troubleshooting",
+      "Improved support workflows by making configuration and operational issues easier to surface"
     ],
     "securityHighlights": [
-      "Built tooling with reliability in mind: structured troubleshooting flows and safer operational outcomes"
+      "Created tooling that surfaced misconfigurations, insecure defaults, and overly permissive access settings",
+      "Translated ambiguous deployment symptoms into structured diagnostics and safer remediation paths"
     ],
     "technologies": [
+      "Python",
       "C#",
-      ".NET"
+      ".NET",
+      "Diagnostic tooling"
     ]
   }
 ]

@@ -331,7 +331,7 @@
       "threatId": "api-threat-9",
       "title": "Implement Multi-Layer Rate Limiting",
       "description": "Apply rate limits at multiple levels: per IP, per API key, per endpoint. Use sliding window algorithm.",
-      "implementation": "Use Redis with rate-limiter-flexible. 100 req/min per IP, 1000/min per API key.",
+      "implementation": "Use Redis-backed rate limiting. 100 req/min per IP, 1000/min per API key.",
       "priority": "high"
     },
     {
