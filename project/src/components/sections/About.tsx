@@ -3,7 +3,6 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Target, Sparkles, Zap } from 'lucide-react';
-import Card from '../ui/Card';
 import type { About } from '@/lib/schemas';
 import {
   scrollVariants,
@@ -121,7 +120,11 @@ const About = ({ content }: AboutProps) => {
                 {content.focusAreas.map((area, index) => (
                   <motion.div
                     key={index}
-                    className="flex items-start gap-2.5"
+                    className={cn(
+                      'group flex min-h-12 items-center gap-2.5 rounded-xl',
+                      'border border-border bg-background-card px-3.5 py-2.5',
+                      'transition-colors duration-200 hover:border-primary/35 hover:bg-background-elevated/70'
+                    )}
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={viewport}
@@ -131,8 +134,10 @@ const About = ({ content }: AboutProps) => {
                       ease: easings.easeOutQuint,
                     }}
                   >
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary sm:h-5 sm:w-5" />
-                    <span className="text-sm text-text-secondary sm:text-base">{area}</span>
+                    <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-primary transition-transform duration-200 group-hover:scale-110" />
+                    <span className="text-sm font-medium text-text-secondary group-hover:text-text-primary">
+                      {area}
+                    </span>
                   </motion.div>
                 ))}
               </div>
@@ -157,29 +162,22 @@ const About = ({ content }: AboutProps) => {
               initial="hidden"
               whileInView="visible"
               viewport={viewport}
-              className="space-y-3"
+              className="grid grid-cols-2 gap-2.5 lg:grid-cols-1"
             >
               {content.coreStrengths.map((strength, index) => (
                 <motion.div
                   key={index}
                   variants={prefersReducedMotion ? {} : scrollVariants.scaleFade}
+                  className={cn(
+                    'group flex items-center gap-2.5 rounded-xl',
+                    'border border-border bg-background-card px-3.5 py-3',
+                    'transition-colors duration-200 hover:border-secondary/35 hover:bg-background-elevated/70'
+                  )}
                 >
-                  <Card
-                    variant="default"
-                    hoverEffect="lift"
-                    padding="sm"
-                    className={cn(
-                      'border border-border',
-                      'hover:border-primary/30'
-                    )}
-                  >
-                    <h4 className="mb-1.5 font-semibold text-primary">
-                      {strength.title}
-                    </h4>
-                    <p className="text-sm text-text-secondary leading-relaxed">
-                      {strength.description}
-                    </p>
-                  </Card>
+                  <Zap className="h-4 w-4 flex-shrink-0 text-secondary transition-transform duration-200 group-hover:scale-110" />
+                  <h4 className="text-sm font-semibold leading-snug text-text-primary sm:text-base">
+                    {strength.title}
+                  </h4>
                 </motion.div>
               ))}
             </motion.div>

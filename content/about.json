@@ -6,24 +6,24 @@
     "I am targeting DevSecOps, cloud security, application security, and security engineering roles where I can combine hands-on development with secure-by-design architecture, automation, least-privilege access, and pragmatic risk reduction."
   ],
   "focusAreas": [
-    "DevSecOps and CI/CD security gates",
-    "Azure cloud security and identity",
-    "Application security and secure SDLC",
-    "Infrastructure-as-Code security analysis",
-    "Multi-tenant SaaS security architecture",
-    "Security automation and engineering tooling"
+    "CI/CD security gates",
+    "Azure identity and cloud security",
+    "Application security testing",
+    "Terraform and IaC attack paths",
+    "Multi-tenant SaaS isolation",
+    "Security automation tooling"
   ],
   "coreStrengths": [
     {
-      "title": "Builder Mindset",
+      "title": "Production Builder",
       "description": "Security work grounded in production software, APIs, pipelines, and cloud systems."
     },
     {
-      "title": "Cloud Security",
+      "title": "Azure Cloud Security",
       "description": "Azure security patterns including Managed Identity, Key Vault, private networking, and observability."
     },
     {
-      "title": "DevSecOps",
+      "title": "DevSecOps Automation",
       "description": "Pipeline-as-code, scanner orchestration, build gates, SARIF, and release automation."
     },
     {
@@ -31,11 +31,11 @@
       "description": "Defense-in-depth authorization with PostgreSQL row-level security and restricted application roles."
     },
     {
-      "title": "AppSec Coverage",
+      "title": "AppSec Testing",
       "description": "SAST, DAST, secrets detection, SCA, IaC scanning, OWASP, CWE, and threat modeling."
     },
     {
-      "title": "Communication",
+      "title": "Security Communication",
       "description": "Clear security findings, governance reporting, hardening guidance, and technical documentation."
     }
   ]

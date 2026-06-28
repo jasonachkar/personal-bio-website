@@ -88,8 +88,8 @@ function SecureObsSpotlight({
       viewport={{ once: true, margin: '-80px' }}
       className="mb-8 sm:mb-10 md:mb-12"
     >
-      <div className="liquid-glass-strong relative overflow-hidden rounded-2xl border border-white/15 p-5 shadow-glass dark:border-primary/20 dark:shadow-glass-dark sm:p-6 md:p-8">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent opacity-60" />
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-background-card p-5 shadow-card dark:shadow-2xl sm:p-6 md:p-8">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-70" />
 
         <div className="relative z-10 grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
           <div>
@@ -125,7 +125,7 @@ function SecureObsSpotlight({
                 {metrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 text-center dark:bg-white/[0.03]"
+                    className="rounded-xl border border-border bg-background-elevated/55 px-3 py-3 text-center"
                   >
                     <div className="text-xl font-black text-primary sm:text-2xl">
                       {metric.value}
@@ -171,11 +171,11 @@ function SecureObsSpotlight({
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  'inline-flex items-center gap-2 rounded-xl px-4 py-2.5',
-                  'border border-white/15 bg-white/[0.04] text-text-primary',
-                  'font-medium transition-colors hover:border-primary/40 hover:bg-primary/10'
-                )}
+                  className={cn(
+                    'inline-flex items-center gap-2 rounded-xl px-4 py-2.5',
+                    'border border-border bg-background-elevated/60 text-text-primary',
+                    'font-medium transition-colors hover:border-primary/40 hover:bg-primary/10'
+                  )}
                 whileHover={prefersReducedMotion ? {} : { y: -2 }}
                 whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
               >
@@ -193,7 +193,7 @@ function SecureObsSpotlight({
                 return (
                   <div
                     key={capability.label}
-                    className="rounded-xl border border-white/10 bg-white/[0.035] p-4 dark:bg-white/[0.025]"
+                    className="rounded-xl border border-border bg-background-elevated/45 p-4"
                   >
                     <div className="mb-2 flex items-center gap-2 text-primary">
                       <CapabilityIcon className="h-4 w-4" />
@@ -210,12 +210,12 @@ function SecureObsSpotlight({
             </div>
 
             {highlights.length > 0 && (
-              <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+              <div className="rounded-xl border border-border bg-background-elevated/45 p-4">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-primary">
                   Why it matters
                 </p>
                 <ul className="space-y-2.5">
-                  {highlights.slice(0, 5).map((highlight) => (
+                  {highlights.slice(0, 4).map((highlight) => (
                     <li
                       key={highlight}
                       className="flex items-start gap-2.5 text-sm leading-relaxed text-text-secondary"

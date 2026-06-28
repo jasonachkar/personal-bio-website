@@ -18,10 +18,10 @@
     }
   ],
   "currentFocus": [
-    "Secure CI/CD build gates and policy-driven promotion",
-    "Azure security: Managed Identity, Key Vault, Entra ID, private networking",
-    "Application security: SAST, DAST, secrets, SCA, IaC scanning",
-    "Multi-tenant SaaS isolation with PostgreSQL row-level security"
+    "CI/CD build gates",
+    "Azure identity + Key Vault",
+    "SAST / DAST / SCA automation",
+    "Tenant isolation + PostgreSQL RLS"
   ],
   "stats": [
     {
