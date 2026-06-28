@@ -1,42 +1,42 @@
 {
-  "title": "Platform engineer with a security-first software background.",
+  "title": "Platform engineer with a security-first, full-stack foundation.",
   "paragraphs": [
-    "I build the systems around software delivery: source-control governance, CI/CD workflows, internal tooling, release controls, and operational visibility. Because my foundation is full-stack engineering, I understand how teams actually ship software and where controls need to fit.",
-    "My strongest independent project is SecureObs, a production-deployed SaaS I designed and built end to end. It brings scanner orchestration, cross-tool deduplication, build gates, tenant isolation, and Terraform attack-path analysis into one workflow.",
-    "I am looking for platform engineering and DevSecOps roles where I can combine product-minded engineering with secure defaults, automation, least-privilege access, and practical risk reduction."
+    "My background is full-stack engineering, so I know how teams actually ship software — and where controls have to fit without slowing anyone down. That perspective is what I bring to platform and DevSecOps work.",
+    "It's also what drove SecureObs: a production-deployed SaaS I designed and built end to end, from the .NET backend and Angular dashboard down to the Azure infrastructure it runs on. There's a full breakdown further down the page.",
+    "I'm focused on platform engineering and DevSecOps — building the tooling, pipelines, and secure defaults that let good engineering scale."
   ],
   "focusAreas": [
+    "Developer platforms & tooling",
+    "CI/CD pipelines & build gates",
     "Source-control governance",
-    "CI/CD quality gates",
-    "Internal developer tooling",
-    "Terraform analysis",
-    "Tenant isolation",
-    "Observability and reporting"
+    "Cloud platforms on Azure",
+    "Infrastructure-as-Code analysis",
+    "Application & API security"
   ],
   "coreStrengths": [
     {
-      "title": "Production Builder",
-      "description": "Security work grounded in production software, APIs, pipelines, and cloud systems."
+      "title": "Ships production software",
+      "description": "Platform and security work grounded in real apps, APIs, and pipelines that run in production."
     },
     {
-      "title": "Azure Platform Work",
-      "description": "Azure security patterns including Managed Identity, Key Vault, private networking, and observability."
+      "title": "Automates by default",
+      "description": "Pipelines, gates, and tooling that remove toil and enforce standards without manual effort."
     },
     {
-      "title": "Pipeline Automation",
-      "description": "Pipeline-as-code, scanner orchestration, build gates, SARIF, and release automation."
+      "title": "Defense in depth",
+      "description": "Layered authorization and least-privilege access designed in from the start, not patched on."
     },
     {
-      "title": "Tenant Isolation",
-      "description": "Defense-in-depth authorization with PostgreSQL row-level security and restricted application roles."
+      "title": "Azure cloud-native",
+      "description": "Managed Identity, Key Vault, private networking, and observability in real deployments."
     },
     {
-      "title": "Scanner Orchestration",
-      "description": "SAST, DAST, secrets detection, SCA, IaC scanning, OWASP, CWE, and threat modeling."
+      "title": "Risk-aware by design",
+      "description": "Practical threat modeling and risk reduction weighed against how teams actually deliver."
     },
     {
-      "title": "Security Communication",
-      "description": "Clear security findings, governance reporting, hardening guidance, and technical documentation."
+      "title": "Clear communicator",
+      "description": "Turns findings, trade-offs, and governance into guidance engineers and stakeholders can act on."
     }
   ]
 }

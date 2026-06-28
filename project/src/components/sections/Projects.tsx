@@ -84,7 +84,7 @@ function SecureObsSpotlight({
       viewport={{ once: true, margin: '-80px' }}
       className="mb-8 sm:mb-10 md:mb-12"
     >
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-background-card p-5 shadow-card dark:shadow-2xl sm:p-6 md:p-8">
+      <div className="liquid-glass-strong relative overflow-hidden rounded-2xl border border-border p-5 shadow-card dark:shadow-2xl sm:p-6 md:p-8">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-70" />
 
         <div className="relative z-10 grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">

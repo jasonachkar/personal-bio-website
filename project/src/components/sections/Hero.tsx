@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   Code2,
   Cpu,
-  Database,
   Download,
   GitBranch,
   Layers3,
@@ -296,33 +295,6 @@ function SecurityProfileCard({
   const isMobile = useIsMobile();
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const profileCards = [
-    {
-      label: 'Current',
-      value: 'Platform Engineer',
-      detail: 'SCM, CI/CD, governance tooling at Genetec',
-      icon: Building2,
-    },
-    {
-      label: 'Flagship',
-      value: '7-Scanner Platform',
-      detail: 'SARIF, build gates, IaC attack paths',
-      icon: Shield,
-    },
-    {
-      label: 'Delivery',
-      value: 'Policy Gates',
-      detail: 'Branch rules, build controls, release promotion',
-      icon: GitBranch,
-    },
-    {
-      label: 'Architecture',
-      value: 'Tenant Isolation',
-      detail: 'App-layer auth plus PostgreSQL FORCE RLS',
-      icon: Database,
-    },
-  ];
-
   const stackGroups = [
     {
       label: 'Platform',
@@ -390,11 +362,11 @@ function SecurityProfileCard({
           'animate-gradient-shift bg-[length:200%_200%]'
         )} />
         
-        {/* Main Card - Theme Aware */}
+        {/* Main Card - Liquid Glass */}
         <div className={cn(
           'relative overflow-hidden',
           'rounded-2xl sm:rounded-3xl',
-          'border border-border bg-background-card',
+          'liquid-glass border border-border',
           'shadow-card-hover dark:shadow-2xl'
         )}>
           {/* Subtle Grid Pattern */}
@@ -456,45 +428,6 @@ function SecurityProfileCard({
                   Active
                 </span>
               </motion.div>
-            </div>
-
-            <div className="rounded-xl border border-border bg-background-elevated/45 p-4">
-              <p className="text-sm font-semibold leading-relaxed text-text-primary">
-                I turn delivery workflows into controlled, observable systems:
-                source control, build gates, tenant boundaries, and scanner automation.
-              </p>
-            </div>
-
-            <div className="grid gap-2.5 sm:grid-cols-2">
-              {profileCards.map((item, index) => {
-                const Icon = item.icon;
-
-                return (
-                  <motion.div
-                    key={item.label}
-                    className={cn(
-                      'rounded-xl border border-border bg-background-elevated/35 p-3.5',
-                      'transition-colors duration-200 hover:border-primary/35 hover:bg-background-elevated/70'
-                    )}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35 + index * 0.05 }}
-                  >
-                    <div className="mb-2 flex items-center gap-2 text-primary">
-                      <Icon className="h-4 w-4" />
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.16em]">
-                        {item.label}
-                      </span>
-                    </div>
-                    <p className="text-sm font-semibold leading-snug text-text-primary">
-                      {item.value}
-                    </p>
-                    <p className="mt-1 text-xs leading-relaxed text-text-secondary">
-                      {item.detail}
-                    </p>
-                  </motion.div>
-                );
-              })}
             </div>
 
             {/* Security Stack */}

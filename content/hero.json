@@ -1,20 +1,20 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "Platform Engineering | DevSecOps",
-  "tagline": "Secure delivery systems for engineering teams",
-  "blurb": "I work on developer platforms, source-control governance, CI/CD controls, and security automation. My work combines production software engineering with practical controls that help teams ship with fewer risks.",
+  "title": "Platform Engineering · DevSecOps",
+  "tagline": "I build the platforms and guardrails that let teams ship fast and safely.",
+  "blurb": "Full-stack engineer turned platform builder. I make software delivery secure and automated — and I proved it by designing and shipping SecureObs, a production security SaaS of my own.",
   "quickSignals": [
     {
-      "label": "Current role",
-      "value": "Platform Engineer, SCM & Tools at Genetec"
+      "label": "Now",
+      "value": "Platform Engineer at Genetec"
     },
     {
-      "label": "Target work",
-      "value": "Developer tooling, CI/CD, and governance"
+      "label": "Flagship",
+      "value": "SecureObs — a production security SaaS"
     },
     {
-      "label": "Proof point",
-      "value": "Built a 7-scanner security platform with build gates"
+      "label": "Foundation",
+      "value": "Full-stack engineering + 3 security certs"
     }
   ],
   "ctas": [
