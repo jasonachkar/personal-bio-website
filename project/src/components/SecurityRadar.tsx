@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   Chart,
+  RadarController,
   RadialLinearScale,
   PointElement,
   LineElement,
@@ -11,7 +12,7 @@ import {
 } from 'chart.js';
 import { cn } from '@/lib/cn';
 
-Chart.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
+Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
 const domains = [
   'Cloud Security (Azure)',
