@@ -28,7 +28,8 @@ const Writeups = () => {
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
   const [frameState, setFrameState] = useState<FrameState>('loading');
-  const frameStateRef = useRef<FrameState>('loading');
+  const [shouldLoadFrame, setShouldLoadFrame] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   const headerVariants = useMemo(
     () => (prefersReducedMotion ? {} : scrollVariants.fadeUp),
@@ -43,18 +44,40 @@ const Writeups = () => {
     [prefersReducedMotion]
   );
 
-  const setState = (state: FrameState) => {
-    frameStateRef.current = state;
-    setFrameState(state);
-  };
-
-  // Iframes rarely fire onError, so treat a long silence as a failed embed.
+  // Mount the iframe shortly before the preview scrolls into view.
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (frameStateRef.current === 'loading') setState('error');
-    }, IFRAME_TIMEOUT_MS);
-    return () => clearTimeout(timer);
+    const preview = previewRef.current;
+    if (!preview) return;
+
+    if (!('IntersectionObserver' in window)) {
+      setShouldLoadFrame(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadFrame(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px 0px' }
+    );
+
+    observer.observe(preview);
+    return () => observer.disconnect();
   }, []);
+
+  // Start the fallback timer only after the iframe has actually been mounted.
+  useEffect(() => {
+    if (!shouldLoadFrame || frameState !== 'loading') return;
+
+    const timer = setTimeout(() => {
+      setFrameState('error');
+    }, IFRAME_TIMEOUT_MS);
+
+    return () => clearTimeout(timer);
+  }, [frameState, shouldLoadFrame]);
 
   return (
     <section id="writeups" className="relative overflow-hidden py-20 md:py-28">
@@ -86,6 +109,7 @@ const Writeups = () => {
         {/* Browser-frame docs preview */}
         {frameState !== 'error' && (
           <motion.div
+            ref={previewRef}
             variants={headerVariants}
             initial="hidden"
             whileInView="visible"
@@ -141,16 +165,18 @@ const Writeups = () => {
                   </div>
                 </div>
               )}
-              <iframe
-                src={DOCS_URL}
-                title="Technical writing at docs.jasonachkardiab.com"
-                className="h-full w-full border-0 bg-white"
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups"
-                referrerPolicy="no-referrer"
-                onLoad={() => setState('loaded')}
-                onError={() => setState('error')}
-              />
+              {shouldLoadFrame && (
+                <iframe
+                  src={DOCS_URL}
+                  title="Technical writing at docs.jasonachkardiab.com"
+                  className="h-full w-full border-0 bg-white"
+                  loading="eager"
+                  sandbox="allow-scripts allow-same-origin allow-popups"
+                  referrerPolicy="no-referrer"
+                  onLoad={() => setFrameState('loaded')}
+                  onError={() => setFrameState('error')}
+                />
+              )}
             </div>
           </motion.div>
         )}
