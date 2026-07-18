@@ -53,8 +53,8 @@ export default function ClientHome({
     <main className="relative">
       <Hero onNavigate={scrollTo} content={heroContent} />
       <About content={aboutContent} />
-      <Projects projects={projects} />
       <Experience experience={experience} />
+      <Projects projects={projects} />
       <Certifications certifications={certifications} education={education} />
       <SocLive />
       <MitreHeatmap />

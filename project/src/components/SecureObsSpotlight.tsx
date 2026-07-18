@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   Layers,
   Network,
@@ -10,6 +11,10 @@ import {
   GitBranch,
   ExternalLink,
   Star,
+  ChevronDown,
+  Lock,
+  MonitorPlay,
+  RotateCw,
   type LucideIcon,
 } from 'lucide-react';
 import Card from './ui/Card';
@@ -25,6 +30,141 @@ const pillarIcons: Record<string, LucideIcon> = {
   KeyRound,
   GitBranch,
 };
+
+/** How long to wait for the iframe before assuming SecureObs can't be embedded. */
+const PREVIEW_TIMEOUT_MS = 10_000;
+
+type FrameState = 'loading' | 'loaded' | 'error';
+
+/**
+ * Expandable live preview of secureobs.com in a browser-frame mockup.
+ * Collapsed by default so the spotlight stays compact; falls back to a
+ * plain CTA if the site refuses to be embedded.
+ */
+function LivePreview() {
+  const [expanded, setExpanded] = useState(false);
+  const [frameState, setFrameState] = useState<FrameState>('loading');
+  const frameStateRef = useRef<FrameState>('loading');
+
+  const setState = (state: FrameState) => {
+    frameStateRef.current = state;
+    setFrameState(state);
+  };
+
+  useEffect(() => {
+    if (!expanded) return;
+    const timer = setTimeout(() => {
+      if (frameStateRef.current === 'loading') setState('error');
+    }, PREVIEW_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [expanded]);
+
+  return (
+    <div className="mt-7 border-t border-border pt-6">
+      <button
+        type="button"
+        onClick={() => setExpanded((open) => !open)}
+        aria-expanded={expanded}
+        className={cn(
+          'flex w-full items-center justify-between gap-3',
+          'rounded-xl border border-border bg-background-card',
+          'px-4 py-3',
+          'text-left transition-colors duration-200',
+          'hover:border-primary/40'
+        )}
+      >
+        <span className="flex items-center gap-2.5 text-sm font-semibold text-text-primary">
+          <MonitorPlay className="h-4 w-4 text-primary" aria-hidden="true" />
+          Live preview — see SecureObs in action
+        </span>
+        <ChevronDown
+          className={cn(
+            'h-4 w-4 flex-shrink-0 text-text-muted transition-transform duration-200',
+            expanded && 'rotate-180'
+          )}
+          aria-hidden="true"
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-background-card">
+              {/* Browser chrome */}
+              <div className="flex items-center gap-3 border-b border-border bg-background-elevated px-4 py-2.5">
+                <div className="flex gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
+                </div>
+                <div className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background px-3 py-1 font-mono text-xs text-text-secondary">
+                  <Lock className="h-3 w-3 flex-shrink-0 text-severity-low" aria-hidden="true" />
+                  www.secureobs.com
+                </div>
+                <a
+                  href={secureObs.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open SecureObs in a new tab"
+                  className="text-text-muted transition-colors hover:text-primary"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+
+              {frameState !== 'error' ? (
+                <div className="relative h-[440px]">
+                  {frameState === 'loading' && (
+                    <div
+                      className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background-card"
+                      aria-hidden="true"
+                    >
+                      <RotateCw className="h-5 w-5 animate-spin text-primary" />
+                      <span className="text-sm text-text-muted">Loading secureobs.com…</span>
+                    </div>
+                  )}
+                  <iframe
+                    src={secureObs.liveUrl}
+                    title="SecureObs live preview"
+                    className="h-full w-full border-0 bg-white"
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    referrerPolicy="no-referrer"
+                    onLoad={() => setState('loaded')}
+                    onError={() => setState('error')}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3 p-10 text-center">
+                  <ShieldCheck className="h-8 w-8 text-primary" aria-hidden="true" />
+                  <p className="max-w-md text-sm text-text-secondary">
+                    SecureObs declined to be embedded (as a security platform should) — open it
+                    directly instead.
+                  </p>
+                  <a
+                    href={secureObs.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-background transition-all duration-200 hover:bg-primary-hover"
+                  >
+                    Visit SecureObs
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 /**
  * Full-width featured spotlight for SecureObs, rendered at the top of the
@@ -159,6 +299,9 @@ export function SecureObsSpotlight() {
             </div>
           ))}
         </div>
+
+        {/* Live preview */}
+        <LivePreview />
       </div>
     </Card>
   );

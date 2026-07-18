@@ -2,8 +2,7 @@
 
 import { memo, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight, Sparkles, Shield } from 'lucide-react';
-import Card from '../ui/Card';
+import { ExternalLink, Github, ArrowRight, Sparkles } from 'lucide-react';
 import Badge from '../ui/Badge';
 import SecureObsSpotlight from '../SecureObsSpotlight';
 import KqlViewer from '../KqlViewer';
@@ -34,21 +33,16 @@ interface ProjectsProps {
 }
 
 /**
- * Individual project card component
- * @description Renders a single project card with enhanced styling
+ * Compact project card — CSS-only hover, no decorative overlays, consistent
+ * heights so the "Other Projects" grid reads as a tidy list.
  */
 const ProjectCard = memo(function ProjectCard({
   project,
-  index,
   prefersReducedMotion,
-  isMobile,
 }: {
   project: Project;
-  index: number;
   prefersReducedMotion: boolean;
-  isMobile: boolean;
 }) {
-  // Check if project has a demo URL
   const hasDemo = Boolean(project.demoUrl);
   const hasRepo = Boolean(project.repoUrl);
 
@@ -56,23 +50,16 @@ const ProjectCard = memo(function ProjectCard({
   const [thumbnailFailed, setThumbnailFailed] = useState(false);
   const showThumbnail = Boolean(project.thumbnail) && !thumbnailFailed;
 
-  // Animation variants
-  const itemVariants = prefersReducedMotion ? {} : scrollVariants.cardReveal;
+  const itemVariants = prefersReducedMotion ? {} : scrollVariants.fadeUp;
 
   return (
-    <motion.div
-      variants={itemVariants}
-      custom={index}
-      className="h-full"
-      style={{ contain: 'layout style paint' }}
-    >
-      <Card
-        variant="default"
-        hoverEffect="lift"
-        padding="none"
+    <motion.div variants={itemVariants} className="h-full">
+      <div
         className={cn(
-          'group h-full',
-          'transition-all duration-300'
+          'group flex h-full flex-col overflow-hidden rounded-2xl',
+          'border border-border bg-background-card',
+          'transition-all duration-200',
+          'hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft-lg'
         )}
       >
         {/* Thumbnail (hidden if the file is missing) */}
@@ -82,44 +69,27 @@ const ProjectCard = memo(function ProjectCard({
             alt={`${project.title} thumbnail`}
             loading="lazy"
             onError={() => setThumbnailFailed(true)}
-            className="h-36 w-full object-cover"
+            className="h-32 w-full object-cover"
           />
         )}
 
-        {/* Card Content */}
-        <div className="relative z-10 flex h-full flex-col p-5 sm:p-6">
-          {/* Header Section */}
-          <div className="mb-4 flex items-start justify-between gap-3">
-            <div className="flex-1">
-              <h3 className={cn(
-                'text-lg font-semibold leading-tight text-text-primary',
-                'transition-colors duration-300',
-                'group-hover:text-primary',
-                'sm:text-xl'
-              )}>
-                {project.title}
-              </h3>
-              <p className="mt-1.5 text-xs font-medium uppercase tracking-wide text-primary/80">
-                {project.role}
-              </p>
-            </div>
-            
-            {/* Icon */}
-            <div className={cn(
-              'flex-shrink-0 rounded-xl p-2.5',
-              'bg-primary/10 text-primary',
-              'transition-all duration-300',
-              'group-hover:bg-primary/20 group-hover:scale-110'
-            )}>
-              <Shield className="h-5 w-5" />
-            </div>
-          </div>
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
+          {/* Header */}
+          <h3
+            className={cn(
+              'text-base font-semibold leading-snug text-text-primary',
+              'transition-colors duration-200 group-hover:text-primary',
+              'sm:text-lg'
+            )}
+          >
+            {project.title}
+          </h3>
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-text-muted">
+            {project.role}
+          </p>
 
           {/* Description */}
-          <p className={cn(
-            'mb-4 flex-1 text-sm leading-relaxed text-text-secondary',
-            'line-clamp-3'
-          )}>
+          <p className="mt-3 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-3">
             {project.description}
           </p>
 
@@ -127,88 +97,44 @@ const ProjectCard = memo(function ProjectCard({
           {project.id === 'sentinel-detection-pack' && <KqlViewer />}
 
           {/* Tech Stack */}
-          <div className="mb-5">
-            <div className="flex flex-wrap gap-1.5">
-              {project.tech.slice(0, 4).map((tech) => (
-                <Badge
-                  key={tech}
-                  label={tech}
-                  variant="default"
-                  size="xs"
-                />
-              ))}
-              {project.tech.length > 4 && (
-                <span className="inline-flex items-center px-2 py-0.5 text-xs text-text-muted">
-                  +{project.tech.length - 4}
-                </span>
-              )}
-            </div>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {project.tech.slice(0, 4).map((tech) => (
+              <Badge key={tech} label={tech} variant="default" size="xs" />
+            ))}
+            {project.tech.length > 4 && (
+              <span className="inline-flex items-center px-1.5 text-xs text-text-muted">
+                +{project.tech.length - 4}
+              </span>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-auto flex items-center gap-3 pt-4 border-t border-border/50">
-            {/* View Code Button */}
+          {/* Footer links */}
+          <div className="mt-4 flex items-center gap-4 border-t border-border/50 pt-3.5">
             {hasRepo && (
-              <motion.a
+              <a
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  'inline-flex items-center gap-2',
-                  'text-sm font-medium text-text-secondary',
-                  'transition-all duration-200',
-                  'hover:text-primary'
-                )}
-                whileHover={prefersReducedMotion ? {} : { x: 2 }}
-                transition={{ duration: 0.2 }}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors duration-200 hover:text-primary"
               >
                 <Github className="h-4 w-4" />
-                <span>View Code</span>
-              </motion.a>
+                View Code
+              </a>
             )}
-
-            {/* Live Demo Button (if available) */}
             {hasDemo && (
-              <motion.a
+              <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  'inline-flex items-center gap-2',
-                  'rounded-full px-3 py-1.5',
-                  'text-sm font-medium',
-                  'bg-primary/10 text-primary',
-                  'border border-primary/30',
-                  'transition-all duration-200',
-                  'hover:bg-primary/20 hover:border-primary/50'
-                )}
-                whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-                transition={{ duration: 0.15 }}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors duration-200 hover:text-primary-hover"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
-                <span>Live Demo</span>
-              </motion.a>
+                Live Demo
+              </a>
             )}
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        <div className={cn(
-          'absolute inset-0 rounded-[inherit] pointer-events-none',
-          'opacity-0 transition-opacity duration-500',
-          'group-hover:opacity-100'
-        )}>
-          {/* Hex Pattern Overlay */}
-          <div className="absolute inset-0 hex-pattern opacity-50" />
-          
-          {/* Gradient Border Glow */}
-          <div className={cn(
-            'absolute inset-0 rounded-[inherit]',
-            'bg-gradient-to-br from-primary/5 via-transparent to-accent/5'
-          )} />
-        </div>
-      </Card>
+      </div>
     </motion.div>
   );
 });
@@ -288,27 +214,37 @@ const Projects = ({ projects }: ProjectsProps) => {
           <SecureObsSpotlight />
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Other Projects */}
+        <motion.div
+          variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mb-6 flex items-center gap-4 sm:mb-8"
+        >
+          <h3 className="flex-shrink-0 text-lg font-semibold text-text-primary sm:text-xl">
+            Other Projects
+          </h3>
+          <div className="h-px flex-1 bg-border" aria-hidden="true" />
+        </motion.div>
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
           className={cn(
-            'grid gap-5 sm:gap-6 md:gap-7',
+            'grid items-stretch gap-4 sm:gap-5',
             'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
           )}
-          style={{ contain: 'layout style paint' }}
         >
           {projects
             .filter((project) => !project.featured && project.id !== 'secureobs')
-            .map((project, index) => (
+            .map((project) => (
               <ProjectCard
                 key={project.id}
                 project={project}
-                index={index}
                 prefersReducedMotion={prefersReducedMotion}
-                isMobile={isMobile}
               />
             ))}
         </motion.div>
