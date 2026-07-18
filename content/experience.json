@@ -1,65 +1,78 @@
 [
   {
-    "id": "ses-fullstack-dev",
-    "role": "Full-Stack Web Developer",
-    "company": "SES & Technologies Ltd.",
-    "location": "Laval, QC",
-    "period": "Jun 2025 - Present",
+    "id": "genetec-platform-engineer",
+    "role": "Platform Engineer — Software Configuration Management & Tools (Engineering Efficiency)",
+    "company": "Genetec Inc.",
+    "location": "Montreal, QC (Hybrid)",
+    "period": "May 2026 – Present",
     "type": "full-time",
     "achievements": [
-      "Built and maintained Angular (v17+) and ASP.NET Core applications with clean, scalable patterns",
-      "Implemented APIs with strong validation and reliable error handling",
-      "Improved delivery quality through CI/CD automation in Azure DevOps"
+      "Administer and secure the R&D ALM platform (Azure DevOps Server/Services and GitHub) for engineering teams, enforcing secure configurations, branch/pipeline policies, and access governance",
+      "Build and maintain internal tooling and libraries in C#, Go, and PowerShell that automate configuration, governance, and reporting across shared developer applications",
+      "Design, configure, and maintain build and release pipelines with conditional gates and environment promotion logic; provision supporting infrastructure as code with Terraform on Azure",
+      "Develop data export and reporting tooling that surfaces configuration, compliance, and pipeline health across teams to support governance decisions"
     ],
     "securityHighlights": [
-      "Applied secure-by-design patterns (RBAC mindset, least privilege, secure defaults)",
-      "Contributed to quality gates and automated checks in CI/CD",
-      "Strengthened observability practices that support incident triage and auditability"
+      "Enforcing secure-by-default configurations and access governance across shared source-control and build systems",
+      "Standardizing pipeline policies and branch protections across the R&D platform",
+      "Provisioning least-privilege infrastructure-as-code on Azure"
     ],
-    "technologies": [
-      "Angular",
-      "TypeScript",
-      ".NET",
-      "SQL Server",
-      "Azure DevOps"
-    ]
+    "technologies": ["Azure DevOps", "GitHub", "C#", ".NET", "Go", "PowerShell", "Terraform", "Azure"]
   },
   {
-    "id": "genetec-intern",
-    "role": "Full-Stack Software Developer Intern",
-    "company": "Genetec Inc.",
-    "location": "Montreal, QC",
-    "period": "Dec 2023 - May 2024",
-    "type": "internship",
+    "id": "ses-fullstack-devsecops",
+    "role": "Full-Stack Developer, DevSecOps",
+    "company": "SES & Technologies Ltd.",
+    "location": "Laval, QC",
+    "period": "June 2025 – May 2026",
+    "type": "full-time",
     "achievements": [
-      "Improved platform features with scalable .NET services and real-time updates",
-      "Contributed tests and pipeline improvements in Azure DevOps"
+      "Built and integrated a DevSecOps toolchain into Azure DevOps pipelines (Semgrep SAST, OWASP ZAP DAST, Gitleaks secrets scanning), containerized with Docker, with gates that block promotion on high-severity findings",
+      "Designed and implemented RBAC/IAM from scratch across enterprise applications: authentication flows, role/permission scoping, and access-group management via Angular + NgRx administration panel",
+      "Architected and delivered .NET backend services and REST APIs following Clean Architecture, DDD, CQRS, and Repository patterns, plus Angular frontends, across the full SDLC",
+      "Engineered pipeline-as-code (YAML) build, test, and release stages with conditional gates and environment promotion across multi-repository codebases"
     ],
     "securityHighlights": [
-      "Worked with HTTPS enforcement and secure service practices in backend work",
-      "Built habits around logging, testing, and reliability that translate directly to security engineering"
+      "Integrated SAST, DAST, and secrets scanning into production CI/CD pipelines with hard security gates",
+      "Designed RBAC/IAM architecture from zero for enterprise applications",
+      "Applied least-privilege and secure-by-design patterns throughout delivery"
     ],
-    "technologies": [
-      ".NET",
-      "Azure DevOps"
-    ]
+    "technologies": ["Azure DevOps", "Semgrep", "OWASP ZAP", "Gitleaks", "Docker", "Angular", "NgRx", ".NET", "C#", "TypeScript", "YAML"]
+  },
+  {
+    "id": "genetec-intern-autovu",
+    "role": "Software Developer Intern — AutoVu",
+    "company": "Genetec Inc.",
+    "location": "Montreal, QC",
+    "period": "Dec 2023 – May 2024",
+    "type": "internship",
+    "achievements": [
+      "Delivered backend services in .NET and C# for the AutoVu platform, a system serving law-enforcement agencies handling sensitive data",
+      "Integrated REST and SignalR APIs for real-time communication in a microservices ecosystem",
+      "Wrote unit and integration tests to reduce regression risk ahead of releases in a security-critical environment"
+    ],
+    "securityHighlights": [
+      "Worked in a security-critical production environment handling law-enforcement sensitive data",
+      "Contributed to testing practices that reduce regression risk in a sensitive-data context"
+    ],
+    "technologies": [".NET", "C#", "REST APIs", "SignalR", "Microservices"]
   },
   {
     "id": "matrox-intern",
     "role": "Applications Engineer Intern",
     "company": "Matrox Graphics Inc.",
     "location": "Dorval, QC",
-    "period": "May 2023 - Sep 2023",
+    "period": "May 2023 – Sep 2023",
     "type": "internship",
     "achievements": [
-      "Built internal tools that automated troubleshooting and support workflows"
+      "Built diagnostic automation tooling in Python and C# to surface misconfigurations, insecure defaults, and overly permissive access settings in customer deployments — improving time-to-resolution by 55–65% for enterprise support cases",
+      "Performed configuration audits and log analysis to identify root causes and security gaps",
+      "Authored hardening recommendations and standardized triage documentation across support teams"
     ],
     "securityHighlights": [
-      "Built tooling with reliability in mind: structured troubleshooting flows and safer operational outcomes"
+      "Built tooling specifically targeting misconfiguration detection, insecure defaults, and overly permissive access in enterprise deployments",
+      "Delivered hardening recommendations and standardized security documentation"
     ],
-    "technologies": [
-      "C#",
-      ".NET"
-    ]
+    "technologies": ["Python", "C#", "Log Analysis", "Configuration Auditing"]
   }
 ]

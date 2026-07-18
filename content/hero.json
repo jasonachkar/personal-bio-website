@@ -1,29 +1,29 @@
 {
   "name": "Jason Achkar Diab",
-  "title": "Full-Stack Developer → Cybersecurity (Cloud & AppSec)",
-  "tagline": "Azure Fundamentals (AZ-900) | Security+ | MSc Cybersecurity (UoL, in progress)",
-  "blurb": "Full-stack developer transitioning into cybersecurity with a secure-by-design mindset. Focused on Azure security, identity, detection engineering, and application security—bringing hands-on engineering experience into security work.",
+  "title": "DevSecOps & Platform Engineer | Cloud Security",
+  "tagline": "CompTIA Security+ · AZ-900 · SC-500 (In Progress) · MSc Cybersecurity — Georgia Tech",
+  "blurb": "Platform and DevSecOps engineer with a software engineering foundation and production experience building secure CI/CD pipelines, infrastructure-as-code, and multi-tenant cloud systems on Microsoft Azure. Solo-built and deployed SecureObs, a security SaaS unifying seven scanners with cross-tool deduplication, CI/CD build gating, and credential-free IaC attack-path analysis.",
   "currentFocus": [
-    "Azure identity & access (Entra ID, Conditional Access concepts)",
-    "Microsoft Sentinel fundamentals (KQL, detections, alert tuning)",
-    "Secure SDLC: threat modeling + OWASP-style mitigations",
-    "Cloud security foundations: logging, posture, governance basics"
+    "Azure DevOps & GitHub platform administration and access governance (Genetec)",
+    "Secure CI/CD with build gates: SAST, DAST, secrets scanning, IaC scanning",
+    "Infrastructure-as-Code security: Terraform, Checkov, HCL static analysis",
+    "SecureObs: production multi-tenant security SaaS (secureobs.com)"
   ],
   "stats": [
     {
       "label": "Certifications",
-      "value": "3",
-      "detail": "Security+, AZ-900, Google Cybersecurity"
+      "value": "4",
+      "detail": "Security+, AZ-900, Google Cybersecurity, SC-500 in progress"
     },
     {
-      "label": "Engineering Experience",
+      "label": "Experience",
       "value": "3+ yrs",
-      "detail": "full-stack + secure-by-design practices"
+      "detail": "Platform engineering, DevSecOps, full-stack secure development"
     },
     {
       "label": "Security Projects",
-      "value": "6",
-      "detail": "labs, detections, and secure patterns"
+      "value": "7+",
+      "detail": "Production SaaS, detection labs, secure architecture patterns"
     }
   ],
   "ctas": [
