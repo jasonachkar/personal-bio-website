@@ -1,49 +1,65 @@
-import { memo, useMemo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Clock, ArrowRight } from 'lucide-react';
+'use client';
+
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { BookOpen, Clock, ExternalLink, Globe, Lock, RotateCw } from 'lucide-react';
 import Card from '../ui/Card';
-import Badge from '../ui/Badge';
-import type { Writeup } from '@/lib/schemas';
 import { scrollVariants, staggerContainer, getViewportSettings } from '@/utils/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { WriteupViewer } from './WriteupViewer';
-import { writeupCategoryColors } from '@/utils/categoryColors';
+import { cn } from '@/lib/cn';
 
-interface WriteupsProps {
-  writeups: Writeup[];
-}
+const DOCS_URL = 'https://docs.jasonachkardiab.com';
 
-const Writeups = ({ writeups }: WriteupsProps) => {
+/** How long to wait for the iframe before assuming the docs site can't be embedded. */
+const IFRAME_TIMEOUT_MS = 10_000;
+
+const featuredTopics = [
+  { title: 'Detection Engineering with Microsoft Sentinel', tag: 'SIEM', readTime: '14 min' },
+  { title: 'OWASP API Security Top 10: Practical Mitigations', tag: 'AppSec', readTime: '18 min' },
+  { title: 'Building a Secure Azure Landing Zone', tag: 'Cloud Security', readTime: '12 min' },
+  { title: 'Implementing Security Gates in CI/CD Pipelines', tag: 'DevSecOps', readTime: '11 min' },
+];
+
+type FrameState = 'loading' | 'loaded' | 'error';
+
+const Writeups = () => {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
-  
-  // Track both the writeup and a unique key to force remount
-  const [selectedWriteup, setSelectedWriteup] = useState<Writeup | null>(null);
-  const [viewerKey, setViewerKey] = useState(0);
+  const [frameState, setFrameState] = useState<FrameState>('loading');
+  const frameStateRef = useRef<FrameState>('loading');
 
-  // Handler to open a writeup - increments key to force complete remount
-  const handleOpenWriteup = useCallback((writeup: Writeup) => {
-    setViewerKey(prev => prev + 1);
-    setSelectedWriteup(writeup);
-  }, []);
+  const headerVariants = useMemo(
+    () => (prefersReducedMotion ? {} : scrollVariants.fadeUp),
+    [prefersReducedMotion]
+  );
+  const containerVariants = useMemo(
+    () => (prefersReducedMotion ? {} : staggerContainer),
+    [prefersReducedMotion]
+  );
+  const itemVariants = useMemo(
+    () => (prefersReducedMotion ? {} : scrollVariants.cardReveal),
+    [prefersReducedMotion]
+  );
 
-  // Handler to close - resets everything
-  const handleCloseWriteup = useCallback(() => {
-    setSelectedWriteup(null);
+  const setState = (state: FrameState) => {
+    frameStateRef.current = state;
+    setFrameState(state);
+  };
+
+  // Iframes rarely fire onError, so treat a long silence as a failed embed.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (frameStateRef.current === 'loading') setState('error');
+    }, IFRAME_TIMEOUT_MS);
+    return () => clearTimeout(timer);
   }, []);
-  const headerVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.fadeUp, [prefersReducedMotion]);
-  const containerVariants = useMemo(() => prefersReducedMotion ? {} : staggerContainer, [prefersReducedMotion]);
-  const itemVariants = useMemo(() => prefersReducedMotion ? {} : scrollVariants.cardReveal, [prefersReducedMotion]);
 
   return (
-    <>
-    <section
-      id="writeups"
-      className="relative overflow-hidden py-20 md:py-28"
-    >
+    <section id="writeups" className="relative overflow-hidden py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
+        {/* Section Header */}
         <motion.div
           variants={headerVariants}
           initial="hidden"
@@ -52,118 +68,174 @@ const Writeups = ({ writeups }: WriteupsProps) => {
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-text-primary md:text-4xl">
-            Writeups & Learning
+            Technical Writing
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-text-secondary">
-            Technical articles, research notes, and documentation from my cybersecurity learning journey
+            In-depth guides on cloud security, detection engineering, and AppSec — published at{' '}
+            <a
+              href={DOCS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary hover:text-primary-hover"
+            >
+              docs.jasonachkardiab.com
+            </a>
           </p>
         </motion.div>
 
+        {/* Browser-frame docs preview */}
+        {frameState !== 'error' && (
+          <motion.div
+            variants={headerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mb-12 overflow-hidden rounded-2xl border border-border bg-background-card shadow-card-elevated"
+          >
+            {/* Fake browser chrome */}
+            <div className="flex items-center gap-3 border-b border-border bg-background-elevated px-4 py-3">
+              <div className="flex gap-1.5" aria-hidden="true">
+                <span className="h-3 w-3 rounded-full bg-red-500/70" />
+                <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
+                <span className="h-3 w-3 rounded-full bg-green-500/70" />
+              </div>
+              <div
+                className={cn(
+                  'flex flex-1 items-center gap-2',
+                  'rounded-lg border border-border bg-background px-3 py-1.5',
+                  'font-mono text-xs text-text-secondary'
+                )}
+              >
+                <Lock className="h-3 w-3 flex-shrink-0 text-severity-low" aria-hidden="true" />
+                docs.jasonachkardiab.com
+              </div>
+              <a
+                href={DOCS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open docs.jasonachkardiab.com in a new tab"
+                className="text-text-muted transition-colors hover:text-primary"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+
+            {/* Iframe with loading skeleton */}
+            <div className="relative h-[480px]">
+              {frameState === 'loading' && (
+                <div
+                  className="absolute inset-0 z-10 flex flex-col gap-4 bg-background-card p-6"
+                  aria-hidden="true"
+                >
+                  <div className="flex items-center gap-2 text-text-muted">
+                    <RotateCw className="h-4 w-4 animate-spin" />
+                    <span className="text-sm">Loading docs.jasonachkardiab.com…</span>
+                  </div>
+                  <div className="h-8 w-2/3 animate-pulse rounded-lg bg-background-elevated" />
+                  <div className="h-4 w-full animate-pulse rounded bg-background-elevated" />
+                  <div className="h-4 w-5/6 animate-pulse rounded bg-background-elevated" />
+                  <div className="h-4 w-4/6 animate-pulse rounded bg-background-elevated" />
+                  <div className="mt-4 grid grid-cols-2 gap-4">
+                    <div className="h-28 animate-pulse rounded-xl bg-background-elevated" />
+                    <div className="h-28 animate-pulse rounded-xl bg-background-elevated" />
+                  </div>
+                </div>
+              )}
+              <iframe
+                src={DOCS_URL}
+                title="Technical writing at docs.jasonachkardiab.com"
+                className="h-full w-full border-0 bg-white"
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                referrerPolicy="no-referrer"
+                onLoad={() => setState('loaded')}
+                onError={() => setState('error')}
+              />
+            </div>
+          </motion.div>
+        )}
+
+        {/* Error fallback note */}
+        {frameState === 'error' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-12 flex items-center justify-center gap-2 rounded-2xl border border-border bg-background-card px-6 py-8 text-sm text-text-secondary"
+          >
+            <Globe className="h-4 w-4 text-primary" aria-hidden="true" />
+            Live preview unavailable — browse the featured guides below or open the docs site
+            directly.
+          </motion.div>
+        )}
+
+        {/* Featured article topics (2x2 grid) */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-5 sm:grid-cols-2"
         >
-          {writeups.map((writeup) => (
-            <motion.div
-              key={writeup.id}
-              variants={itemVariants}
-            >
-              <Card className="group relative h-full overflow-hidden border border-border bg-background-card transition-all hover:border-primary/50 hover:shadow-lg">
-                <div className="p-6">
-                  <div className="mb-4 flex items-start justify-between gap-2">
-                    <div className="rounded-lg bg-primary/10 p-2">
-                      <FileText className="h-5 w-5 text-primary" />
+          {featuredTopics.map((topic) => (
+            <motion.div key={topic.title} variants={itemVariants}>
+              <a
+                href={DOCS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full"
+              >
+                <Card
+                  variant="default"
+                  hoverEffect="lift"
+                  padding="md"
+                  className="group h-full border border-border hover:border-primary/40"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                      <BookOpen className="h-5 w-5" aria-hidden="true" />
                     </div>
-                    <span
-                      className={`rounded-full border px-2 py-1 text-xs font-medium ${
-                        writeupCategoryColors[writeup.category]
-                      }`}
-                    >
-                      {writeup.category.replace('-', ' ')}
+                    <span className="rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-xs font-medium text-primary">
+                      {topic.tag}
                     </span>
                   </div>
-
-                  <h3 className="mb-3 text-xl font-semibold text-text-primary transition-colors group-hover:text-primary">
-                    {writeup.title}
+                  <h3 className="mt-4 text-lg font-semibold text-text-primary transition-colors group-hover:text-primary">
+                    {topic.title}
                   </h3>
-
-                  <p className="mb-4 text-sm text-text-secondary">
-                    {writeup.description}
-                  </p>
-
-                  <div className="mb-4 flex items-center gap-4 text-xs text-text-muted">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" />
-                      {writeup.readingTime}
-                    </span>
-                    <span>{writeup.date}</span>
+                  <div className="mt-3 flex items-center gap-1.5 text-xs text-text-muted">
+                    <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                    {topic.readTime} read
                   </div>
-
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    {writeup.tags.slice(0, 3).map((tag) => (
-                      <Badge key={tag} label={tag} />
-                    ))}
-                    {writeup.tags.length > 3 && (
-                      <span className="flex items-center text-xs text-text-muted">
-                        +{writeup.tags.length - 3}
-                      </span>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={() => handleOpenWriteup(writeup)}
-                    className="relative z-10 inline-flex items-center gap-2 text-sm font-medium text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-card rounded"
-                    aria-label={`Read more about ${writeup.title}`}
-                  >
-                    Read more
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-
-                <div className="absolute inset-0 border-2 border-primary/0 transition-all group-hover:border-primary/20 pointer-events-none" />
-              </Card>
+                </Card>
+              </a>
             </motion.div>
           ))}
         </motion.div>
 
+        {/* CTA */}
         <motion.div
-          variants={useMemo(() => prefersReducedMotion ? {} : scrollVariants.fade, [prefersReducedMotion])}
+          variants={headerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12 text-center"
         >
-          <p className="text-text-secondary">
-            More writeups and technical content coming soon. Follow my learning journey on{' '}
-            <a
-              href="https://github.com/jasonachkar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-primary hover:text-primary-hover"
-            >
-              GitHub
-            </a>
-            .
-          </p>
+          <a
+            href={DOCS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              'inline-flex items-center gap-2',
+              'rounded-xl bg-primary px-6 py-3',
+              'text-sm font-semibold text-background',
+              'shadow-button transition-all duration-200',
+              'hover:bg-primary-hover hover:shadow-button-hover'
+            )}
+          >
+            Read all articles →
+          </a>
         </motion.div>
       </div>
-      </section>
-
-      {/* AnimatePresence ensures proper unmount/mount animation */}
-      <AnimatePresence mode="wait">
-        {selectedWriteup && (
-          <WriteupViewer
-            key={`writeup-${selectedWriteup.id}-${viewerKey}`}
-            writeup={selectedWriteup}
-            onClose={handleCloseWriteup}
-          />
-        )}
-      </AnimatePresence>
-    </>
+    </section>
   );
 };
 

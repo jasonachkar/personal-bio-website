@@ -4,6 +4,7 @@ import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Target, Sparkles, Zap } from 'lucide-react';
 import Card from '../ui/Card';
+import SecurityRadar from '../SecurityRadar';
 import type { About } from '@/lib/schemas';
 import {
   scrollVariants,
@@ -96,7 +97,7 @@ const About = ({ content }: AboutProps) => {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="space-y-5 sm:space-y-6 lg:col-span-2"
+            className="space-y-5 sm:space-y-6 lg:col-span-3"
           >
             {content.paragraphs.map((paragraph, index) => (
               <motion.div key={index} variants={paragraphVariants} custom={index}>
@@ -139,7 +140,11 @@ const About = ({ content }: AboutProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Sidebar - Core Strengths */}
+        </div>
+
+        {/* Core Strengths + Security Domain Radar */}
+        <div className="mt-10 grid gap-8 sm:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">
+          {/* Left - Core Strengths */}
           <motion.div
             variants={prefersReducedMotion ? {} : scrollVariants.slideRight}
             initial="hidden"
@@ -157,7 +162,7 @@ const About = ({ content }: AboutProps) => {
               initial="hidden"
               whileInView="visible"
               viewport={viewport}
-              className="space-y-3"
+              className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
             >
               {content.coreStrengths.map((strength, index) => (
                 <motion.div
@@ -169,7 +174,7 @@ const About = ({ content }: AboutProps) => {
                     hoverEffect="lift"
                     padding="sm"
                     className={cn(
-                      'border border-border',
+                      'h-full border border-border',
                       'hover:border-primary/30'
                     )}
                   >
@@ -183,6 +188,16 @@ const About = ({ content }: AboutProps) => {
                 </motion.div>
               ))}
             </motion.div>
+          </motion.div>
+
+          {/* Right - Radar Chart */}
+          <motion.div
+            variants={prefersReducedMotion ? {} : scrollVariants.scaleFade}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            <SecurityRadar className="h-full" />
           </motion.div>
         </div>
       </div>

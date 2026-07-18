@@ -21,9 +21,9 @@
       "detail": "Platform engineering, DevSecOps, full-stack secure development"
     },
     {
-      "label": "Security Projects",
-      "value": "7+",
-      "detail": "Production SaaS, detection labs, secure architecture patterns"
+      "label": "MITRE Techniques",
+      "value": "12+",
+      "detail": "Covered across detection rules, tooling, and cloud controls"
     }
   ],
   "ctas": [

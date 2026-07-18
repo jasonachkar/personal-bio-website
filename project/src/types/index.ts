@@ -20,19 +20,8 @@ export interface Project {
   github_url: string | null;
   live_url: string | null;
   thumbnail_url: string | null;
-  category: 'cybersecurity' | 'software' | 'game' | 'other';
+  category: 'cybersecurity' | 'software' | 'other';
   featured?: boolean;
-  created_at?: string;
-}
-
-export interface Game {
-  id: string;
-  title: string;
-  description: string;
-  playcanvas_url: string;
-  thumbnail_url: string | null;
-  difficulty: 'Easy' | 'Medium' | 'Hard' | 'Expert';
-  tags: string[];
   created_at?: string;
 }
 

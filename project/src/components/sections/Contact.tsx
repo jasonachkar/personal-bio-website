@@ -24,7 +24,35 @@ import {
   ArrowRight,
   CheckCircle2,
   AlertCircle,
+  ShieldCheck,
+  Settings,
+  Search,
 } from 'lucide-react';
+
+// ============================================
+// Hire Me For — engagement types
+// ============================================
+
+const engagementTypes = [
+  {
+    icon: ShieldCheck,
+    title: 'Security Engineer',
+    description:
+      'Cloud & application security architecture, threat modeling, secure code review, and security posture uplift for Azure-first teams.',
+  },
+  {
+    icon: Settings,
+    title: 'DevSecOps Engineer',
+    description:
+      'Embedding security into CI/CD pipelines, automating SAST/SCA/container scanning gates, and building shift-left security culture.',
+  },
+  {
+    icon: Search,
+    title: 'Cloud Security Consultant',
+    description:
+      'Azure security posture review, landing zone hardening, Sentinel detection pack deployment, and Zero Trust IAM advisory.',
+  },
+];
 
 // ============================================
 // Contact Section Component
@@ -213,6 +241,41 @@ const Contact = ({ content, socialLinks }: ContactProps) => {
           <p className="mx-auto mt-4 max-w-2xl text-body-lg text-text-secondary">
             {content.subtitle}
           </p>
+        </motion.div>
+
+        {/* Hire Me For */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mb-8 grid gap-4 sm:mb-10 md:grid-cols-3 md:gap-5"
+        >
+          {engagementTypes.map((engagement) => {
+            const Icon = engagement.icon;
+            return (
+              <motion.div key={engagement.title} variants={cardVariants}>
+                <div
+                  className={cn(
+                    'h-full rounded-2xl border border-border bg-background-card',
+                    'p-5 sm:p-6',
+                    'transition-shadow duration-300',
+                    'hover:shadow-soft-lg'
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <h3 className="font-bold text-text-primary">{engagement.title}</h3>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                    {engagement.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         {/* Content Grid */}
@@ -501,7 +564,7 @@ function SocialLinkAnchor({
     <motion.a
       href={href}
       target={href.startsWith('mailto:') ? undefined : '_blank'}
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className={cn(
         'flex items-center justify-between',
         'rounded-xl border border-border bg-background-elevated',

@@ -4,6 +4,9 @@ export type SectionId =
   | 'certifications'
   | 'experience'
   | 'projects'
+  | 'siem'
+  | 'mitre'
+  | 'threat-intel'
   | 'writeups'
   | 'contact';
 
@@ -21,11 +24,12 @@ export type SkillCategory = {
 export type Project = {
   id: string;
   title: string;
-  category: 'cyber' | 'software' | 'game';
+  category: 'cyber' | 'software';
+  featured?: boolean;
   description: string;
   tech: string[];
   role: string;
-  repoUrl: string;
+  repoUrl?: string;
   demoUrl?: string;
   thumbnail: string;
 };
@@ -40,16 +44,6 @@ export type SocialLink = {
   label: string;
   href: string;
   type: 'email' | 'linkedin' | 'github' | 'resume-download' | 'resume-preview';
-};
-
-export type Game = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  thumbnail: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  tags: string[];
 };
 
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';

@@ -1,10 +1,12 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight, Sparkles, Shield } from 'lucide-react';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
+import SecureObsSpotlight from '../SecureObsSpotlight';
+import KqlViewer from '../KqlViewer';
 import type { Project } from '@/lib/schemas';
 import {
   scrollVariants,
@@ -49,9 +51,10 @@ const ProjectCard = memo(function ProjectCard({
   // Check if project has a demo URL
   const hasDemo = Boolean(project.demoUrl);
   const hasRepo = Boolean(project.repoUrl);
-  
-  // Check if this is a featured project (first 3)
-  const isFeatured = index < 3;
+
+  // Hide the thumbnail gracefully when the image file does not exist
+  const [thumbnailFailed, setThumbnailFailed] = useState(false);
+  const showThumbnail = Boolean(project.thumbnail) && !thumbnailFailed;
 
   // Animation variants
   const itemVariants = prefersReducedMotion ? {} : scrollVariants.cardReveal;
@@ -64,26 +67,23 @@ const ProjectCard = memo(function ProjectCard({
       style={{ contain: 'layout style paint' }}
     >
       <Card
-        variant={isFeatured ? 'cyber' : 'default'}
+        variant="default"
         hoverEffect="lift"
         padding="none"
         className={cn(
           'group h-full',
-          'transition-all duration-300',
-          isFeatured && 'ring-1 ring-primary/10 dark:ring-primary/20'
+          'transition-all duration-300'
         )}
       >
-        {/* Featured Badge */}
-        {isFeatured && (
-          <div className="absolute right-3 top-3 z-20">
-            <Badge
-              label="Featured"
-              variant="cyber"
-              size="xs"
-              icon={<Sparkles className="h-3 w-3" />}
-              interactive={false}
-            />
-          </div>
+        {/* Thumbnail (hidden if the file is missing) */}
+        {showThumbnail && (
+          <img
+            src={project.thumbnail}
+            alt={`${project.title} thumbnail`}
+            loading="lazy"
+            onError={() => setThumbnailFailed(true)}
+            className="h-36 w-full object-cover"
+          />
         )}
 
         {/* Card Content */}
@@ -122,6 +122,9 @@ const ProjectCard = memo(function ProjectCard({
           )}>
             {project.description}
           </p>
+
+          {/* KQL Playground (Sentinel detection pack only) */}
+          {project.id === 'sentinel-detection-pack' && <KqlViewer />}
 
           {/* Tech Stack */}
           <div className="mb-5">
@@ -274,6 +277,17 @@ const Projects = ({ projects }: ProjectsProps) => {
           </p>
         </motion.div>
 
+        {/* SecureObs Featured Spotlight */}
+        <motion.div
+          variants={prefersReducedMotion ? {} : scrollVariants.fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mb-10 sm:mb-12"
+        >
+          <SecureObsSpotlight />
+        </motion.div>
+
         {/* Projects Grid */}
         <motion.div
           variants={containerVariants}
@@ -286,15 +300,17 @@ const Projects = ({ projects }: ProjectsProps) => {
           )}
           style={{ contain: 'layout style paint' }}
         >
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              prefersReducedMotion={prefersReducedMotion}
-              isMobile={isMobile}
-            />
-          ))}
+          {projects
+            .filter((project) => !project.featured && project.id !== 'secureobs')
+            .map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                prefersReducedMotion={prefersReducedMotion}
+                isMobile={isMobile}
+              />
+            ))}
         </motion.div>
 
         {/* Footer CTA */}

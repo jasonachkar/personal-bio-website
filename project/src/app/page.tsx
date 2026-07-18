@@ -6,7 +6,6 @@ import {
   getEducation,
   getExperience,
   getProjects,
-  getWriteups,
   getContact,
   getSocial,
 } from '@/lib/content';
@@ -18,7 +17,6 @@ export default function Home() {
   const education = getEducation();
   const experience = getExperience();
   const projects = getProjects();
-  const writeups = getWriteups();
   const contactContent = getContact();
   const socialLinks = getSocial();
 
@@ -30,7 +28,6 @@ export default function Home() {
       education={education}
       experience={experience}
       projects={projects}
-      writeups={writeups}
       contactContent={contactContent}
       socialLinks={socialLinks}
     />

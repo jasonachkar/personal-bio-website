@@ -2,22 +2,22 @@ import type { CallToAction } from './types';
 
 export const heroCopy = {
   name: 'Jason Achkar Diab',
-  title: 'Software Developer → Cybersecurity',
-  tagline: 'Cloud Security (Azure) | Security+ | AZ-900 | MSc Cybersecurity (UoL)',
+  title: 'DevSecOps & Platform Engineer | Cloud Security',
+  tagline: 'CompTIA Security+ · AZ-900 · SC-500 (In Progress) · MSc Cybersecurity — Georgia Tech',
   blurb:
-    'Building secure-by-design software with a focus on cloud security, threat detection, and application security. Transitioning from full-stack development to cybersecurity consulting and security engineering.',
+    'Platform and DevSecOps engineer with a software engineering foundation and production experience building secure CI/CD pipelines, infrastructure-as-code, and multi-tenant cloud systems on Microsoft Azure. Solo-built and deployed SecureObs, a security SaaS unifying seven scanners with cross-tool deduplication, CI/CD build gating, and credential-free IaC attack-path analysis.',
   currentFocus: [
-    'Azure Security & Defender for Cloud',
-    'SIEM Detection Engineering',
-    'Secure SDLC & Threat Modeling',
-    'Cloud IAM & Zero Trust Architecture',
+    'Azure DevOps & GitHub platform administration and access governance (Genetec)',
+    'Secure CI/CD with build gates: SAST, DAST, secrets scanning, IaC scanning',
+    'Infrastructure-as-Code security: Terraform, Checkov, HCL static analysis',
+    'SecureObs: production multi-tenant security SaaS (secureobs.com)',
   ],
 };
 
 export const heroStats = [
-  { label: 'Certifications', value: '3', detail: 'Security+, AZ-900, Google Cyber' },
-  { label: 'Experience', value: '5+ yrs', detail: 'secure full-stack development' },
-  { label: 'Projects', value: '6', detail: 'cybersecurity labs & tools' },
+  { label: 'Certifications', value: '4', detail: 'Security+, AZ-900, Google Cyber, SC-500 in progress' },
+  { label: 'Engineering', value: '3+ yrs', detail: 'Platform engineering, DevSecOps, secure full-stack development' },
+  { label: 'MITRE Techniques', value: '12+', detail: 'covered across detections & projects' },
 ];
 
 export const heroCtas: CallToAction[] = [

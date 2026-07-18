@@ -717,3 +717,32 @@
   .markdown-body strong { font-weight: 600; }
   .markdown-body em { font-style: italic; }
 }
+
+/* ============================================
+   Live Threat Feed Ticker
+   ============================================ */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker-scroll 45s linear infinite;
+  will-change: transform;
+}
+
+.ticker-viewport:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
