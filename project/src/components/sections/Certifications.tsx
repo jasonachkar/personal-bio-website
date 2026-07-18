@@ -124,95 +124,115 @@ const Certifications = ({ certifications, education }: CertificationsProps) => {
             viewport={viewport}
             className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6"
           >
-            {certifications.map((cert) => (
-              <motion.div key={cert.id} variants={itemVariants}>
-                <Card
-                  variant="default"
-                  hoverEffect="lift"
-                  padding="none"
-                  className="group h-full"
-                >
-                  <div className="relative p-5 sm:p-6">
-                    {/* Decorative Shield */}
-                    <div className={cn(
-                      'absolute right-4 top-4',
-                      'opacity-0 transition-opacity duration-300',
-                      'group-hover:opacity-100'
-                    )}>
-                      <Shield className="h-8 w-8 text-primary/20" />
-                    </div>
+            {certifications.map((cert) => {
+              const isInProgress = cert.date.toLowerCase() === 'in progress';
+              const verificationUrl = (cert as any).verificationUrl;
+              const credentialId = (cert as any).credentialId;
 
-                    {/* Verification Badge */}
-                    {(cert as any).verificationUrl && (
-                      <div className="mb-4">
-                        <motion.a
-                          href={(cert as any).verificationUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(
-                            'inline-flex items-center gap-1.5 rounded-full',
-                            'bg-severity-low/15 px-3 py-1.5',
-                            'text-xs font-semibold text-severity-low',
-                            'border border-severity-low/30',
-                            'hover:bg-severity-low/25 transition-colors'
-                          )}
-                          whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
-                          whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-                        >
-                          <Verified className="h-3.5 w-3.5" />
-                          Verified
-                          <ExternalLink className="h-3 w-3" />
-                        </motion.a>
-                      </div>
-                    )}
+              return (
+                <motion.div key={cert.id} variants={itemVariants} className="h-full">
+                  <Card
+                    variant="cyber"
+                    hoverEffect="lift"
+                    padding="none"
+                    className="group h-full border-primary/15"
+                  >
+                    <div className="relative flex h-full flex-col p-5 sm:p-6">
+                      <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                    {/* Cert Content */}
-                    <div className={cn(
-                      (cert as any).verificationUrl ? '' : 'mt-2'
-                    )}>
-                      <h4 className="mb-2 text-lg font-semibold text-text-primary sm:text-xl">
-                        {cert.name}
-                      </h4>
-                      <p className="mb-1 text-sm font-medium text-primary">
-                        {cert.issuer}
-                      </p>
-                      <div className="flex items-center gap-2 text-xs text-text-muted sm:text-sm">
-                        <span>{cert.date}</span>
-                        {(cert as any).credentialId && (
-                          <>
-                            <span>•</span>
-                            <span className="font-mono text-[10px] sm:text-xs">
-                              ID: {(cert as any).credentialId}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
+                      {/* Icon and credential status */}
+                      <div className="mb-5 flex items-start justify-between gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary/50 group-hover:bg-primary/15">
+                          <Shield className="h-5 w-5" aria-hidden="true" />
+                        </div>
 
-                    <p className="mt-3 mb-4 text-sm text-text-secondary leading-relaxed">
-                      {cert.description}
-                    </p>
-
-                    {/* Skills */}
-                    <div>
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
-                        Key Skills
-                      </p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {cert.skills.slice(0, 4).map((skill) => (
-                          <Badge key={skill} label={skill} size="xs" variant="default" />
-                        ))}
-                        {cert.skills.length > 4 && (
-                          <span className="text-xs text-text-muted px-1">
-                            +{cert.skills.length - 4} more
+                        {verificationUrl ? (
+                          <motion.a
+                            href={verificationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1',
+                              'border-severity-low/30 bg-severity-low/10',
+                              'text-xs font-semibold text-severity-low transition-colors',
+                              'hover:bg-severity-low/20'
+                            )}
+                            whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
+                            whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                          >
+                            <Verified className="h-3.5 w-3.5" aria-hidden="true" />
+                            Verified
+                            <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                          </motion.a>
+                        ) : (
+                          <span
+                            className={cn(
+                              'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1',
+                              'text-xs font-medium',
+                              isInProgress
+                                ? 'border-accent/30 bg-accent/10 text-accent'
+                                : 'border-severity-low/25 bg-severity-low/10 text-severity-low'
+                            )}
+                          >
+                            {isInProgress ? (
+                              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                            ) : (
+                              <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                            )}
+                            {isInProgress ? 'In progress' : `Earned ${cert.date}`}
                           </span>
                         )}
                       </div>
+
+                      {/* Certification details */}
+                      <div>
+                        <h4 className="text-lg font-semibold leading-snug text-text-primary sm:text-xl">
+                          {cert.name}
+                        </h4>
+                        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                          <span className="font-medium text-primary">{cert.issuer}</span>
+                          {verificationUrl && (
+                            <>
+                              <span className="text-text-muted" aria-hidden="true">•</span>
+                              <span className="text-text-muted">{cert.date}</span>
+                            </>
+                          )}
+                          {credentialId && (
+                            <>
+                              <span className="text-text-muted" aria-hidden="true">•</span>
+                              <span className="font-mono text-xs text-text-muted">
+                                ID: {credentialId}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <p className="mb-5 mt-4 flex-1 text-sm leading-relaxed text-text-secondary">
+                        {cert.description}
+                      </p>
+
+                      {/* Skills */}
+                      <div className="border-t border-border/80 pt-4">
+                        <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted">
+                          Key Skills
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {cert.skills.slice(0, 4).map((skill) => (
+                            <Badge key={skill} label={skill} size="xs" variant="default" />
+                          ))}
+                          {cert.skills.length > 4 && (
+                            <span className="px-1 text-xs text-text-muted">
+                              +{cert.skills.length - 4} more
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+                  </Card>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
 

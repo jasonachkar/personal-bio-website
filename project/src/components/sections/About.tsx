@@ -4,6 +4,7 @@ import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Target, Sparkles, Zap } from 'lucide-react';
 import Card from '../ui/Card';
+import SecurityRadar from '../SecurityRadar';
 import type { About } from '@/lib/schemas';
 import {
   scrollVariants,
@@ -185,6 +186,17 @@ const About = ({ content }: AboutProps) => {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Security Domain Radar */}
+        <motion.div
+          variants={prefersReducedMotion ? {} : scrollVariants.scaleFade}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mx-auto mt-10 w-full max-w-3xl sm:mt-12"
+        >
+          <SecurityRadar />
+        </motion.div>
       </div>
     </section>
   );

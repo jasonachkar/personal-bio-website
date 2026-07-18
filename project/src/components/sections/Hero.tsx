@@ -16,6 +16,8 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { downloadResume } from '@/lib/resume';
 import { cn } from '@/lib/cn';
+import ThreatFeedTicker from '../ThreatFeedTicker';
+import SecurityBadge from '../SecurityBadge';
 
 // ============================================
 // Hero Section Component
@@ -202,6 +204,15 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
               </Button>
             </motion.div>
 
+            {/* Security Scorecard Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.32, ease: easings.easeOutQuint }}
+            >
+              <SecurityBadge />
+            </motion.div>
+
             {/* Current Focus */}
             <motion.div
               className="space-y-2.5 sm:space-y-3"
@@ -234,12 +245,22 @@ const Hero = ({ onNavigate, content }: HeroProps) => {
             transition={{ ...transitions.smooth, delay: 0.2 }}
             className="lg:pl-4"
           >
-            <SecurityProfileCard 
+            <SecurityProfileCard
               stats={content.stats}
               prefersReducedMotion={prefersReducedMotion}
             />
           </motion.div>
         </div>
+
+        {/* Live Threat Feed Ticker */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.45, ease: easings.easeOutQuint }}
+          className="mt-10 sm:mt-12"
+        >
+          <ThreatFeedTicker />
+        </motion.div>
       </div>
     </section>
   );

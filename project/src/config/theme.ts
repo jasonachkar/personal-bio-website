@@ -75,18 +75,4 @@ export const skillCategories = [
     ],
     icon: 'Shield',
   },
-  {
-    name: 'Game Development',
-    skills: [
-      'PlayCanvas',
-      'WebGL',
-      'Three.js',
-      'Game Design',
-      'Physics Engines',
-      'Shader Programming',
-      'Multiplayer Systems',
-      'Asset Optimization',
-    ],
-    icon: 'Gamepad2',
-  },
 ] as const;

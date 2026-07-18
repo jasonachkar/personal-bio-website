@@ -33,7 +33,10 @@ export function middleware(request: NextRequest) {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://formspree.io https://api.github.com https://api.emailjs.com",
+      // circl.lu + otx.alienvault.com: live CVE/threat feeds rendered client-side
+      "connect-src 'self' https://formspree.io https://api.github.com https://api.emailjs.com https://cve.circl.lu https://otx.alienvault.com",
+      // docs preview + SecureObs live preview iframes
+      "frame-src 'self' https://docs.jasonachkardiab.com https://www.secureobs.com https://secureobs.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

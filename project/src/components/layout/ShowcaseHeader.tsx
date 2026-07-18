@@ -52,7 +52,7 @@ export function ShowcaseHeader({
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             {/* Back Button */}
             <Link
-              href="/#showcases"
+              href="/#projects"
               className={cn(
                 'group flex items-center gap-1.5 sm:gap-2 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2',
                 'text-xs sm:text-sm font-medium text-text-secondary',
@@ -62,13 +62,13 @@ export function ShowcaseHeader({
                 'active:scale-95',
                 'flex-shrink-0'
               )}
-              aria-label="Return to interactive showcases section"
+              aria-label="Return to the projects section"
             >
               <ArrowLeft
                 className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:-translate-x-1"
                 aria-hidden="true"
               />
-              <span className="hidden sm:inline">Showcases</span>
+              <span className="hidden sm:inline">Portfolio</span>
             </Link>
 
             {/* Separator */}
