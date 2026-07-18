@@ -1,8 +1,8 @@
 'use client';
 
 import { memo, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight, Sparkles } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, ExternalLink, Github, ArrowRight, Sparkles } from 'lucide-react';
 import Badge from '../ui/Badge';
 import SecureObsSpotlight from '../SecureObsSpotlight';
 import KqlViewer from '../KqlViewer';
@@ -56,12 +56,14 @@ const ProjectCard = memo(function ProjectCard({
     <motion.div variants={itemVariants} className="h-full">
       <div
         className={cn(
-          'group flex h-full flex-col overflow-hidden rounded-2xl',
+          'group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl',
           'border border-border bg-background-card',
           'transition-all duration-200',
           'hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft-lg'
         )}
       >
+        <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
         {/* Thumbnail (hidden if the file is missing) */}
         {showThumbnail && (
           <img
@@ -73,23 +75,23 @@ const ProjectCard = memo(function ProjectCard({
           />
         )}
 
-        <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
           {/* Header */}
           <h3
             className={cn(
-              'text-base font-semibold leading-snug text-text-primary',
+              'break-words text-base font-semibold leading-snug text-text-primary [overflow-wrap:anywhere]',
               'transition-colors duration-200 group-hover:text-primary',
               'sm:text-lg'
             )}
           >
             {project.title}
           </h3>
-          <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-text-muted">
+          <p className="mt-1 break-words text-[11px] font-medium uppercase leading-relaxed tracking-wide text-text-muted [overflow-wrap:anywhere]">
             {project.role}
           </p>
 
           {/* Description */}
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-3">
+          <p className="mt-3 flex-1 break-words text-sm leading-relaxed text-text-secondary [overflow-wrap:anywhere]">
             {project.description}
           </p>
 
@@ -97,9 +99,15 @@ const ProjectCard = memo(function ProjectCard({
           {project.id === 'sentinel-detection-pack' && <KqlViewer />}
 
           {/* Tech Stack */}
-          <div className="mt-4 flex flex-wrap gap-1.5">
+          <div className="mt-4 flex min-w-0 flex-wrap gap-1.5">
             {project.tech.slice(0, 4).map((tech) => (
-              <Badge key={tech} label={tech} variant="default" size="xs" />
+              <Badge
+                key={tech}
+                label={tech}
+                variant="default"
+                size="xs"
+                className="max-w-full overflow-hidden [&>span]:truncate"
+              />
             ))}
             {project.tech.length > 4 && (
               <span className="inline-flex items-center px-1.5 text-xs text-text-muted">
@@ -109,7 +117,7 @@ const ProjectCard = memo(function ProjectCard({
           </div>
 
           {/* Footer links */}
-          <div className="mt-4 flex items-center gap-4 border-t border-border/50 pt-3.5">
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/50 pt-3.5">
             {hasRepo && (
               <a
                 href={project.repoUrl}
@@ -151,6 +159,12 @@ const Projects = ({ projects }: ProjectsProps) => {
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const viewport = getViewportSettings(isMobile);
+  const [showOtherProjects, setShowOtherProjects] = useState(false);
+
+  const otherProjects = useMemo(
+    () => projects.filter((project) => !project.featured && project.id !== 'secureobs'),
+    [projects]
+  );
 
   // Memoized animation variants
   const headerVariants = useMemo(
@@ -220,34 +234,67 @@ const Projects = ({ projects }: ProjectsProps) => {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="mb-6 flex items-center gap-4 sm:mb-8"
+          className={cn('flex items-center gap-4', showOtherProjects && 'mb-6 sm:mb-8')}
         >
-          <h3 className="flex-shrink-0 text-lg font-semibold text-text-primary sm:text-xl">
-            Other Projects
-          </h3>
-          <div className="h-px flex-1 bg-border" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => setShowOtherProjects((visible) => !visible)}
+            aria-expanded={showOtherProjects}
+            aria-controls="other-projects-grid"
+            className="group/toggle flex w-full items-center gap-4 rounded-xl py-2 text-left focus-ring"
+          >
+            <span className="flex shrink-0 items-center gap-2.5">
+              <span className="text-lg font-semibold text-text-primary transition-colors group-hover/toggle:text-primary sm:text-xl">
+                Other Projects
+              </span>
+              <span className="rounded-full border border-border bg-background-elevated px-2 py-0.5 font-mono text-[10px] text-text-muted">
+                {otherProjects.length}
+              </span>
+            </span>
+            <span className="h-px flex-1 bg-border transition-colors group-hover/toggle:bg-primary/40" aria-hidden="true" />
+            <span className="flex shrink-0 items-center gap-2 text-xs font-medium text-text-muted transition-colors group-hover/toggle:text-primary">
+              <span className="hidden sm:inline">{showOtherProjects ? 'Hide' : 'Show projects'}</span>
+              <ChevronDown
+                className={cn(
+                  'h-4 w-4 transition-transform duration-300',
+                  showOtherProjects && 'rotate-180'
+                )}
+                aria-hidden="true"
+              />
+            </span>
+          </button>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className={cn(
-            'grid items-stretch gap-4 sm:gap-5',
-            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+        <AnimatePresence initial={false}>
+          {showOtherProjects && (
+            <motion.div
+              id="other-projects-grid"
+              initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={prefersReducedMotion ? { duration: 0 } : transitions.smooth}
+              className="overflow-hidden"
+            >
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className={cn(
+                  'grid items-stretch gap-4 sm:gap-5',
+                  'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                )}
+              >
+                {otherProjects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
+                ))}
+              </motion.div>
+            </motion.div>
           )}
-        >
-          {projects
-            .filter((project) => !project.featured && project.id !== 'secureobs')
-            .map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            ))}
-        </motion.div>
+        </AnimatePresence>
 
         {/* Footer CTA */}
         <motion.div
@@ -256,7 +303,10 @@ const Projects = ({ projects }: ProjectsProps) => {
           whileInView="visible"
           viewport={viewport}
           transition={{ ...transitions.smooth, delay: 0.3 }}
-          className="mt-10 text-center sm:mt-12 md:mt-14"
+          className={cn(
+            'text-center transition-[margin] duration-300',
+            showOtherProjects ? 'mt-10 sm:mt-12 md:mt-14' : 'mt-6 sm:mt-8'
+          )}
         >
           <p className="text-text-secondary">
             More projects and labs in development. Check my{' '}
