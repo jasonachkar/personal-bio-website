@@ -48,6 +48,7 @@ const ProjectCard = memo(function ProjectCard({
 }) {
   // Check if project has a demo URL
   const hasDemo = Boolean(project.demoUrl);
+  const hasRepo = Boolean(project.repoUrl);
   
   // Check if this is a featured project (first 3)
   const isFeatured = index < 3;
@@ -144,22 +145,24 @@ const ProjectCard = memo(function ProjectCard({
           {/* Action Buttons */}
           <div className="mt-auto flex items-center gap-3 pt-4 border-t border-border/50">
             {/* View Code Button */}
-            <motion.a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                'inline-flex items-center gap-2',
-                'text-sm font-medium text-text-secondary',
-                'transition-all duration-200',
-                'hover:text-primary'
-              )}
-              whileHover={prefersReducedMotion ? {} : { x: 2 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Github className="h-4 w-4" />
-              <span>View Code</span>
-            </motion.a>
+            {hasRepo && (
+              <motion.a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  'inline-flex items-center gap-2',
+                  'text-sm font-medium text-text-secondary',
+                  'transition-all duration-200',
+                  'hover:text-primary'
+                )}
+                whileHover={prefersReducedMotion ? {} : { x: 2 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Github className="h-4 w-4" />
+                <span>View Code</span>
+              </motion.a>
+            )}
 
             {/* Live Demo Button (if available) */}
             {hasDemo && (

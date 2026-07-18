@@ -4,28 +4,34 @@
     "name": "CompTIA Security+",
     "issuer": "CompTIA",
     "date": "2025",
+    "status": "active",
     "skills": [
-      "Threat Detection & Response",
-      "Security Operations",
-      "Governance & Compliance",
-      "Network Security",
-      "Cryptography",
-      "Identity & Access Management"
+      "Threat Detection & Response", "Security Operations", "Governance & Compliance",
+      "Network Security", "Cryptography", "Identity & Access Management"
     ],
     "description": "Industry-standard certification covering core cybersecurity principles, threat analysis, risk management, and security controls across networks, applications, and cloud environments."
+  },
+  {
+    "id": "sc-500",
+    "name": "SC-500: Microsoft Cloud & AI Security Engineer",
+    "issuer": "Microsoft",
+    "date": "In Progress",
+    "status": "in-progress",
+    "skills": [
+      "Microsoft Security Copilot", "AI Security", "Cloud Security",
+      "Entra ID", "Microsoft Defender", "Compliance Management"
+    ],
+    "description": "Advanced certification for implementing Microsoft cloud security controls, AI security, Microsoft Defender, and compliance solutions across Azure environments."
   },
   {
     "id": "az-900",
     "name": "Microsoft Azure Fundamentals (AZ-900)",
     "issuer": "Microsoft",
     "date": "2025",
+    "status": "active",
     "skills": [
-      "Cloud Concepts",
-      "Azure Services",
-      "Security & Compliance",
-      "Identity & Governance",
-      "Cost Management",
-      "Azure Architecture"
+      "Cloud Concepts", "Azure Services", "Security & Compliance",
+      "Identity & Governance", "Cost Management", "Azure Architecture"
     ],
     "description": "Foundational certification demonstrating knowledge of cloud services, Azure architecture, security, privacy, compliance, and trust in Microsoft Azure."
   },
@@ -34,13 +40,10 @@
     "name": "Google Cybersecurity Professional Certificate",
     "issuer": "Google / Coursera",
     "date": "2025",
+    "status": "active",
     "skills": [
-      "SIEM Tools",
-      "Python for Security",
-      "Incident Response",
-      "Linux Administration",
-      "Network Security",
-      "Security Automation"
+      "SIEM Tools", "Python for Security", "Incident Response",
+      "Linux Administration", "Network Security", "Security Automation"
     ],
     "description": "Comprehensive program covering security fundamentals, network security, Linux, Python automation, threat detection with SIEM tools, and incident response procedures."
   }

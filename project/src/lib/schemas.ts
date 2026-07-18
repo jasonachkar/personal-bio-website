@@ -42,6 +42,7 @@ export const certificationSchema = z.object({
   name: z.string().min(1),
   issuer: z.string().min(1),
   date: z.string().min(1),
+  status: z.enum(['active', 'in-progress']).optional(),
   skills: z.array(z.string().min(1)).min(1),
   description: z.string().min(1),
 });
@@ -57,7 +58,7 @@ export const educationItemSchema = z.object({
   period: z.string().min(1),
   status: z.enum(['in-progress', 'completed']),
   highlights: z.array(z.string().min(1)).min(1),
-  relevantCourses: z.array(z.string().min(1)).min(1),
+  relevantCourses: z.array(z.string().min(1)).optional(),
 });
 
 export const educationSchema = z.array(educationItemSchema);
@@ -82,10 +83,12 @@ export const projectSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   category: z.string().min(1),
+  featured: z.boolean().optional(),
   description: z.string().min(1),
+  highlights: z.array(z.string().min(1)).optional(),
   tech: z.array(z.string().min(1)).min(1),
   role: z.string().min(1),
-  repoUrl: z.string().url(),
+  repoUrl: z.string().url().optional(),
   demoUrl: z.string().url().optional(),
   thumbnail: z.string().optional(),
 });
@@ -118,7 +121,7 @@ export const contactSchema = z.object({
 export const socialLinkSchema = z.object({
   label: z.string().min(1),
   href: z.string().min(1),
-  type: z.enum(['email', 'linkedin', 'github', 'resume-download', 'resume-preview']),
+  type: z.enum(['email', 'linkedin', 'github', 'website', 'resume-download', 'resume-preview']),
 });
 
 export const socialSchema = z.array(socialLinkSchema);
